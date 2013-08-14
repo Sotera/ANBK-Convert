@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using GalaSoft.MvvmLight.Threading;
-using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.SplashScreen;
 
@@ -30,7 +29,7 @@ namespace JistBridge {
 		public App() {
 			QueueMefComposeMessage.Register(this,
 				msg => {
-					QueueMefComposeMessage.Unregister(this);
+					//QueueMefComposeMessage.Unregister(this);
 					DoMefCompose(msg.MefTarget);
 					Splasher.CloseSplash();
 				});
@@ -45,15 +44,25 @@ namespace JistBridge {
 			}
 		}
 
+		private static AggregateCatalog _staticAggregateCatalog;
+
+		private static AggregateCatalog AggregateCatalog {
+			get {
+				if (_staticAggregateCatalog != null) {
+					return _staticAggregateCatalog;
+				}
+				_staticAggregateCatalog = new AggregateCatalog();
+				_staticAggregateCatalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+				return _staticAggregateCatalog;
+			}
+		}
+
 		private static void DoMefCompose(object target) {
 			try {
 				DispatcherHelper.UIDispatcher.Invoke(
 					() => {
 						try {
-							var catalog = new AggregateCatalog();
-							catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-							var container = new CompositionContainer(catalog);
-							container.ComposeParts(target);
+							new CompositionContainer(AggregateCatalog).ComposeParts(target);
 						}
 						catch (Exception e) {
 							Console.WriteLine(e);

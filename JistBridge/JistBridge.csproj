@@ -68,14 +68,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\WordBehavior.cs" />
-    <Compile Include="Data\Model\IReportService.cs" />
+    <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
+    <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="UI\RichTextBox\RichTextBoxView.xaml.cs">
+      <DependentUpon>RichTextBoxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\RichTextBox\RichTextBoxViewModel.cs" />
     <Compile Include="UI\UIHelper.cs" />
     <Compile Include="UI\WordBreaker.cs" />
@@ -97,6 +101,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\MainWindow\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\RichTextBox\RichTextBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
