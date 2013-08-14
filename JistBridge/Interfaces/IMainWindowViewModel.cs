@@ -1,3 +1,4 @@
-﻿namespace JistBridge.Interfaces {
-	public interface IMainWindowViewModel {}
+﻿namespace JistBridge.Interfaces
+{
+	public interface IMainWindowViewModel { }
 }

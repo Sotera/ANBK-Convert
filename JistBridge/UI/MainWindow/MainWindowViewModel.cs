@@ -1,22 +1,36 @@
-﻿using System.ComponentModel.Composition;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using JistBridge.Interfaces;
+using JistBridge.Messages;
+using System.ComponentModel.Composition;
 
-namespace JistBridge.UI.MainWindow {
-	[Export(typeof (IMainWindowViewModel))]
-	public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
+namespace JistBridge.UI.MainWindow
+{
+	[Export(typeof(IMainWindowViewModel))]
+	public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+	{
 		public static IAppConfiguration StaticAppConfiguration { get; private set; }
 
-		[Import(typeof (IAppConfiguration))]
-		public IAppConfiguration AppConfiguration {
+		[Import(typeof(IAppConfiguration))]
+		public IAppConfiguration AppConfiguration
+		{
 			get { return StaticAppConfiguration; }
 			set { StaticAppConfiguration = value; }
 		}
 
-		public string Title {
-			get {
-				return AppConfiguration.ApplicationName;
-			}
+		public string StatusMessage
+		{
+			get { return "Ready"; }
+		}
+
+		public RelayCommand ExitCommand
+		{
+			get { return new RelayCommand(() => new ShutdownApplicationMessage(null, null).Send()); }
+		}
+
+		public string Title
+		{
+			get { return AppConfiguration.ApplicationName; }
 		}
 	}
 }

@@ -11,11 +11,17 @@
 				Title="{Binding Title}">
 	<Grid x:Name="LayoutRoot">
 		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="_File">
+					<MenuItem Header="E_xit"
+										Command="{Binding ExitCommand}" />
+				</MenuItem>
+			</Menu>
 			<ui:RichTextBoxView Foreground="CornflowerBlue"
-									 Cursor="Hand"
-									 IsReadOnly="True">
+													Cursor="Hand"
+													IsReadOnly="True">
 				<i:Interaction.Behaviors>
-					<behaviors:WordBehavior></behaviors:WordBehavior>
+					<behaviors:WordBehavior />
 				</i:Interaction.Behaviors>
 				<FlowDocument>
 					<Paragraph>
@@ -25,5 +31,11 @@
 				</FlowDocument>
 			</ui:RichTextBoxView>
 		</DockPanel>
+		<StatusBar VerticalAlignment="Bottom"
+							 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}"
+							 Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Background}">
+			<TextBlock Text="{Binding StatusMessage}"
+								 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}" />
+		</StatusBar>
 	</Grid>
 </Window>

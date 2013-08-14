@@ -1,5 +1,7 @@
-﻿namespace JistBridge.Interfaces {
-	public interface IRichTextBoxViewModel {
+﻿namespace JistBridge.Interfaces
+{
+	public interface IRichTextBoxViewModel
+	{
 		string ReportContents { get; set; }
 	}
 }

@@ -73,6 +73,8 @@
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
+    <Compile Include="Messages\ShutdownApplicationMessage.cs" />
+    <Compile Include="Messages\HideSplashScreenMessage.cs" />
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
