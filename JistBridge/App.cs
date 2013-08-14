@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Threading;
 using JistBridge.Messages;
 using JistBridge.SplashScreen;
