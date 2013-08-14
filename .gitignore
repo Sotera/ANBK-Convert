@@ -1,3 +1,6 @@
 bin
 obj
 /*.suo
+/JistBridge/*.DotSettings
+
+/*.user
