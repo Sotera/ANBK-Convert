@@ -38,22 +38,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight.WPF4">
+    <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\GalaSoft.MvvmLight.WPF4.dll</HintPath>
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\net45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras.WPF4">
+    <Reference Include="GalaSoft.MvvmLight.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=eabbf6a5f5af5004, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\GalaSoft.MvvmLight.Extras.WPF4.dll</HintPath>
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\net45\GalaSoft.MvvmLight.WPF45.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WPF4\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,6 +83,9 @@
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
+    <Compile Include="Messages\MessageCallbackTestMessage.cs" />
+    <Compile Include="Messages\ShowModalDialogMessage.cs" />
+    <Compile Include="Messages\ShowAboutBoxMessage.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
     <Compile Include="Messages\FragmentSelectedMessage.cs" />
@@ -90,8 +98,36 @@
     </Compile>
     <Compile Include="UI\RichTextBox\RichTextBoxViewModel.cs" />
     <Compile Include="UI\UIHelper.cs" />
+    <Compile Include="UI\ValueConverters\PrependTextConverter.cs" />
     <Compile Include="UI\WordBreaker.cs" />
     <Compile Include="Utilities\Configuration\AppConfiguration.cs" />
+    <Compile Include="Utilities\DialogManagement\CustomContentDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogBase.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogBaseControl.xaml.cs">
+      <DependentUpon>DialogBaseControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DialogManagement\DialogCloseBehavior.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogLayeringHelper.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogManager.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogMode.cs" />
+    <Compile Include="Utilities\DialogManagement\DialogResultState.cs" />
+    <Compile Include="Utilities\DialogManagement\IDialogHost.cs" />
+    <Compile Include="Utilities\DialogManagement\ImagingExtensions.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\ICustomContentDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IDialogConfig.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IDialogManager.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IMessageDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IProgressDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\Interfaces\IWaitDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\MessageDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\WaitAnimation.xaml.cs">
+      <DependentUpon>WaitAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DialogManagement\WaitProgressDialog.cs" />
+    <Compile Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml.cs">
+      <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +152,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Utilities\DialogManagement\DialogBaseControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utilities\DialogManagement\DialogContentStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utilities\DialogManagement\WaitAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -136,6 +188,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

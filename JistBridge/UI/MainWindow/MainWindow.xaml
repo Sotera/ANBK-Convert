@@ -5,16 +5,24 @@
 				xmlns:behaviors="clr-namespace:JistBridge.Behaviors"
 				xmlns:ui="clr-namespace:JistBridge.UI.RichTextBox"
 				xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+				xmlns:ValueConverters="clr-namespace:JistBridge.UI.ValueConverters"
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
 				Title="{Binding Title}">
+	<Window.Resources>
+			<ValueConverters:PrependTextConverter x:Key="PrependTextConverter" />
+	</Window.Resources>
 	<Grid x:Name="LayoutRoot">
 		<DockPanel>
 			<Menu DockPanel.Dock="Top">
 				<MenuItem Header="_File">
 					<MenuItem Header="E_xit"
 										Command="{Binding ExitCommand}" />
+				</MenuItem>
+				<MenuItem Header="_Help">
+					<MenuItem Header="{Binding Title,Converter={StaticResource PrependTextConverter},ConverterParameter='_About '}"
+										Command="{Binding ShowAboutBoxCommand}" />
 				</MenuItem>
 			</Menu>
 			<ui:RichTextBoxView Foreground="CornflowerBlue"

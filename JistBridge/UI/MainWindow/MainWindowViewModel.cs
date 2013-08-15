@@ -23,6 +23,11 @@ namespace JistBridge.UI.MainWindow
 			get { return "Ready"; }
 		}
 
+		public RelayCommand ShowAboutBoxCommand
+		{
+			get { return new RelayCommand(() => new ShowAboutBoxMessage(null, null).Send()); }
+		}
+
 		public RelayCommand ExitCommand
 		{
 			get { return new RelayCommand(() => new ShutdownApplicationMessage(null, null).Send()); }
