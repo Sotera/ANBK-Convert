@@ -15,7 +15,7 @@ namespace JistBridge.UI.MainWindow
 		{
 			InitializeComponent();
 			ShowModalDialogMessage.SetDefaultContentControl(this);
-			new QueueMefComposeMessage(null, null, this).Send();
+			new QueueMefComposeMessage(null, null, this, null).Send();
 			new HideSplashScreenMessage(null, null).SendAfterWaiting(SplashScreenDelayMS);
 		}
 

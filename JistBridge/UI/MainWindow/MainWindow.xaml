@@ -30,6 +30,7 @@
 													IsReadOnly="True">
 				<i:Interaction.Behaviors>
 					<behaviors:WordBehavior />
+                    <behaviors:ApplyMarkupBehavior/>
 				</i:Interaction.Behaviors>
 				<FlowDocument>
 					<Paragraph>

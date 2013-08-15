@@ -84,6 +84,7 @@
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
+    <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
     <Compile Include="Messages\ShowModalDialogMessage.cs" />
     <Compile Include="Messages\ShowAboutBoxMessage.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />

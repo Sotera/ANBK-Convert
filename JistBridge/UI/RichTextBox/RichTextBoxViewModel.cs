@@ -29,7 +29,7 @@ namespace JistBridge.UI.RichTextBox
 		public RichTextBoxViewModel(IReportService reportService)
 		{
             FragmentSelectedMessage.Register(this,msg => HandleFragmentSelected(msg.Fragment));
-		    reportService.GetReport(
+            reportService.GetReport(
 				(item, error) =>
 				{
 					if (error != null)
@@ -52,7 +52,8 @@ namespace JistBridge.UI.RichTextBox
 
 	        if (_currentChain.IsComplete)
 	        {
-                ReportMarkup.Chains.Add(_currentChain);
+                if(ReportMarkup != null)
+                    ReportMarkup.Chains.Add(_currentChain);
                 _currentChain = new Chain(fragment, null, null);
 	        }
 

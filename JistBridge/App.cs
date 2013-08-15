@@ -33,7 +33,11 @@ namespace JistBridge {
 		}
 
 		public App() {
-			QueueMefComposeMessage.Register(this, msg => DoMefCompose(msg.MefTarget));
+			QueueMefComposeMessage.Register(this, msg =>
+			{
+			    DoMefCompose(msg.MefTarget);
+			    msg.Execute(msg);
+			});
 			ShutdownApplicationMessage.Register(this, msg => Current.Shutdown());
 
 			ShowModalDialogMessage.Register(this,
