@@ -2,39 +2,34 @@
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using System.ComponentModel.Composition;
+using JistBridge.Messages;
 
 namespace JistBridge.UI.RichTextBox
 {
 	[Export(typeof(IRichTextBoxViewModel))]
 	public class RichTextBoxViewModel : ViewModelBase, IRichTextBoxViewModel
 	{
-		private IReportService _reportService;
-		private Report _report;
+	    private Report _report;
+
+	    private Chain _currentChain;
 
 		public const string ReportContentsPropertyName = "ReportContents";
-		private string _reportContents = string.Empty;
 
-		public string ReportContents
+	    public string ReportContents
 		{
-			get { return _reportContents; }
-
-			set
-			{
-				if (_reportContents.Equals(value))
-				{
-					return;
-				}
-
-				_reportContents = value;
-				RaisePropertyChanged(ReportContentsPropertyName);
-			}
+			get { return _report.ReportText; }
 		}
 
-		[ImportingConstructor]
+	    public Markup ReportMarkup
+	    {
+	        get { return _report.ReportMarkup; }
+	    }
+
+	    [ImportingConstructor]
 		public RichTextBoxViewModel(IReportService reportService)
 		{
-			_reportService = reportService;
-			_reportService.GetReport(
+            FragmentSelectedMessage.Register(this,msg => HandleFragmentSelected(msg.Fragment));
+		    reportService.GetReport(
 				(item, error) =>
 				{
 					if (error != null)
@@ -44,8 +39,27 @@ namespace JistBridge.UI.RichTextBox
 					}
 
 					_report = item;
-					ReportContents = _report.ReportText;
 				});
 		}
+
+	    private void HandleFragmentSelected(Fragment fragment)
+	    {
+	        if (_currentChain == null)
+	        {
+	            _currentChain = new Chain(fragment, null, null);
+	            return;
+	        }
+
+	        if (_currentChain.IsComplete)
+	        {
+                ReportMarkup.Chains.Add(_currentChain);
+                _currentChain = new Chain(fragment, null, null);
+	        }
+
+	        if (_currentChain.Contains(fragment))
+	            return;
+
+	        _currentChain.Add(fragment);
+	    }
 	}
 }

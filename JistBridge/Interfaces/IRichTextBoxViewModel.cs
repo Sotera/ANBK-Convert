@@ -2,6 +2,6 @@
 {
 	public interface IRichTextBoxViewModel
 	{
-		string ReportContents { get; set; }
+		string ReportContents { get;}
 	}
 }

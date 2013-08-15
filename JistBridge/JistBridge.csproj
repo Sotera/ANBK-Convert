@@ -67,7 +67,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ApplyMarkupBehavior.cs" />
     <Compile Include="Behaviors\WordBehavior.cs" />
+    <Compile Include="Data\Model\Chain.cs" />
+    <Compile Include="Data\Model\Fragment.cs" />
+    <Compile Include="Data\Model\Markup.cs" />
+    <Compile Include="Data\Model\Range.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
     <Compile Include="Data\Model\ReportService.cs" />
@@ -75,6 +80,7 @@
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
+    <Compile Include="Messages\FragmentSelectedMessage.cs" />
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
