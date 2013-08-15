@@ -1,25 +1,27 @@
-﻿using GalaSoft.MvvmLight.Threading;
-using JistBridge.Messages;
-using JistBridge.SplashScreen;
-using System;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using System.Windows;
+using GalaSoft.MvvmLight.Threading;
+using JistBridge.Messages;
+using JistBridge.SplashScreen;
+using JistBridge.Utilities.DialogManagement;
+using NLog;
 
 // ReSharper disable ObjectCreationAsStatement
 
-namespace JistBridge
-{
-	public partial class App
-	{
+namespace JistBridge {
+	public partial class App {
+		private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+
 		[STAThread]
-		public static void Main()
-		{
-			Thread.CurrentThread.CurrentCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
+		public static void Main() {
+			_log.Fatal("Test the logger!");
+
+			Thread.CurrentThread.CurrentCulture = (CultureInfo) Thread.CurrentThread.CurrentCulture.Clone();
 			Thread.CurrentThread.CurrentCulture.DateTimeFormat.LongDatePattern = "dd HHmmZ MMM yyyy";
 
 			//Initialize a nice UI thread dispatcher for our use
@@ -30,24 +32,29 @@ namespace JistBridge
 			new Bootstrapper();
 		}
 
-		public App()
-		{
-			ShutdownApplicationMessage.Register(this, msg => Application.Current.Shutdown());
+		public App() {
 			QueueMefComposeMessage.Register(this, msg => DoMefCompose(msg.MefTarget));
+			ShutdownApplicationMessage.Register(this, msg => Current.Shutdown());
 
-			HideSplashScreenMessage.Register(this, msg =>
-			{
+			ShowModalDialogMessage.Register(this,
+				msg => { msg.DialogManager.CreateMessageDialog("Test", "I'm a dialog", DialogMode.Ok).Show(); });
+
+			ShowAboutBoxMessage.Register(this, msg => {
+				var showModalDialogMessage = new ShowModalDialogMessage(msg.Sender, msg.Target);
+				showModalDialogMessage.Send();
+			});
+
+			HideSplashScreenMessage.Register(this, msg => {
 				HideSplashScreenMessage.Unregister(this);
 				Splasher.CloseSplash();
 			});
+
 			StartupUri = new Uri("UI/MainWindow/MainWindow.xaml", UriKind.Relative);
 			Run();
 		}
 
-		private class Bootstrapper
-		{
-			public Bootstrapper()
-			{
+		private class Bootstrapper {
+			public Bootstrapper() {
 				DoMefCompose(this);
 				new App();
 			}
@@ -55,12 +62,9 @@ namespace JistBridge
 
 		private static AggregateCatalog _staticAggregateCatalog;
 
-		private static AggregateCatalog AggregateCatalog
-		{
-			get
-			{
-				if (_staticAggregateCatalog != null)
-				{
+		private static AggregateCatalog AggregateCatalog {
+			get {
+				if (_staticAggregateCatalog != null) {
 					return _staticAggregateCatalog;
 				}
 				_staticAggregateCatalog = new AggregateCatalog();
@@ -69,25 +73,19 @@ namespace JistBridge
 			}
 		}
 
-		private static void DoMefCompose(object target)
-		{
-			try
-			{
+		private static void DoMefCompose(object target) {
+			try {
 				DispatcherHelper.UIDispatcher.Invoke(
-					() =>
-					{
-						try
-						{
+					() => {
+						try {
 							new CompositionContainer(AggregateCatalog).ComposeParts(target);
 						}
-						catch (Exception e)
-						{
+						catch (Exception e) {
 							Console.WriteLine(e);
 						}
 					});
 			}
-			catch (Exception ex)
-			{
+			catch (Exception ex) {
 				Current.MainWindow.Title = "MEF Composition FAILED";
 				Trace.TraceError("MEF Composition FAILED: " + ex.Message);
 			}
