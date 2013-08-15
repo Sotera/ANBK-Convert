@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\WordBehavior.cs" />
+    <Compile Include="Bootstrap\Bootstrapper.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
     <Compile Include="Data\Model\ReportService.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml.cs">
       <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

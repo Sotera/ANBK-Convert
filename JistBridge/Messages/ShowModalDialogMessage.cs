@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using GalaSoft.MvvmLight.Threading;
 using JistBridge.Utilities.DialogManagement;
 using JistBridge.Utilities.DialogManagement.Interfaces;
@@ -12,7 +13,15 @@ namespace JistBridge.Messages {
 		}
 
 		public IDialogManager DialogManager {
-			get { return _dialogManager; }
+			get {
+				if (_dialogManager == null) {
+					var msg = "Call ShowModalDialogMessage.SetDefaultContentControl(...)";
+					msg += " with the MainWindow (StartupUri) of the application before";
+					msg += " using the DialogManager.";
+					throw new Exception(msg);
+				}
+				return _dialogManager;
+			}
 		}
 
 		public ShowModalDialogMessage(object sender, object target)
