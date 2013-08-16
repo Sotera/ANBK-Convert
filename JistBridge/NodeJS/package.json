@@ -1,0 +1,20 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "uid-util": "*",
+		"http-proxy": "*",
+    "gaia-hash": "*",
+		"nimble": "*",
+    "eyes": "*",
+    "tmp": "*",
+    "node-xml": "*",
+    "sprintf-js": "*",
+    "xml2js": "*"
+  }
+}
