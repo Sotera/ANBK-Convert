@@ -7,14 +7,15 @@
              d:DesignHeight="64" d:DesignWidth="400">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Name="Left" Width="48" Height="48" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20"></Rectangle>
-
+        <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20"/>
+        <Label Name ="LeftLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White">???</Label>
         <Rectangle Name="Center" Height="2" Fill="#FFBC2E2E" Grid.Column="1"/>
-
-        <Rectangle Name="Right" Width="48" Height="48" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20"></Rectangle>
+        <Label Name ="CenterLabel"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White">???</Label>
+        <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20"></Rectangle>
+        <Label Name ="RightLabel"  Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="White">???</Label>
     </Grid>
 </UserControl>
