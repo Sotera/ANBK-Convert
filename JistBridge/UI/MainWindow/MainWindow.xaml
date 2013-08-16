@@ -9,7 +9,8 @@
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
-				Title="{Binding Title}">
+				Title="{Binding Title}"
+				Icon="/JistBridge;component/Resources/bridge.ico">
 	<Window.Resources>
 			<valueConverters:PrependTextConverter x:Key="PrependTextConverter" />
 	</Window.Resources>
@@ -19,6 +20,10 @@
 				<MenuItem Header="_File">
 					<MenuItem Header="E_xit"
 										Command="{Binding ExitCommand}" />
+				</MenuItem>
+				<MenuItem Header="_Tools">
+					<MenuItem Header="_Properties"
+										Command="{Binding ShowPropertyEditorCommand}" />
 				</MenuItem>
 				<MenuItem Header="_Help">
 					<MenuItem Header="{Binding Title,Converter={StaticResource PrependTextConverter},ConverterParameter='_About '}"

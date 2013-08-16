@@ -70,19 +70,45 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\ApplyMarkupBehavior.cs" />
     <Compile Include="Behaviors\WordBehavior.cs" />
+    <Compile Include="Bootstrap\AboutBoxControl.cs" />
+    <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\PropertyEditorControl.cs" />
+    <Compile Include="Bootstrap\ModalDialogControl.cs" />
+    <Compile Include="Bootstrap\SplashScreenControl.cs" />
     <Compile Include="Data\Model\Chain.cs" />
     <Compile Include="Data\Model\Fragment.cs" />
     <Compile Include="Data\Model\Markup.cs" />
     <Compile Include="Data\Model\Range.cs" />
+    <Compile Include="Interfaces\IUserConfiguration.cs" />
+    <Compile Include="Interfaces\IBootstrapTask.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
+    <Compile Include="Messages\ShowPropertyEditorMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
     <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
     <Compile Include="Messages\ShowModalDialogMessage.cs" />
@@ -90,6 +116,9 @@
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
     <Compile Include="Messages\FragmentSelectedMessage.cs" />
+    <Compile Include="UI\AboutBox\AboutBox.xaml.cs">
+      <DependentUpon>AboutBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -102,6 +131,7 @@
     <Compile Include="UI\ValueConverters\PrependTextConverter.cs" />
     <Compile Include="UI\WordBreaker.cs" />
     <Compile Include="Utilities\Configuration\AppConfiguration.cs" />
+    <Compile Include="Utilities\Configuration\UserConfiguration.cs" />
     <Compile Include="Utilities\DialogManagement\CustomContentDialog.cs" />
     <Compile Include="Utilities\DialogManagement\DialogBase.cs" />
     <Compile Include="Utilities\DialogManagement\DialogBaseControl.xaml.cs">
@@ -129,6 +159,7 @@
     <Compile Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml.cs">
       <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -144,6 +175,10 @@
     <Page Include="SplashScreen\SplashScreenWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\AboutBox\AboutBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MainWindow\MainWindow.xaml">
       <SubType>Designer</SubType>
@@ -199,7 +234,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\bridge.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SplashScreen.jpg" />
   </ItemGroup>
