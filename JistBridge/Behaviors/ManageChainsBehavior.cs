@@ -15,7 +15,12 @@ namespace JistBridge.Behaviors
 
         private void HandleChainAdded(Chain chain)
         {
-            var chainView = new ChainView();
+            var chainView = new ChainView
+            {
+                LeftLabel = {Content = chain.Left.DisplayText},
+                CenterLabel = {Content = chain.Center.DisplayText},
+                RightLabel = {Content = chain.Right.DisplayText}
+            };
             AssociatedObject.Children.Add(chainView);
         }
 
