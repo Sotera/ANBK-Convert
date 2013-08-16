@@ -1,4 +1,7 @@
-﻿using JistBridge.UI;
+﻿using System.Collections.Generic;
+using JistBridge.Data.Model;
+using JistBridge.Messages;
+using JistBridge.UI;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -44,7 +47,15 @@ namespace JistBridge.Behaviors
 				return;
 			range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
 			range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
-		}
+
+		    var offsets = new Range<int>()
+		    {
+		        Minimum = range.Start.GetOffsetToPosition(richTextBox.Document.ContentStart),
+		        Maximum = range.End.GetOffsetToPosition(richTextBox.Document.ContentStart)
+		    };
+            var fragment = new Fragment(new List<Range<int>>{offsets},FragmentType.Node,range.Text);
+            new FragmentSelectedMessage(richTextBox, null, fragment).Send();
+        }
 
 		private static TextRange GetWordRange(Point point, RichTextBox richTextBox)
 		{

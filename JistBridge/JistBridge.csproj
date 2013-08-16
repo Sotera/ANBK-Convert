@@ -72,18 +72,29 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ApplyMarkupBehavior.cs" />
     <Compile Include="Behaviors\WordBehavior.cs" />
+    <Compile Include="Bootstrap\AboutBoxControl.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\ModalDialogControl.cs" />
+    <Compile Include="Bootstrap\SplashScreenControl.cs" />
+    <Compile Include="Data\Model\Chain.cs" />
+    <Compile Include="Data\Model\Fragment.cs" />
+    <Compile Include="Data\Model\Markup.cs" />
+    <Compile Include="Data\Model\Range.cs" />
+    <Compile Include="Interfaces\IBootstrapTask.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
+    <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
     <Compile Include="Messages\ShowModalDialogMessage.cs" />
     <Compile Include="Messages\ShowAboutBoxMessage.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
+    <Compile Include="Messages\FragmentSelectedMessage.cs" />
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -194,7 +205,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\bridge.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SplashScreen.jpg" />
   </ItemGroup>

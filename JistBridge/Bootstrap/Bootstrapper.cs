@@ -1,32 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using JistBridge.Interfaces;
 using JistBridge.Messages;
-using JistBridge.SplashScreen;
-using JistBridge.Utilities.DialogManagement;
 using JistBridge.Utilities.MefHelpers;
+using NLog;
 
 namespace JistBridge.Bootstrap {
 	internal class Bootstrapper {
-		public Bootstrapper(Action callback) {
-			ExecutingAssemblyMefHelper.DoMefCompose(this);
-			QueueMefComposeMessage.Register(this, msg => ExecutingAssemblyMefHelper.DoMefCompose(msg.MefTarget));
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		private const int SplashScreenDelayMS = 3000;
 
-			ShowModalDialogMessage.Register(this,
-				msg => { msg.DialogManager.CreateMessageDialog("Test", "I'm a dialog", DialogMode.Ok).Show(); });
+		[ImportMany(typeof (IBootstrapTask))]
+		private IEnumerable<IBootstrapTask> BootstrapTasks { get; set; }
 
-			ShowAboutBoxMessage.Register(this, msg => {
-				var showModalDialogMessage = new ShowModalDialogMessage(msg.Sender, msg.Target);
-				showModalDialogMessage.Send();
+		internal Bootstrapper(Action callback) {
+			QueueMefComposeMessage.Register(this, msg => {
+				ExecutingAssemblyMefHelper.DoMefCompose(msg.MefTarget);
+				msg.Execute(msg);
 			});
 
-			HideSplashScreenMessage.Register(this, msg => {
-				HideSplashScreenMessage.Unregister(this);
-				Splasher.CloseSplash();
-			});
-
-
-			if (callback != null) {
+			new QueueMefComposeMessage(this, this, this, msg => {
+				new HideSplashScreenMessage(null, null).SendAfterWaiting(SplashScreenDelayMS);
 				callback();
-			}
+			}).Send();
 		}
 	}
 }

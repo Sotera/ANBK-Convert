@@ -16,12 +16,21 @@ namespace JistBridge.UI.RichTextBox
 			{
 				DataContext = value;
 			}
+		    get
+		    {
+		        if (!(DataContext is RichTextBoxViewModel))
+		            return null;
+		        return DataContext as RichTextBoxViewModel;
+		    }
 		}
 
 		public RichTextBoxView()
 		{
 			InitializeComponent();
-			new QueueMefComposeMessage(null, null, this).Send();
-		}
+			new QueueMefComposeMessage(null, null, this, msg =>
+			{
+			    new RichTextBoxLoadedMessage(msg.Sender, msg.Target).SendAfterWaiting(1000);
+			}).Send();
+        }
 	}
 }

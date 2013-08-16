@@ -9,7 +9,8 @@
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
-				Title="{Binding Title}">
+				Title="{Binding Title}"
+				Icon="/JistBridge;component/Resources/bridge.ico">
 	<Window.Resources>
 			<ValueConverters:PrependTextConverter x:Key="PrependTextConverter" />
 	</Window.Resources>
@@ -30,10 +31,11 @@
 													IsReadOnly="True">
 				<i:Interaction.Behaviors>
 					<behaviors:WordBehavior />
+                    <behaviors:ApplyMarkupBehavior/>
 				</i:Interaction.Behaviors>
 				<FlowDocument>
 					<Paragraph>
-						<Run Text="{Binding ReportContents}"
+						<Run Text="{Binding ReportContents, Mode=OneWay}"
 								 Cursor="Hand" />
 					</Paragraph>
 				</FlowDocument>

@@ -1,27 +1,17 @@
-﻿using JistBridge.Interfaces;
+﻿using System.ComponentModel.Composition;
+using JistBridge.Interfaces;
 using JistBridge.Messages;
-using System.ComponentModel.Composition;
 
-namespace JistBridge.UI.MainWindow
-{
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow
-	{
-		private const int SplashScreenDelayMS = 3000;
-
-		public MainWindow()
-		{
+namespace JistBridge.UI.MainWindow {
+	public partial class MainWindow {
+		public MainWindow() {
 			InitializeComponent();
 			ShowModalDialogMessage.SetDefaultContentControl(this);
-			new QueueMefComposeMessage(null, null, this).Send();
-			new HideSplashScreenMessage(null, null).SendAfterWaiting(SplashScreenDelayMS);
+			new QueueMefComposeMessage(null, null, this, null).Send();
 		}
 
 		[Import]
-		public IMainWindowViewModel MainWindowViewModel
-		{
+		public IMainWindowViewModel MainWindowViewModel {
 			set { DataContext = value; }
 		}
 	}

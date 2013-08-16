@@ -4,9 +4,6 @@ using System.Threading;
 using GalaSoft.MvvmLight.Threading;
 using JistBridge.Bootstrap;
 using JistBridge.Messages;
-using JistBridge.SplashScreen;
-using JistBridge.Utilities.DialogManagement;
-using JistBridge.Utilities.MefHelpers;
 using NLog;
 
 // ReSharper disable ObjectCreationAsStatement
@@ -23,11 +20,7 @@ namespace JistBridge {
 			//Initialize a nice UI thread dispatcher for our use
 			DispatcherHelper.Initialize();
 
-			Splasher.ShowSplash(new SplashScreenWindow());
-
-			new Bootstrapper(() => {
-				new App();
-			});
+			new Bootstrapper(() => { new App(); });
 		}
 
 		public App() {

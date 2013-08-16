@@ -9,7 +9,7 @@
 				ShowInTaskbar="False"
 				ResizeMode="NoResize"
 				DataContext="{Binding RelativeSource={RelativeSource Self}}"
-				Topmost="False"
+				Topmost="True"
 				SizeToContent="WidthAndHeight">
 	<Grid Background="Transparent">
 		<!--
