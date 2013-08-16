@@ -30,12 +30,27 @@
 										Command="{Binding ShowAboutBoxCommand}" />
 				</MenuItem>
 			</Menu>
-			<ui:RichTextBoxView >
-                <i:Interaction.Behaviors>
-                    <behaviors:WordBehavior />
-                    <behaviors:ApplyMarkupBehavior/>
-                </i:Interaction.Behaviors>
-            </ui:RichTextBoxView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="ChainPanel" CanVerticallyScroll="True">
+                        <i:Interaction.Behaviors>
+                            <behaviors:ManageChainsBehavior />
+                        </i:Interaction.Behaviors>
+                    </StackPanel>
+                </ScrollViewer>
+                <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch"/>
+                <ui:RichTextBoxView Grid.Row="2" >
+                    <i:Interaction.Behaviors>
+                        <behaviors:WordBehavior />
+                        <behaviors:ApplyMarkupBehavior/>
+                    </i:Interaction.Behaviors>
+                </ui:RichTextBoxView>
+            </Grid>
 		</DockPanel>
 		<StatusBar VerticalAlignment="Bottom"
 							 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}"
