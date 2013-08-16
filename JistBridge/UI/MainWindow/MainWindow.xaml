@@ -21,6 +21,10 @@
 					<MenuItem Header="E_xit"
 										Command="{Binding ExitCommand}" />
 				</MenuItem>
+				<MenuItem Header="_Tools">
+					<MenuItem Header="_Properties"
+										Command="{Binding ShowPropertyEditorCommand}" />
+				</MenuItem>
 				<MenuItem Header="_Help">
 					<MenuItem Header="{Binding Title,Converter={StaticResource PrependTextConverter},ConverterParameter='_About '}"
 										Command="{Binding ShowAboutBoxCommand}" />

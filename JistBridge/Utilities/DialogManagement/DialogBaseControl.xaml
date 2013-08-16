@@ -22,7 +22,7 @@
 								HorizontalAlignment="Center" />
 						<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
 								Margin="2">
-							<ContentControl x:Name="CustomContent" Margin="15" />
+							<ContentControl x:Name="CustomContent" Margin="2" />
 						</ScrollViewer>
 					</DockPanel>
 				</ContentControl>

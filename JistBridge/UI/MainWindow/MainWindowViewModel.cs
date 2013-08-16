@@ -10,6 +10,7 @@ namespace JistBridge.UI.MainWindow
 	public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 	{
 		public static IAppConfiguration StaticAppConfiguration { get; private set; }
+		public static IUserConfiguration StaticUserConfiguration { get; private set; }
 
 		[Import(typeof(IAppConfiguration))]
 		public IAppConfiguration AppConfiguration
@@ -18,9 +19,23 @@ namespace JistBridge.UI.MainWindow
 			set { StaticAppConfiguration = value; }
 		}
 
+		[Import(typeof(IUserConfiguration))]
+		public IUserConfiguration UserConfiguration
+		{
+			get { return StaticUserConfiguration; }
+			set { StaticUserConfiguration = value; }
+		}
+
 		public string StatusMessage
 		{
 			get { return "Ready"; }
+		}
+
+		public RelayCommand ShowPropertyEditorCommand
+		{
+			get { return new RelayCommand(() => new ShowPropertyEditorMessage(null, null) {
+				PropertiesObject = UserConfiguration
+			}.Send()); }
 		}
 
 		public RelayCommand ShowAboutBoxCommand
