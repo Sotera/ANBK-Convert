@@ -70,7 +70,7 @@ namespace JistBridge.Behaviors
 		    if (viewModel == null)
 		        return;
 
-            new FragmentSelectedMessage(_richTextBox, null, viewModel.ReportMarkup.MarkupId, fragment).Send();
+            new FragmentSelectedMessage(_richTextBox, null, viewModel.ReportMarkup, fragment).Send();
         }
 
 		private static TextRange GetWordRange(Point point, RichTextBox richTextBox)

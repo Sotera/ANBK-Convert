@@ -29,7 +29,6 @@ namespace JistBridge.UI.RichTextBox
 	    [ImportingConstructor]
 		public RichTextBoxViewModel(IReportService reportService)
 		{
-            FragmentSelectedMessage.Register(this,msg => HandleFragmentSelected(msg.MarkupId, msg.Fragment));
             reportService.GetReport(
 				(item, error) =>
 				{
@@ -43,31 +42,5 @@ namespace JistBridge.UI.RichTextBox
 				});
 		}
 
-	    private void HandleFragmentSelected(Guid markupId, Fragment fragment)
-	    {
-	        if (ReportMarkup.MarkupId != markupId)
-	            return;
-
-	        if (_currentChain == null)
-	        {
-	            _currentChain = new Chain(fragment, null, null);
-	            return;
-	        }
-
-	        if (_currentChain.Contains(fragment))
-	            return;
-
-	        _currentChain.Add(fragment);
-
-	        if (!_currentChain.IsComplete)
-                return;
-
-	        if (ReportMarkup != null)
-	        {
-	            ReportMarkup.Chains.Add(_currentChain);
-	            new ChainAddedMessage(this, null, ReportMarkup.MarkupId, _currentChain).Send();
-	        }
-	        _currentChain = new Chain(null, null, null);
-	    }
 	}
 }

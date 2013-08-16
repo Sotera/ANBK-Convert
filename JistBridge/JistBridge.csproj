@@ -98,6 +98,7 @@
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
     <Compile Include="Bootstrap\ModalDialogControl.cs" />
     <Compile Include="Bootstrap\SplashScreenControl.cs" />
+    <Compile Include="Bootstrap\StateMachineControl.cs" />
     <Compile Include="Data\Model\Chain.cs" />
     <Compile Include="Data\Model\Fragment.cs" />
     <Compile Include="Data\Model\Markup.cs" />
@@ -109,7 +110,8 @@
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
-    <Compile Include="Messages\ChainAddedMessage.cs" />
+    <Compile Include="Messages\ChainStatusMessage.cs" />
+    <Compile Include="Messages\PerformStateTransitionMessage.cs" />
     <Compile Include="Messages\ShowPropertyEditorMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
     <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
@@ -165,6 +167,11 @@
       <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
+    <Compile Include="Utilities\StateMachine\FSMSystem.cs" />
+    <Compile Include="Utilities\StateMachine\FSMState.cs" />
+    <Compile Include="Utilities\StateMachine\States\WaitForCenterFragmentState.cs" />
+    <Compile Include="Utilities\StateMachine\States\WaitForLeftFragmentState.cs" />
+    <Compile Include="Utilities\StateMachine\States\WaitForRightFragmentState.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

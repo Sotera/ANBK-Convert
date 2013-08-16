@@ -11,12 +11,12 @@ namespace JistBridge.Messages
     {
         public Fragment Fragment;
 
-        public Guid MarkupId { get; private set; }
+        public Markup Markup { get; private set; }
         
-        public FragmentSelectedMessage(object sender, object target,Guid markupId, Fragment fragment)
+        public FragmentSelectedMessage(object sender, object target,Markup markup, Fragment fragment)
 			: base(sender, target)
         {
-            MarkupId = markupId;
+            Markup = markup;
             Fragment = fragment;
         }
 

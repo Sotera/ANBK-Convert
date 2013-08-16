@@ -19,6 +19,9 @@ namespace JistBridge.Data.Model
 
         public List<Chain> Chains { get; set; }
 
+        public Chain CurrentChain { get; set; }
+
+
         public Markup()
         {
             Chains = new List<Chain>();
