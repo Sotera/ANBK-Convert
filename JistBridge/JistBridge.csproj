@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\ApplyMarkupBehavior.cs" />
+    <Compile Include="Behaviors\ManageChainsBehavior.cs" />
     <Compile Include="Behaviors\WordBehavior.cs" />
     <Compile Include="Bootstrap\AboutBoxControl.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
+    <Compile Include="Messages\ChainAddedMessage.cs" />
     <Compile Include="Messages\ShowPropertyEditorMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
     <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
@@ -118,6 +120,9 @@
     <Compile Include="Messages\FragmentSelectedMessage.cs" />
     <Compile Include="UI\AboutBox\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ChainCanvas\ChainView.xaml.cs">
+      <DependentUpon>ChainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -179,6 +184,10 @@
     <Page Include="UI\AboutBox\AboutBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ChainCanvas\ChainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\MainWindow\MainWindow.xaml">
       <SubType>Designer</SubType>

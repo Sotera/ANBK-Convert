@@ -54,17 +54,20 @@ namespace JistBridge.UI.RichTextBox
 	            return;
 	        }
 
-	        if (_currentChain.IsComplete)
-	        {
-                if(ReportMarkup != null)
-                    ReportMarkup.Chains.Add(_currentChain);
-                _currentChain = new Chain(fragment, null, null);
-	        }
-
 	        if (_currentChain.Contains(fragment))
 	            return;
 
 	        _currentChain.Add(fragment);
+
+	        if (!_currentChain.IsComplete)
+                return;
+
+	        if (ReportMarkup != null)
+	        {
+	            ReportMarkup.Chains.Add(_currentChain);
+	            new ChainAddedMessage(this, null, ReportMarkup.MarkupId, _currentChain).Send();
+	        }
+	        _currentChain = new Chain(null, null, null);
 	    }
 	}
 }
