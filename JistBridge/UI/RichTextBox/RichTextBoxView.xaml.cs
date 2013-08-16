@@ -1,4 +1,6 @@
-﻿using JistBridge.Interfaces;
+﻿using System.Windows;
+using System.Windows.Input;
+using JistBridge.Interfaces;
 using JistBridge.Messages;
 using System.ComponentModel.Composition;
 
@@ -24,13 +26,17 @@ namespace JistBridge.UI.RichTextBox
 		    }
 		}
 
-		public RichTextBoxView()
+	    private void Loaded(object obj, DependencyPropertyChangedEventArgs args)
+	    {
+            new RichTextBoxLoadedMessage(this, null).Send();
+            IsVisibleChanged -= Loaded;
+	    }
+        
+	    public RichTextBoxView()
 		{
 			InitializeComponent();
-			new QueueMefComposeMessage(null, null, this, msg =>
-			{
-			    new RichTextBoxLoadedMessage(msg.Sender, msg.Target).SendAfterWaiting(1000);
-			}).Send();
+	        IsVisibleChanged += Loaded;
+			new QueueMefComposeMessage(null, null, this,null).Send();
         }
 	}
 }

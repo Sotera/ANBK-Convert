@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using System.ComponentModel.Composition;
@@ -28,7 +29,7 @@ namespace JistBridge.UI.RichTextBox
 	    [ImportingConstructor]
 		public RichTextBoxViewModel(IReportService reportService)
 		{
-            FragmentSelectedMessage.Register(this,msg => HandleFragmentSelected(msg.Fragment));
+            FragmentSelectedMessage.Register(this,msg => HandleFragmentSelected(msg.MarkupId, msg.Fragment));
             reportService.GetReport(
 				(item, error) =>
 				{
@@ -42,8 +43,11 @@ namespace JistBridge.UI.RichTextBox
 				});
 		}
 
-	    private void HandleFragmentSelected(Fragment fragment)
+	    private void HandleFragmentSelected(Guid markupId, Fragment fragment)
 	    {
+	        if (ReportMarkup.MarkupId != markupId)
+	            return;
+
 	        if (_currentChain == null)
 	        {
 	            _currentChain = new Chain(fragment, null, null);

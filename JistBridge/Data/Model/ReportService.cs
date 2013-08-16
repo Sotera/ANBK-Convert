@@ -11,7 +11,11 @@ namespace JistBridge.Data.Model
 		{
 			// Use this to connect to the actual data service
 
-			var report = new Report { ReportText = "Tom was seen with Joe at the local 7-11" };
+			var report = new Report
+			{
+                ReportMarkup = new Markup(),
+			    ReportText = "Tom was seen with Joe at the local 7-11"
+			};
 			callback(report, null);
 		}
 	}

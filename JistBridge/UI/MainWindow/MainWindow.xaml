@@ -5,13 +5,13 @@
 				xmlns:behaviors="clr-namespace:JistBridge.Behaviors"
 				xmlns:ui="clr-namespace:JistBridge.UI.RichTextBox"
 				xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-				xmlns:ValueConverters="clr-namespace:JistBridge.UI.ValueConverters"
+				xmlns:valueConverters="clr-namespace:JistBridge.UI.ValueConverters"
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
 				Title="{Binding Title}">
 	<Window.Resources>
-			<ValueConverters:PrependTextConverter x:Key="PrependTextConverter" />
+			<valueConverters:PrependTextConverter x:Key="PrependTextConverter" />
 	</Window.Resources>
 	<Grid x:Name="LayoutRoot">
 		<DockPanel>
@@ -25,20 +25,12 @@
 										Command="{Binding ShowAboutBoxCommand}" />
 				</MenuItem>
 			</Menu>
-			<ui:RichTextBoxView Foreground="CornflowerBlue"
-													Cursor="Hand"
-													IsReadOnly="True">
-				<i:Interaction.Behaviors>
-					<behaviors:WordBehavior />
+			<ui:RichTextBoxView >
+                <i:Interaction.Behaviors>
+                    <behaviors:WordBehavior />
                     <behaviors:ApplyMarkupBehavior/>
-				</i:Interaction.Behaviors>
-				<FlowDocument>
-					<Paragraph>
-						<Run Text="{Binding ReportContents, Mode=OneWay}"
-								 Cursor="Hand" />
-					</Paragraph>
-				</FlowDocument>
-			</ui:RichTextBoxView>
+                </i:Interaction.Behaviors>
+            </ui:RichTextBoxView>
 		</DockPanel>
 		<StatusBar VerticalAlignment="Bottom"
 							 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}"

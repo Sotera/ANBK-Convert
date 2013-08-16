@@ -6,7 +6,7 @@ using JistBridge.UI.RichTextBox;
 
 namespace JistBridge.Behaviors
 {
-    internal class ApplyMarkupBehavior : Behavior<RichTextBox>
+    internal class ApplyMarkupBehavior : Behavior<RichTextBoxView>
     {
         protected override void OnAttached()
         {
@@ -26,7 +26,9 @@ namespace JistBridge.Behaviors
 
         private void ApplyMarkup(Markup markup)
         {
-
+            if (markup.Chains == null || markup.Chains.Count == 0)
+                return;
+            //TODO:Apply all of the markup chains to the Rich Text Box
         }
 
         protected override void OnDetaching()

@@ -8,53 +8,69 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
+using JistBridge.UI.RichTextBox;
 
 namespace JistBridge.Behaviors
 {
-	internal class WordBehavior : Behavior<RichTextBox>
+	internal class WordBehavior : Behavior<RichTextBoxView>
 	{
+	    private TextRange _currentTextRange;
+	    private RichTextBox _richTextBox;
+
 		protected override void OnAttached()
 		{
-			AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
-			AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
+		    _richTextBox = AssociatedObject.RichTextBoxInstance;
+            AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
+            AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
 		}
 
-		private static void AssociatedObject_MouseMove(object sender, RoutedEventArgs e)
+		private void AssociatedObject_MouseMove(object sender, RoutedEventArgs e)
 		{
-			var richTextBox = sender as RichTextBox;
-			var mouseEventArgs = e as MouseEventArgs;
-			if (richTextBox == null || mouseEventArgs == null)
+            var mouseEventArgs = e as MouseEventArgs;
+            if (_richTextBox == null || mouseEventArgs == null)
 				return;
 
-			// ClearFontWeight(richTextBox);
+            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox))
+		    {
+                SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
+		        return;
+		    }
+            var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
+		   if (_currentTextRange == range)
+		        return;
 
-			if (!UpdateCursor(mouseEventArgs.GetPosition(richTextBox), richTextBox))
-				return;
+            SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
 
-			/*var range = GetWordRange(mouseEventArgs.GetPosition(richTextBox), richTextBox);
 			if(range != null)
-					SetFontWeight(range);*/
+                SetFont(range, Brushes.DarkRed, FontWeights.UltraBlack);
+            
+		    _currentTextRange = range;
+
 		}
 
-		private static void AssociatedObject_Click(object sender, RoutedEventArgs e)
+		private void AssociatedObject_Click(object sender, RoutedEventArgs e)
 		{
-			var richTextBox = sender as RichTextBox;
 			var mouseEventArgs = e as MouseButtonEventArgs;
-			if (richTextBox == null || mouseEventArgs == null)
+            if (_richTextBox == null || mouseEventArgs == null)
 				return;
-			var range = GetWordRange(mouseEventArgs.GetPosition(richTextBox), richTextBox);
+            var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
 			if (range == null)
 				return;
-			range.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
 			range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
 
 		    var offsets = new Range<int>()
 		    {
-		        Minimum = range.Start.GetOffsetToPosition(richTextBox.Document.ContentStart),
-		        Maximum = range.End.GetOffsetToPosition(richTextBox.Document.ContentStart)
+                Minimum = range.Start.GetOffsetToPosition(_richTextBox.Document.ContentStart),
+                Maximum = range.End.GetOffsetToPosition(_richTextBox.Document.ContentStart)
 		    };
+
             var fragment = new Fragment(new List<Range<int>>{offsets},FragmentType.Node,range.Text);
-            new FragmentSelectedMessage(richTextBox, null, fragment).Send();
+		    var viewModel = AssociatedObject.DataContext as RichTextBoxViewModel;
+
+		    if (viewModel == null)
+		        return;
+
+            new FragmentSelectedMessage(_richTextBox, null, viewModel.ReportMarkup.MarkupId, fragment).Send();
         }
 
 		private static TextRange GetWordRange(Point point, RichTextBox richTextBox)
@@ -63,15 +79,12 @@ namespace JistBridge.Behaviors
 			return position == null ? null : WordBreaker.GetWordRange(position);
 		}
 
-		private static void ClearFontWeight(RichTextBox richTextBox)
+		private static void SetFont(TextRange range, Brush brush, FontWeight weight)
 		{
-			var range = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
-			range.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Regular);
-		}
-
-		private static void SetFontWeight(TextRange range)
-		{
-			range.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+		    if (range == null)
+		        return;
+            range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+            range.ApplyPropertyValue(TextElement.FontWeightProperty, weight);
 		}
 
 		private static bool UpdateCursor(Point mousePosition, RichTextBox richTextBox)
