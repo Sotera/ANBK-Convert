@@ -101,7 +101,6 @@
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
     <Compile Include="Bootstrap\ModalDialogControl.cs" />
     <Compile Include="Bootstrap\SplashScreenControl.cs" />
-    <Compile Include="Bootstrap\StateMachineControl.cs" />
     <Compile Include="Data\Model\Chain.cs" />
     <Compile Include="Data\Model\Fragment.cs" />
     <Compile Include="Data\Model\Markup.cs" />
