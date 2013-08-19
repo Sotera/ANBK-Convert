@@ -3,7 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
+using JistBridge.UI;
 using JistBridge.UI.ChainCanvas;
+using JistBridge.UI.RichTextBox;
 
 namespace JistBridge.Behaviors
 {
@@ -56,21 +58,16 @@ namespace JistBridge.Behaviors
                 case ChainStatus.LeftFragmentCanceled:
                     {
                         DestroyCurrentChain();
-                        chain.Reset();
-                        markup.CurrentChain = null;
                         break;
                     }
                 case ChainStatus.CenterFragmentCanceled:
                     {
                         DestroyCurrentChain();
-                        chain.Reset();
-                        markup.CurrentChain = null;
                         break;
                     }
                 case ChainStatus.RightFragmentCanceled:
                     {
                         _currentChain.CenterLabel.Content = "???";
-                        chain.Center = null;
                         break;
                     }
             }

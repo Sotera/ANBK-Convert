@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
+using JistBridge.Data.Model;
 
 namespace JistBridge.UI
 {
@@ -24,5 +26,30 @@ namespace JistBridge.UI
 			var parent = parentObject as T;
 			return parent ?? FindVisualParent<T>(parentObject);
 		}
+
+	    public static void ClearFragment(Fragment fragment, System.Windows.Controls.RichTextBox richTextBox)
+	    {
+            foreach (var offset in fragment.Offsets)
+            {
+                ApplyFormatToRange(offset, richTextBox, Brushes.White);
+            }
+	    }
+
+	    public static void DrawFragment(Fragment fragment, System.Windows.Controls.RichTextBox richTextBox)
+	    {
+            foreach (var offset in fragment.Offsets)
+	        {
+	            ApplyFormatToRange(offset,richTextBox, Brushes.CornflowerBlue);
+	        }
+	    }
+
+	    public static void ApplyFormatToRange(Range<int> offset, System.Windows.Controls.RichTextBox richTextBox, SolidColorBrush background)
+	    {
+	        var contentStart = richTextBox.Document.ContentStart;
+
+            var range = new TextRange(contentStart.GetPositionAtOffset(offset.Minimum,LogicalDirection.Forward),
+                                            contentStart.GetPositionAtOffset(offset.Maximum, LogicalDirection.Forward));
+	        range.ApplyPropertyValue(TextElement.BackgroundProperty, background);
+	    }
 	}
 }

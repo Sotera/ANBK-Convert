@@ -30,6 +30,8 @@ namespace JistBridge.UI.ReportView.States
         {
             base.HandleCancelFragment(markup, fragment, status);
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.LeftFragmentCanceled).Send();
+            markup.CurrentChain = null;
+                        
             new PerformStateTransitionMessage(this, null, Transition.Cancel).Send();
         }
     }

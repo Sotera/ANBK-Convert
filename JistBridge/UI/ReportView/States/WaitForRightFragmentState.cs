@@ -25,7 +25,7 @@ namespace JistBridge.Utilities.StateMachine.States
 
             markup.CurrentChain.Add(fragment);
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.RightFragmentAdded).Send();
-
+            markup.AddChain(markup.CurrentChain);
             markup.CurrentChain = null;
             new PerformStateTransitionMessage(this, null, Transition.RecievedFragment).Send();
         }
