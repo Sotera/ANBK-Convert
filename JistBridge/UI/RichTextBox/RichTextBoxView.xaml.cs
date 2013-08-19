@@ -26,16 +26,16 @@ namespace JistBridge.UI.RichTextBox
 		    }
 		}
 
-	    private void Loaded(object obj, DependencyPropertyChangedEventArgs args)
+	    private void RtbLoaded(object obj, DependencyPropertyChangedEventArgs args)
 	    {
             new RichTextBoxLoadedMessage(this, null).Send();
-            IsVisibleChanged -= Loaded;
+            IsVisibleChanged -= RtbLoaded;
 	    }
         
 	    public RichTextBoxView()
 		{
 			InitializeComponent();
-	        IsVisibleChanged += Loaded;
+            IsVisibleChanged += RtbLoaded;
 			new QueueMefComposeMessage(null, null, this,null).Send();
         }
 	}
