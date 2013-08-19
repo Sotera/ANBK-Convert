@@ -1,9 +1,7 @@
-﻿using System;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using System.ComponentModel.Composition;
-using JistBridge.Messages;
 
 namespace JistBridge.UI.RichTextBox
 {
@@ -12,9 +10,7 @@ namespace JistBridge.UI.RichTextBox
 	{
 	    private Report _report;
 
-	    private Chain _currentChain;
-
-		public const string ReportContentsPropertyName = "ReportContents";
+	    public const string ReportContentsPropertyName = "ReportContents";
 
 	    public string ReportContents
 		{
