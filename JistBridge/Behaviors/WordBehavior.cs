@@ -22,8 +22,19 @@ namespace JistBridge.Behaviors
 		    _richTextBox = AssociatedObject.RichTextBoxInstance;
             AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
             AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
-		}
+        }
 
+	    private void CancelFragment()
+        {
+            var viewModel = AssociatedObject.DataContext as RichTextBoxViewModel;
+
+            if (viewModel == null)
+                return;
+
+            new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, null, FragmentStatus.Canceled).Send();
+        }
+
+        
 		private void AssociatedObject_MouseMove(object sender, RoutedEventArgs e)
 		{
             var mouseEventArgs = e as MouseEventArgs;
@@ -54,9 +65,12 @@ namespace JistBridge.Behaviors
             if (_richTextBox == null || mouseEventArgs == null)
 				return;
             var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
-			if (range == null)
-				return;
-			range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
+		    if (range == null)
+		    {
+                CancelFragment();
+		        return;
+		    }
+		    range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
 
 		    var offsets = new Range<int>()
 		    {
@@ -70,7 +84,7 @@ namespace JistBridge.Behaviors
 		    if (viewModel == null)
 		        return;
 
-            new FragmentSelectedMessage(_richTextBox, null, viewModel.ReportMarkup, fragment).Send();
+            new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Selected).Send();
         }
 
 		private static TextRange GetWordRange(Point point, RichTextBox richTextBox)

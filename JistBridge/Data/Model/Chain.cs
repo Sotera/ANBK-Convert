@@ -56,5 +56,10 @@
                 Right = fragment;
 
         }
+
+        public void Reset()
+        {
+            Left = Right = Center = null;
+        }
     }
 }

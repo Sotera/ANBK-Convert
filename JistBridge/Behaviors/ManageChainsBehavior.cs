@@ -13,10 +13,10 @@ namespace JistBridge.Behaviors
 
         protected override void OnAttached()
         {
-            ChainStatusMessage.Register(this,msg => HandleChainMessage(msg.Chain, msg.Status, msg.MarkupId));
+            ChainStatusMessage.Register(this,msg => HandleChainMessage(msg.Chain, msg.Status, msg.Markup));
         }
 
-        private void HandleChainMessage(Chain chain, ChainStatus status, Guid markupId)
+        private void HandleChainMessage(Chain chain, ChainStatus status, Markup markup)
         {
             switch (status)
             {
@@ -32,18 +32,51 @@ namespace JistBridge.Behaviors
                 }
                 case ChainStatus.RightFragmentAdded:
                 {
-                    RightFragmentAdded(chain, markupId);
+                    RightFragmentAdded(chain, markup);
                     break;
                 }
-                case ChainStatus.FragmentCanceled:
+                case ChainStatus.CenterFragmentCanceled:
+                case ChainStatus.LeftFragmentCanceled:
+                case ChainStatus.RightFragmentCanceled:
                 {
-                    
+                    FragmentCanceled(chain, markup, status);
                     break;
                 }
             }
         }
 
-        private void RightFragmentAdded(Chain chain, Guid markupId)
+        private void FragmentCanceled(Chain chain, Markup markup, ChainStatus status)
+        {
+            if (markup == null || chain == null || _currentChain == null)
+                return;
+
+            switch(status)
+            {
+                            
+                case ChainStatus.LeftFragmentCanceled:
+                    {
+                        DestroyCurrentChain();
+                        chain.Reset();
+                        markup.CurrentChain = null;
+                        break;
+                    }
+                case ChainStatus.CenterFragmentCanceled:
+                    {
+                        DestroyCurrentChain();
+                        chain.Reset();
+                        markup.CurrentChain = null;
+                        break;
+                    }
+                case ChainStatus.RightFragmentCanceled:
+                    {
+                        _currentChain.CenterLabel.Content = "???";
+                        chain.Center = null;
+                        break;
+                    }
+            }
+        }
+
+        private void RightFragmentAdded(Chain chain, Markup markup)
         {
             _currentChain.RightLabel.Content = chain.Right.DisplayText;
         }
@@ -63,6 +96,12 @@ namespace JistBridge.Behaviors
         {
             _currentChain = new ChainView();
             AssociatedObject.Children.Add(_currentChain);
+        }
+
+        private void DestroyCurrentChain()
+        {
+            AssociatedObject.Children.Remove(_currentChain);
+            _currentChain = null;
         }
 
 

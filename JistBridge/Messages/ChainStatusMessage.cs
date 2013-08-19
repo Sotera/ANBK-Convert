@@ -6,7 +6,9 @@ namespace JistBridge.Messages
     public enum ChainStatus
     {
         Finished,
-        FragmentCanceled,
+        LeftFragmentCanceled,
+        CenterFragmentCanceled,
+        RightFragmentCanceled,
         LeftFragmentAdded,
         CenterFragmentAdded,
         RightFragmentAdded
@@ -16,12 +18,12 @@ namespace JistBridge.Messages
     {
         public Chain Chain { get; private set; }
         public ChainStatus Status { get; private set; }
-        public Guid MarkupId { get; private set; }
+        public Markup Markup { get; private set; }
 
-        public ChainStatusMessage(object sender, object target, Guid markupId, Chain chain, ChainStatus status)
+        public ChainStatusMessage(object sender, object target, Markup markup, Chain chain, ChainStatus status)
             : base(sender, target)
         {
-            MarkupId = markupId;
+            Markup = markup;
             Chain = chain;
             Status = status;
         }
