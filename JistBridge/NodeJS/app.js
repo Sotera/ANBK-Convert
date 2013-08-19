@@ -1,5 +1,4 @@
 var express = require('express')
-    , xml = require('node-xml')
     , path = require('path')
     , validateUser = require('./routes/validateUser')
     , getReport = require('./routes/getReport')
@@ -28,10 +27,10 @@ var api = global.api = express();
 app.use(express.static(path.join(__dirname, 'webapp')));
 
 //Configure 'api' middleware
-/*api.use(function (req, res, next) {
+api.use(function (req, res, next) {
     reqResHelpers.inspectReqRes(req, res, false);
     next();
-});*/
+});
 
 //Route any url starting with 'svr' to 'api' express instance
 app.all('/*', api);

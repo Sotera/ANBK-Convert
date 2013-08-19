@@ -1,5 +1,5 @@
 var tmp = require('tmp')
-  , parseXml = require('xml2js').parseString
+    , querystring = require('querystring')
   , fsHelpers = require('../utilExports/fsHelpers')
   , inspect = require('eyes').inspector({maxLength: false})
   , fs = require('fs');
@@ -38,15 +38,21 @@ exports.inspectReqRes = function (req, res, isXml) {
 
 function _inspectGeneric(val, isXml) {
   if (isXml) {
-    fsHelpers.writeToFile(val);
+/*    fsHelpers.writeToFile(val);
     console.log(val);
     parseXml(val, function (err, parseResult) {
       inspect(parseResult);
       fsHelpers.writeToFile(JSON.stringify(parseResult));
-    });
+    });*/
   } else {
-    var parseResult = JSON.parse(val);
-    inspect(parseResult);
-    fsHelpers.writeToFile(val);
+      try{
+
+          var parseResult = JSON.parse(val);
+          inspect(parseResult);
+      }catch(err){
+          var qs = querystring.parse(val);
+          inspect(qs);
+      }
+    //fsHelpers.writeToFile(val);
   }
 }

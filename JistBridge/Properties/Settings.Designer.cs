@@ -31,5 +31,41 @@ namespace JistBridge.Properties {
                 return ((string)(this["ApplicationName"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ValidateUserUrl {
+            get {
+                return ((string)(this["ValidateUserUrl"]));
+            }
+            set {
+                this["ValidateUserUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GetReportUrl {
+            get {
+                return ((string)(this["GetReportUrl"]));
+            }
+            set {
+                this["GetReportUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SaveReportUrl {
+            get {
+                return ((string)(this["SaveReportUrl"]));
+            }
+            set {
+                this["SaveReportUrl"] = value;
+            }
+        }
     }
 }

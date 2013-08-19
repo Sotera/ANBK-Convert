@@ -28,12 +28,14 @@ namespace JistBridge.Utilities.MefHelpers {
 						try {
 							new CompositionContainer(AggregateCatalog).ComposeParts(target);
 						}
-						catch (Exception e) {
-							Console.WriteLine(e);
+						catch (Exception ex) {
+							Log.Error("MEF compose failed: " + ex.Message);
 						}
 					});
 			}
-			catch (Exception ex) {}
+			catch (Exception ex) {
+				Log.Error("MEF compose failed: " + ex.Message);
+			}
 		}
 	}
 }
