@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Windows.Documents;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView.States;
 using JistBridge.Utilities.StateMachine;
 using JistBridge.Utilities.StateMachine.States;
 
-namespace JistBridge.Bootstrap
+namespace JistBridge.UI.ReportView
 {
-    [Export(typeof (IBootstrapTask))]
-    internal class StateMachineControl : IBootstrapTask
+
+    [Export(typeof(IReportViewModel))]
+    public class ReportViewModel: IReportViewModel
     {
-        public FSMSystem StateMachine { get; private set; }
-        internal StateMachineControl()
-        {
+        public IFSMSystem StateMachine { get; private set; }
+
+        [ImportingConstructor]
+        public ReportViewModel(IFSMSystem fsmSystem )
+		{
             var waitingForLeftFragmentState = new WaitForLeftFragmentState();
             waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
 
@@ -24,7 +26,7 @@ namespace JistBridge.Bootstrap
             var waitingForRightFragmentState = new WaitForRightFragmentState();
             waitingForRightFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForLeftFragment);
 
-            StateMachine = new FSMSystem();
+            StateMachine = fsmSystem;
             StateMachine.Start(new List<FSMState>()
                                 {
                                     waitingForLeftFragmentState,
@@ -34,13 +36,11 @@ namespace JistBridge.Bootstrap
                                 waitingForLeftFragmentState);
 
             PerformStateTransitionMessage.Register(this, msg => PerformStateTransition(msg.Transition));
-        }
+		}
 
         private void PerformStateTransition(Transition transition)
         {
             StateMachine.PerformTransition(transition);
         }
     }
-
-
 }

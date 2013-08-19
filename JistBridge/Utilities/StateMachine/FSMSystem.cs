@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JistBridge.Utilities.StateMachine.States;
+using JistBridge.Interfaces;
 
 namespace JistBridge.Utilities.StateMachine
 {
@@ -32,12 +29,11 @@ namespace JistBridge.Utilities.StateMachine
     }
 
     // class FSMState
-
-
     /// <summary>
     /// FSMSystem class represents the Finite State Machine class.
     /// </summary>
-    public class FSMSystem
+    [Export(typeof(IFSMSystem))]
+    public class FSMSystem : IFSMSystem
     {
         private List<FSMState> states;
 

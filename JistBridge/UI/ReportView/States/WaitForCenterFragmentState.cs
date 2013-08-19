@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
+using JistBridge.Utilities.StateMachine;
 
-namespace JistBridge.Utilities.StateMachine.States
+namespace JistBridge.UI.ReportView.States
 {
     
     public class WaitForCenterFragmentState : FSMState

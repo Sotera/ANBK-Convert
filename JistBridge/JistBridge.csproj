@@ -103,6 +103,8 @@
     <Compile Include="Data\Model\Fragment.cs" />
     <Compile Include="Data\Model\Markup.cs" />
     <Compile Include="Data\Model\Range.cs" />
+    <Compile Include="Interfaces\IFSMSystem.cs" />
+    <Compile Include="Interfaces\IReportViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\IBootstrapTask.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
@@ -130,6 +132,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="UI\ReportView\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ReportView\ReportViewModel.cs" />
     <Compile Include="UI\RichTextBox\RichTextBoxView.xaml.cs">
       <DependentUpon>RichTextBoxView.xaml</DependentUpon>
     </Compile>
@@ -169,9 +175,9 @@
     <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
     <Compile Include="Utilities\StateMachine\FSMSystem.cs" />
     <Compile Include="Utilities\StateMachine\FSMState.cs" />
-    <Compile Include="Utilities\StateMachine\States\WaitForCenterFragmentState.cs" />
-    <Compile Include="Utilities\StateMachine\States\WaitForLeftFragmentState.cs" />
-    <Compile Include="Utilities\StateMachine\States\WaitForRightFragmentState.cs" />
+    <Compile Include="UI\ReportView\States\WaitForCenterFragmentState.cs" />
+    <Compile Include="UI\ReportView\States\WaitForLeftFragmentState.cs" />
+    <Compile Include="UI\ReportView\States\WaitForRightFragmentState.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -197,6 +203,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\MainWindow\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ReportView\ReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
