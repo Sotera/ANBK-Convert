@@ -67,5 +67,29 @@ namespace JistBridge.Properties {
                 this["SaveReportUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public uint GetReportPollDelayMS {
+            get {
+                return ((uint)(this["GetReportPollDelayMS"]));
+            }
+            set {
+                this["GetReportPollDelayMS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableGetReportPolling {
+            get {
+                return ((bool)(this["EnableGetReportPolling"]));
+            }
+            set {
+                this["EnableGetReportPolling"] = value;
+            }
+        }
     }
 }

@@ -110,8 +110,11 @@
     <Compile Include="Data\Model\Range.cs" />
     <Compile Include="Data\ReST\GetReportResponse.cs" />
     <Compile Include="Data\ReST\ValidateUserResponse.cs" />
+    <Compile Include="Interfaces\IAnbkOptionsViewModel.cs" />
+    <Compile Include="Interfaces\ICidneOptionsViewModel.cs" />
     <Compile Include="Interfaces\IFSMSystem.cs" />
     <Compile Include="Interfaces\IReportViewModel.cs" />
+    <Compile Include="Interfaces\IToolsOptionsViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\IBootstrapTask.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
@@ -150,10 +153,16 @@
       <DependentUpon>RichTextBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\RichTextBox\RichTextBoxViewModel.cs" />
+    <Compile Include="UI\ToolsOptions\ToolsOptions.xaml.cs">
+      <DependentUpon>ToolsOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ToolsOptions\ToolsOptionsViewModel.cs" />
     <Compile Include="UI\UIHelper.cs" />
     <Compile Include="UI\ValueConverters\PrependTextConverter.cs" />
     <Compile Include="UI\WordBreaker.cs" />
+    <Compile Include="Utilities\Configuration\AnbkOptionsViewModel.cs" />
     <Compile Include="Utilities\Configuration\AppConfiguration.cs" />
+    <Compile Include="Utilities\Configuration\CidneOptionsViewModel.cs" />
     <Compile Include="Utilities\Configuration\UserConfiguration.cs" />
     <Compile Include="Utilities\DialogManagement\CustomContentDialog.cs" />
     <Compile Include="Utilities\DialogManagement\DialogBase.cs" />
@@ -223,6 +232,10 @@
     <Page Include="UI\RichTextBox\RichTextBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ToolsOptions\ToolsOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Utilities\DialogManagement\DialogBaseControl.xaml">
       <Generator>MSBuild:Compile</Generator>
