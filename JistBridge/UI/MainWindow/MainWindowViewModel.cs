@@ -31,6 +31,18 @@ namespace JistBridge.UI.MainWindow
 			get { return "Ready"; }
 		}
 
+		public RelayCommand GetReportRestTest
+		{
+			get { return new RelayCommand(() => new GetReportRestMessage(null, null) {
+			}.Send()); }
+		}
+
+		public RelayCommand ValidateUserRestTest
+		{
+			get { return new RelayCommand(() => new ValidateUserRestMessage(null, null) {
+			}.Send()); }
+		}
+
 		public RelayCommand ShowPropertyEditorCommand
 		{
 			get { return new RelayCommand(() => new ShowPropertyEditorMessage(null, null) {

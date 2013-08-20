@@ -22,6 +22,7 @@ exports.doVerb = function (req, res) {
                 }
             }
         };
+        res.setHeader('Content-Type','application/json');
         res.end(JSON.stringify(response));
     });
 };

@@ -100,6 +100,7 @@
     <Compile Include="Behaviors\WordBehavior.cs" />
     <Compile Include="Bootstrap\AboutBoxControl.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\RestClientControl.cs" />
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
     <Compile Include="Bootstrap\ModalDialogControl.cs" />
     <Compile Include="Bootstrap\SplashScreenControl.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Data\Model\Fragment.cs" />
     <Compile Include="Data\Model\Markup.cs" />
     <Compile Include="Data\Model\Range.cs" />
+    <Compile Include="Data\ReST\GetReportResponse.cs" />
+    <Compile Include="Data\ReST\ValidateUserResponse.cs" />
     <Compile Include="Interfaces\IFSMSystem.cs" />
     <Compile Include="Interfaces\IReportViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
@@ -117,6 +120,8 @@
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
+    <Compile Include="Messages\GetReportRestMessage.cs" />
+    <Compile Include="Messages\ValidateUserRestMessage.cs" />
     <Compile Include="Messages\PerformStateTransitionMessage.cs" />
     <Compile Include="Messages\ShowPropertyEditorMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />

@@ -27,6 +27,7 @@ exports.doVerb = function (req, res) {
                 diagram: null
             }
         };
+        res.setHeader('Content-Type','application/json');
         res.end(JSON.stringify(response));
     });
 };

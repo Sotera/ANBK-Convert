@@ -36,8 +36,8 @@ api.use(function (req, res, next) {
 app.all('/*', api);
 
 api.post('/UserHTTP/ValidateUser', validateUser.doVerb);
-api.post('/UserHTTP/GetReport', getReport.doVerb);
-api.post('/UserHTTP/SaveReport', saveReport.doVerb);
+api.post('/EntityHTTP/GetReport', getReport.doVerb);
+api.post('/EntityHTTP/SaveReport', saveReport.doVerb);
 
 //Startup proxy server
 app.listen(8080, function () {

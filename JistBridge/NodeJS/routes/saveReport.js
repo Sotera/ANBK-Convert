@@ -8,6 +8,7 @@ exports.doVerb = function (req, res) {
             resultCode:1,
             description:'Success'
         };
+        res.setHeader('Content-Type','application/json');
         res.end(JSON.stringify(response));
     });
 };
