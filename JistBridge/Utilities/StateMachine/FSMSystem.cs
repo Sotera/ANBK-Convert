@@ -13,7 +13,9 @@ namespace JistBridge.Utilities.StateMachine
     public enum Transition
     {
         NullTransition, // Use this transition to represent a non-existing transition in your system
-        RecievedFragment
+        RecievedFragment,
+        Cancel
+
     }
 
     /// <summary>

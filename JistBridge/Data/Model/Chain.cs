@@ -56,5 +56,24 @@
                 Right = fragment;
 
         }
+
+        public void Reset()
+        {
+            Left = Right = Center = null;
+        }
+        
+        public bool AreFragmentBoundsInChain(Fragment fragment)
+        {
+            if (Left.ContainsFragment(fragment))
+                return true;
+            if (Right.ContainsFragment(fragment))
+                return true;
+            if (Center.ContainsFragment(fragment))
+                return true;
+
+            return false;
+        }
+
+        
     }
 }

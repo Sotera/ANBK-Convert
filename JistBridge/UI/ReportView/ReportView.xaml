@@ -22,7 +22,7 @@
             </StackPanel>
         </ScrollViewer>
         <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch"/>
-        <richTextBox:RichTextBoxView Grid.Row="2" >
+        <richTextBox:RichTextBoxView x:Name="RichTextBoxViewInstance" Grid.Row="2" >
             <i:Interaction.Behaviors>
                 <behaviors:WordBehavior />
                 <behaviors:ApplyMarkupBehavior/>

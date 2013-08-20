@@ -130,7 +130,7 @@
     <Compile Include="Messages\ShowAboutBoxMessage.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
-    <Compile Include="Messages\FragmentSelectedMessage.cs" />
+    <Compile Include="Messages\FragmentStatusMessage.cs" />
     <Compile Include="UI\AboutBox\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>
@@ -145,6 +145,7 @@
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ReportView\ReportViewModel.cs" />
+    <Compile Include="UI\ReportView\States\FragmentStateBase.cs" />
     <Compile Include="UI\RichTextBox\RichTextBoxView.xaml.cs">
       <DependentUpon>RichTextBoxView.xaml</DependentUpon>
     </Compile>

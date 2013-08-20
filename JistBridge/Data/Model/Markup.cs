@@ -17,7 +17,7 @@ namespace JistBridge.Data.Model
             private set { _markupId = value; }
         }
 
-        public List<Chain> Chains { get; set; }
+        private List<Chain> Chains { get; set; }
 
         public Chain CurrentChain { get; set; }
 
@@ -33,12 +33,27 @@ namespace JistBridge.Data.Model
             ReLinkChains(winner,loser);
         }
 
+        public bool AreFragmentBoundsInMarkup(Fragment fragment)
+        {
+            foreach (var chain in Chains)
+            {
+                if (chain.AreFragmentBoundsInChain(fragment))
+                    return true;
+            }
+            return false;
+        }
+
         private void ReLinkChains(Fragment winner, Fragment loser)
         {
             foreach (var chain in Chains)
             {
                 chain.ConvertFragments(loser, winner);
             }
+        }
+
+        public void AddChain(Chain chain)
+        {
+            Chains.Add(chain);
         }
     }
 }

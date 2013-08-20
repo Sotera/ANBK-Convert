@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
+using JistBridge.Utilities.StateMachine;
 
-namespace JistBridge.Utilities.StateMachine.States
+namespace JistBridge.UI.ReportView.States
 {
-    class WaitForLeftFragmentState: FSMState
+    class WaitForLeftFragmentState: FragmentStateBase
     {
-        public WaitForLeftFragmentState()
+        public WaitForLeftFragmentState(Markup markup)
         {
+            Markup = markup;
             stateID = StateID.WaitingForLeftFragment;
         }
 
-        private void HandleFragmentSelected(Markup markup, Fragment fragment)
+        protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
         {
-            if (markup == null || fragment == null)
-                return;
+            base.HandleFragmentSelected(markup, fragment, status);
 
             if (markup.CurrentChain != null)
             {
@@ -27,21 +23,18 @@ namespace JistBridge.Utilities.StateMachine.States
                 return;
             }
             markup.CurrentChain = new Chain(fragment, null, null);
-            new ChainStatusMessage(this, null, markup.MarkupId, markup.CurrentChain, ChainStatus.LeftFragmentAdded).Send();
+            new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.LeftFragmentAdded).Send();
             new PerformStateTransitionMessage(this, null, Transition.RecievedFragment).Send();
         }
 
-        public override void DoBeforeEntering()
+        protected override void HandleCancelFragment(Markup markup, Fragment fragment, FragmentStatus status)
         {
-            base.DoBeforeEntering();
-            FragmentSelectedMessage.Register(this, msg => HandleFragmentSelected(msg.Markup, msg.Fragment));
-        }
+            base.HandleCancelFragment(markup, fragment, status);
 
-        
-        public override void DoBeforeLeaving()
-        {
-            base.DoBeforeLeaving();
-            FragmentSelectedMessage.Unregister(this);
+            new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.LeftFragmentCanceled).Send();
+            markup.CurrentChain = null;
+                        
+            new PerformStateTransitionMessage(this, null, Transition.Cancel).Send();
         }
     }
 }

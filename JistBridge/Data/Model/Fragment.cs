@@ -28,5 +28,28 @@ namespace JistBridge.Data.Model
         {
             Offsets.AddRange(loser.Offsets);
         }
+
+        public bool ContainsFragment(Fragment fragment)
+        {
+            foreach (var offset in fragment.Offsets)
+            {
+                if (!ContainsOffset(offset))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool ContainsOffset(Range<int> offset)
+        {
+            foreach (var localOffset in Offsets)
+            {
+                if (localOffset.ContainsRange(offset))
+                    return true;
+            }
+            return false;
+        }
+
+
     }
 }

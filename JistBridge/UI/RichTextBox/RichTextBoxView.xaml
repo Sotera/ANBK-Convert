@@ -15,6 +15,6 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox> 
-        <Canvas Background="#00000000"/>
+        <Canvas Name="CanvasInstance" Background="#00000000"/>
     </Grid>
 </UserControl>
