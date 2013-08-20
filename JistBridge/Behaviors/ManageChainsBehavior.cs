@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Interactivity;
 using JistBridge.Data.Model;
+using JistBridge.Interfaces;
 using JistBridge.Messages;
-using JistBridge.UI;
 using JistBridge.UI.ChainCanvas;
-using JistBridge.UI.RichTextBox;
 
 namespace JistBridge.Behaviors
 {
@@ -20,6 +18,10 @@ namespace JistBridge.Behaviors
 
         private void HandleChainMessage(Chain chain, ChainStatus status, Markup markup)
         {
+            var reportViewModel = AssociatedObject.DataContext as IReportViewModel;
+            if (reportViewModel != null && reportViewModel.ReportMarkup != markup)
+                return;
+
             switch (status)
             {
                 case ChainStatus.LeftFragmentAdded:

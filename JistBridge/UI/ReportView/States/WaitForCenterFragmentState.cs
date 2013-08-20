@@ -1,16 +1,16 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
 using JistBridge.Utilities.StateMachine;
 
 namespace JistBridge.UI.ReportView.States
 {
-    
+
     public class WaitForCenterFragmentState : FragmentStateBase
     {
-        public WaitForCenterFragmentState()
+        public WaitForCenterFragmentState(Markup markup)
         {
+            Markup = markup;
             stateID = StateID.WaitingForCenterFragment;
         }
 
@@ -23,7 +23,7 @@ namespace JistBridge.UI.ReportView.States
                 Debug.WriteLine("ERROR: WaitForCenterFragmentState Got a chain with a non null center :(");
                 return;
             }
-            
+
             markup.CurrentChain.Add(fragment);
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.CenterFragmentAdded).Send();
             new PerformStateTransitionMessage(this, null, Transition.RecievedFragment).Send();
@@ -31,12 +31,13 @@ namespace JistBridge.UI.ReportView.States
 
         protected override void HandleCancelFragment(Markup markup, Fragment fragment, FragmentStatus status)
         {
-            base.HandleCancelFragment(markup,fragment,status);
+            base.HandleCancelFragment(markup, fragment, status);
+
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.CenterFragmentCanceled).Send();
             markup.CurrentChain = null;
-                        
+
             new PerformStateTransitionMessage(this, null, Transition.Cancel).Send();
         }
-        
+
     }
 }

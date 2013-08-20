@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JistBridge.Data.Model;
+using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.UI;
 using System.Windows;
@@ -16,17 +17,19 @@ namespace JistBridge.Behaviors
     {
         private TextRange _currentTextRange;
         private RichTextBox _richTextBox;
+        private Canvas _canvas;
 
         protected override void OnAttached()
         {
             _richTextBox = AssociatedObject.RichTextBoxInstance;
+            _canvas = AssociatedObject.CanvasInstance;
             AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
             AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
         }
 
         private void CancelFragment()
         {
-            var viewModel = AssociatedObject.DataContext as RichTextBoxViewModel;
+            var viewModel = AssociatedObject.DataContext as IReportViewModel;
 
             if (viewModel == null)
                 return;
@@ -40,7 +43,7 @@ namespace JistBridge.Behaviors
             if (_richTextBox == null || mouseEventArgs == null)
                 return;
 
-            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox))
+            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
             {
                 SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
                 return;
@@ -71,14 +74,14 @@ namespace JistBridge.Behaviors
             }
             range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
 
-            var offsets = new Range<int>()
+            var offsets = new Range<int>
             {
                 Minimum = _richTextBox.Document.ContentStart.GetOffsetToPosition(range.Start),
                 Maximum = _richTextBox.Document.ContentStart.GetOffsetToPosition(range.End)
             };
 
             var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, range.Text);
-            var viewModel = AssociatedObject.DataContext as RichTextBoxViewModel;
+            var viewModel = AssociatedObject.DataContext as IReportViewModel;
 
             if (viewModel == null)
                 return;
@@ -100,24 +103,18 @@ namespace JistBridge.Behaviors
             range.ApplyPropertyValue(TextElement.FontWeightProperty, weight);
         }
 
-        private static bool UpdateCursor(Point mousePosition, RichTextBox richTextBox)
+        private static bool UpdateCursor(Point mousePosition, RichTextBox richTextBox, Canvas canvas)
         {
             var position = richTextBox.GetPositionFromPoint(mousePosition, false);
-            var mouseIsOverCharacter = position != null;
+            
             if (position == null)
             {
-                if (richTextBox.Cursor == Cursors.Arrow)
-                    return mouseIsOverCharacter;
-
-                richTextBox.Cursor = Cursors.Arrow;
-                return mouseIsOverCharacter;
+                canvas.Cursor = Cursors.Arrow;
+                return false;
             }
 
-            if (richTextBox.Cursor == Cursors.Hand)
-                return mouseIsOverCharacter;
-
-            richTextBox.Cursor = Cursors.Hand;
-            return mouseIsOverCharacter;
+            canvas.Cursor = Cursors.Hand;
+            return true;
         }
 
         protected override void OnDetaching()

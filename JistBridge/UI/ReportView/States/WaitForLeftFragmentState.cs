@@ -7,8 +7,9 @@ namespace JistBridge.UI.ReportView.States
 {
     class WaitForLeftFragmentState: FragmentStateBase
     {
-        public WaitForLeftFragmentState()
+        public WaitForLeftFragmentState(Markup markup)
         {
+            Markup = markup;
             stateID = StateID.WaitingForLeftFragment;
         }
 
@@ -29,6 +30,7 @@ namespace JistBridge.UI.ReportView.States
         protected override void HandleCancelFragment(Markup markup, Fragment fragment, FragmentStatus status)
         {
             base.HandleCancelFragment(markup, fragment, status);
+
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.LeftFragmentCanceled).Send();
             markup.CurrentChain = null;
                         
