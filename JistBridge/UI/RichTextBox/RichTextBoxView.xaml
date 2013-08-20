@@ -7,14 +7,7 @@
 						 d:DesignHeight="300"
 						 d:DesignWidth="300">
     <Grid>
-        <RichTextBox Name ="RichTextBoxInstance" Foreground="Black" Cursor="Hand" IsReadOnly="True">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="{Binding ReportContents, Mode=OneWay}"
-								 Cursor="Hand" />
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox> 
+        <RichTextBox Name ="RichTextBoxInstance" Foreground="Black" Cursor="Hand" IsReadOnly="True"/> 
         <Canvas Name="CanvasInstance" Background="#00000000"/>
     </Grid>
 </UserControl>

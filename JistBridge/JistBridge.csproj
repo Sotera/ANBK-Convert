@@ -152,7 +152,6 @@
     <Compile Include="UI\RichTextBox\RichTextBoxView.xaml.cs">
       <DependentUpon>RichTextBoxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\RichTextBox\RichTextBoxViewModel.cs" />
     <Compile Include="UI\ToolsOptions\ToolsOptions.xaml.cs">
       <DependentUpon>ToolsOptions.xaml</DependentUpon>
     </Compile>

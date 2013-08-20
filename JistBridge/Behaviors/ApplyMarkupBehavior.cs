@@ -1,4 +1,5 @@
-﻿using System.Windows.Interactivity;
+﻿using System.Windows.Controls;
+using System.Windows.Interactivity;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
@@ -10,6 +11,7 @@ namespace JistBridge.Behaviors
     internal class ApplyMarkupBehavior : Behavior<RichTextBoxView>
     {
         private Markup _targetMarkup;
+        private RichTextBox _richTextBox;
         protected override void OnAttached()
         {
             RichTextBoxLoadedMessage.Register(this, msg => HandleRichTextBoxLoaded(msg.Sender));
@@ -42,25 +44,25 @@ namespace JistBridge.Behaviors
             }
         }
 
-        private void Init()
-        {
-            var viewModel = AssociatedObject.DataContext as IReportViewModel;
-            if (viewModel != null)
-                _targetMarkup = viewModel.ReportMarkup;
-        }
-
         private void HandleRichTextBoxLoaded(object sender)
         {
             if (_targetMarkup != null)
                 return;
 
             var richTextBoxView = sender as RichTextBoxView;
-            if (richTextBoxView == null) 
+            if (richTextBoxView == null)
                 return;
+
+            var richTextBox = richTextBoxView.RichTextBoxInstance;
+            if (richTextBox == null)
+                return;
+            _richTextBox = richTextBox;
 
             var viewModel = richTextBoxView.DataContext as IReportViewModel;
             if (viewModel == null)
                 return;
+
+            _richTextBox.Document = viewModel.ReportDocument;
 
             _targetMarkup = viewModel.ReportMarkup;
 

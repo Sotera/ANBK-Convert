@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Windows.Automation.Peers;
+using System.Windows.Documents;
 using JistBridge.Data.Model;
+using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView.States;
@@ -11,16 +14,16 @@ namespace JistBridge.UI.ReportView
 {
 
     [Export(typeof(IReportViewModel))]
-    public class ReportViewModel: IReportViewModel
+    public class ReportViewModel : IReportViewModel
     {
         public IFSMSystem StateMachine { get; private set; }
         private Report _report;
 
-        public const string ReportContentsPropertyName = "ReportContents";
-
-        public string ReportContents
+        //This is not bound, the RichTextBox wont let you.  I set the flow document in the
+        //ApplyMarkupBehavior after the Report View is fully loaded via the event that gets sent.
+        public FlowDocument ReportDocument
         {
-            get { return _report.ReportText; }
+            get { return ConvertReportResponseToFlowDocument(_report.ReportResponse); }
         }
 
         public Markup ReportMarkup
@@ -30,7 +33,7 @@ namespace JistBridge.UI.ReportView
 
         [ImportingConstructor]
         public ReportViewModel(IFSMSystem fsmSystem, IReportService reportService)
-		{
+        {
             reportService.GetReport(
                 (item, error) =>
                 {
@@ -65,11 +68,33 @@ namespace JistBridge.UI.ReportView
                                 waitingForLeftFragmentState);
 
             PerformStateTransitionMessage.Register(this, msg => PerformStateTransition(msg.Transition));
-		}
+        }
 
         private void PerformStateTransition(Transition transition)
         {
             StateMachine.PerformTransition(transition);
+        }
+
+        private static FlowDocument ConvertReportResponseToFlowDocument(GetReportResponse reportResponse)
+        {
+            var blocks = new List<Block>();
+
+            foreach (var textObj in reportResponse.report.texts)
+            {
+                var paragraph = new Paragraph();
+
+                var run = new Run(textObj.text)
+                {
+                    Tag = textObj
+                };
+
+                paragraph.Inlines.Add(run);
+
+                blocks.Add(paragraph);
+            }
+            var flowDoc = new FlowDocument();
+            flowDoc.Blocks.AddRange(blocks);
+            return flowDoc;
         }
     }
 }

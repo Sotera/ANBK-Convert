@@ -1,10 +1,11 @@
-﻿using JistBridge.Data.Model;
+﻿using System.Windows.Documents;
+using JistBridge.Data.Model;
 
 namespace JistBridge.Interfaces
 {
     public interface IReportViewModel
     {
-        string ReportContents { get; }
+        FlowDocument ReportDocument { get; }
         Markup ReportMarkup { get; }
     }
 }
