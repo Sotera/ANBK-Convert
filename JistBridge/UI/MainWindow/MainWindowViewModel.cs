@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Specialized;
+using System.ComponentModel.Composition;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using JistBridge.Interfaces;
@@ -73,6 +74,21 @@ namespace JistBridge.UI.MainWindow {
 
 		public void SetLayoutDocumentPane(LayoutDocumentPane layoutDocumentPane) {
 			_layoutDocumentPane = layoutDocumentPane;
+			_layoutDocumentPane.Children.CollectionChanged += Children_CollectionChanged;
+		}
+
+		void Children_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+			if (e.Action == NotifyCollectionChangedAction.Remove) {
+				var oldItem = e.OldItems[0] as LayoutDocument;
+				if (oldItem == null) {
+					return;
+				}
+				var reportView = oldItem.Content as ReportView.ReportView;
+				if (reportView == null) {
+					return;
+				}
+				reportView.ReportViewModel.GetReportResponse.ReportVisible = false;
+			}
 		}
 
 		private void AddRemoveReportView(AddRemoveReportViewMessage msg) {
