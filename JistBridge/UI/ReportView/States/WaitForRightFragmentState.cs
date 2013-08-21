@@ -16,6 +16,9 @@ namespace JistBridge.Utilities.StateMachine.States
 
         protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
         {
+            if (markup != Markup)
+                return;
+
             base.HandleFragmentSelected(markup, fragment, status);
 
             if (markup.CurrentChain.Center == null || markup.CurrentChain.Left == null)
@@ -33,6 +36,9 @@ namespace JistBridge.Utilities.StateMachine.States
 
         protected override void HandleCancelFragment(Markup markup, Fragment fragment, FragmentStatus status)
         {
+            if (markup != Markup)
+                return;
+
             base.HandleCancelFragment(markup, fragment, status);
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.RightFragmentCanceled).Send();
             new PerformStateTransitionMessage(this, null, Transition.Cancel).Send();

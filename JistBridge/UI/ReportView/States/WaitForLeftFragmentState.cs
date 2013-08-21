@@ -15,6 +15,9 @@ namespace JistBridge.UI.ReportView.States
 
         protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
         {
+            if (markup != Markup)
+                return;
+
             base.HandleFragmentSelected(markup, fragment, status);
 
             if (markup.CurrentChain != null)
@@ -29,6 +32,9 @@ namespace JistBridge.UI.ReportView.States
 
         protected override void HandleCancelFragment(Markup markup, Fragment fragment, FragmentStatus status)
         {
+            if (markup != Markup)
+                return;
+
             base.HandleCancelFragment(markup, fragment, status);
 
             new ChainStatusMessage(this, null, markup, markup.CurrentChain, ChainStatus.LeftFragmentCanceled).Send();

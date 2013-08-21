@@ -6,7 +6,7 @@ namespace JistBridge.UI.ReportView.States
 {
     public class FragmentStateBase : FSMState
     {
-        protected Markup Markup { get; set; }
+        public Markup Markup { get; protected set; }
         protected virtual void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
         {
             if (markup == null || markup != Markup || fragment == null)

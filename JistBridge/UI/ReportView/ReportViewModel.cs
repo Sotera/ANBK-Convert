@@ -9,73 +9,85 @@ using JistBridge.UI.ReportView.States;
 using JistBridge.Utilities.StateMachine;
 using JistBridge.Utilities.StateMachine.States;
 
-namespace JistBridge.UI.ReportView {
-	[Export(typeof (IReportViewModel))]
-	public class ReportViewModel : IReportViewModel {
-		public IFSMSystem StateMachine { get; private set; }
-		private readonly Report _report = new Report();
+namespace JistBridge.UI.ReportView
+{
+    [Export(typeof(IReportViewModel))]
+    public class ReportViewModel : IReportViewModel
+    {
+        public IFSMSystem StateMachine { get; private set; }
+        private readonly Report _report = new Report();
 
-		//This is not bound, the RichTextBox wont let you.  I set the flow document in the
-		//ApplyMarkupBehavior after the Report View is fully loaded via the event that gets sent.
-		public FlowDocument ReportDocument {
-			get { return ConvertReportResponseToFlowDocument(_report.ReportResponse); }
-		}
+        //This is not bound, the RichTextBox wont let you.  I set the flow document in the
+        //ApplyMarkupBehavior after the Report View is fully loaded via the event that gets sent.
+        public FlowDocument ReportDocument
+        {
+            get { return ConvertReportResponseToFlowDocument(_report.ReportResponse); }
+        }
 
-		public Markup ReportMarkup {
-			get { return _report.ReportMarkup; }
-		}
+        public Markup ReportMarkup
+        {
+            get { return _report.ReportMarkup; }
+        }
 
-		public GetReportResponse GetReportResponse {
-			get { return _report.ReportResponse; }
-			set { _report.ReportResponse = value; }
-		}
+        public GetReportResponse GetReportResponse
+        {
+            get { return _report.ReportResponse; }
+            set { _report.ReportResponse = value; }
+        }
 
-		[ImportingConstructor]
-		public ReportViewModel(IFSMSystem fsmSystem) {
-			var waitingForLeftFragmentState = new WaitForLeftFragmentState(ReportMarkup);
-			waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
-			waitingForLeftFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);
+        [ImportingConstructor]
+        public ReportViewModel(IFSMSystem fsmSystem)
+        {
+            var waitingForLeftFragmentState = new WaitForLeftFragmentState(ReportMarkup);
+            waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
+            waitingForLeftFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);
 
-			var waitingForCenterFragmentState = new WaitForCenterFragmentState(ReportMarkup);
-			waitingForCenterFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForRightFragment);
-			waitingForCenterFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);
+            var waitingForCenterFragmentState = new WaitForCenterFragmentState(ReportMarkup);
+            waitingForCenterFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForRightFragment);
+            waitingForCenterFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);
 
-			var waitingForRightFragmentState = new WaitForRightFragmentState(ReportMarkup);
-			waitingForRightFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForLeftFragment);
-			waitingForRightFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForCenterFragment);
+            var waitingForRightFragmentState = new WaitForRightFragmentState(ReportMarkup);
+            waitingForRightFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForLeftFragment);
+            waitingForRightFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForCenterFragment);
 
-			StateMachine = fsmSystem;
-			StateMachine.Start(new List<FSMState> {
+            StateMachine = fsmSystem;
+            StateMachine.Start(new List<FSMState> {
 				waitingForLeftFragmentState,
 				waitingForCenterFragmentState,
 				waitingForRightFragmentState
 			},
-				waitingForLeftFragmentState);
+                waitingForLeftFragmentState);
 
-			PerformStateTransitionMessage.Register(this, msg => PerformStateTransition(msg.Transition));
-		}
+            PerformStateTransitionMessage.Register(this, msg => PerformStateTransition(msg.Sender as FragmentStateBase, msg.Transition));
+        }
 
-		private void PerformStateTransition(Transition transition) {
-			StateMachine.PerformTransition(transition);
-		}
+        private void PerformStateTransition(FragmentStateBase state, Transition transition)
+        {
+            if (state.Markup != ReportMarkup)
+                return;
+            StateMachine.PerformTransition(transition);
+        }
 
-		private static FlowDocument ConvertReportResponseToFlowDocument(GetReportResponse reportResponse) {
-			var blocks = new List<Block>();
+        private static FlowDocument ConvertReportResponseToFlowDocument(GetReportResponse reportResponse)
+        {
+            var blocks = new List<Block>();
 
-			foreach (var textObj in reportResponse.report.texts) {
-				var paragraph = new Paragraph();
+            foreach (var textObj in reportResponse.report.texts)
+            {
+                var paragraph = new Paragraph();
 
-				var run = new Run(textObj.text) {
-					Tag = textObj
-				};
+                var run = new Run(textObj.text)
+                {
+                    Tag = textObj
+                };
 
-				paragraph.Inlines.Add(run);
+                paragraph.Inlines.Add(run);
 
-				blocks.Add(paragraph);
-			}
-			var flowDoc = new FlowDocument();
-			flowDoc.Blocks.AddRange(blocks);
-			return flowDoc;
-		}
-	}
+                blocks.Add(paragraph);
+            }
+            var flowDoc = new FlowDocument();
+            flowDoc.Blocks.AddRange(blocks);
+            return flowDoc;
+        }
+    }
 }
