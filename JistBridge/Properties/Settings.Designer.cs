@@ -71,9 +71,9 @@ namespace JistBridge.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10000")]
-        public uint GetReportPollDelayMS {
+        public int GetReportPollDelayMS {
             get {
-                return ((uint)(this["GetReportPollDelayMS"]));
+                return ((int)(this["GetReportPollDelayMS"]));
             }
             set {
                 this["GetReportPollDelayMS"] = value;

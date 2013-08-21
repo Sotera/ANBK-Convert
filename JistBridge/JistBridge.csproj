@@ -110,6 +110,7 @@
     <Compile Include="Data\Model\Range.cs" />
     <Compile Include="Data\ReST\GetReportResponse.cs" />
     <Compile Include="Data\ReST\ValidateUserResponse.cs" />
+    <Compile Include="Interfaces\IReportListViewModel.cs" />
     <Compile Include="Interfaces\IAnbkOptionsViewModel.cs" />
     <Compile Include="Interfaces\ICidneOptionsViewModel.cs" />
     <Compile Include="Interfaces\IFSMSystem.cs" />
@@ -117,16 +118,17 @@
     <Compile Include="Interfaces\IToolsOptionsViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\IBootstrapTask.cs" />
-    <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Data\Model\Report.cs" />
-    <Compile Include="Data\Model\ReportService.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
+    <Compile Include="Messages\AddRemoveReportViewMessage.cs" />
+    <Compile Include="Messages\SetPropertyEditorTargetMessage.cs" />
+    <Compile Include="Messages\ReportReceivedMessage.cs" />
     <Compile Include="Messages\GetReportRestMessage.cs" />
     <Compile Include="Messages\ValidateUserRestMessage.cs" />
     <Compile Include="Messages\PerformStateTransitionMessage.cs" />
-    <Compile Include="Messages\ShowPropertyEditorMessage.cs" />
+    <Compile Include="Messages\ShowOptionsDialogMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
     <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
     <Compile Include="Messages\ShowModalDialogMessage.cs" />
@@ -144,6 +146,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="UI\ReportList\ReportList.xaml.cs">
+      <DependentUpon>ReportList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ReportList\ReportListViewModel.cs" />
     <Compile Include="UI\ReportView\ReportView.xaml.cs">
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
@@ -157,6 +163,7 @@
     </Compile>
     <Compile Include="UI\ToolsOptions\ToolsOptionsViewModel.cs" />
     <Compile Include="UI\UIHelper.cs" />
+    <Compile Include="UI\ValueConverters\ReportToTextConverter.cs" />
     <Compile Include="UI\ValueConverters\PrependTextConverter.cs" />
     <Compile Include="UI\WordBreaker.cs" />
     <Compile Include="Utilities\Configuration\AnbkOptionsViewModel.cs" />
@@ -221,6 +228,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\MainWindow\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ReportList\ReportList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

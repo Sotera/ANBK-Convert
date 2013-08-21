@@ -14,7 +14,7 @@
     <Setting Name="SaveReportUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="GetReportPollDelayMS" Type="System.UInt32" Scope="User">
+    <Setting Name="GetReportPollDelayMS" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10000</Value>
     </Setting>
     <Setting Name="EnableGetReportPolling" Type="System.Boolean" Scope="User">

@@ -1,7 +1,14 @@
 ﻿using System.Collections.Generic;
+using GalaSoft.MvvmLight;
+using JistBridge.Messages;
+using JistBridge.UI.ReportView;
+
+// ReSharper disable once CSharpWarnings::CS0665
 
 namespace JistBridge.Data.ReST {
-	public class GetReportResponse {
+	public class GetReportResponse : ViewModelBase {
+		private bool _reportVisible;
+
 		public class Report {
 			public class Metadata {
 				public class Fields {
@@ -30,5 +37,34 @@ namespace JistBridge.Data.ReST {
 		public int resultCode { get; set; }
 		public string description { get; set; }
 		public Report report { get; set; }
+
+		public string ShortName {
+			get { return report.metadata.fields.dtg; }
+		}
+
+		private ReportView ReportView { get; set; }
+
+		public bool ReportVisible {
+			get { return _reportVisible; }
+			set {
+				if (_reportVisible = value) {
+					if (ReportView == null) {
+						ReportView = new ReportView {ReportViewModel = {GetReportResponse = this}};
+					}
+					new AddRemoveReportViewMessage(null, null) {
+						Operation = Operation.Add,
+						ReportView = ReportView,
+						TabText = ReportView.ReportViewModel.GetReportResponse.ShortName
+					}.Send();
+				}
+				else {
+					new AddRemoveReportViewMessage(null, null) {
+						Operation = Operation.Remove,
+						ReportView = ReportView
+					}.Send();
+				}
+				RaisePropertyChanged("ReportVisible");
+			}
+		}
 	}
 }

@@ -8,8 +8,19 @@ using RestSharp;
 namespace JistBridge.Bootstrap {
 	[Export(typeof (IBootstrapTask))]
 	internal class RestClientControl : IBootstrapTask {
+		private ICidneOptionsViewModel _cidneOptions;
+
 		[Import]
-		internal IUserConfiguration UserConfiguration { get; set; }
+		internal ICidneOptionsViewModel CidneOptions {
+			get { return _cidneOptions; }
+			set {
+				_cidneOptions = value;
+				//Check to see if we ought to start polling our CIDNE server
+				if (CidneOptions.EnableGetReportPolling) {
+					new GetReportRestMessage(null, null).Send();
+				}
+			}
+		}
 
 		internal RestClientControl() {
 			ValidateUserRestMessage.Register(this, ValidateUserRestMessageHandler);
@@ -17,11 +28,17 @@ namespace JistBridge.Bootstrap {
 		}
 
 		private void GetReportRestMessageHandler(GetReportRestMessage msg) {
-			var retVal = GetRestResponse<GetReportResponse>(UserConfiguration.GetReportUrl, "");
+			var getReportResponse = GetRestResponse<GetReportResponse>(CidneOptions.GetReportUrl, "");
+			if (getReportResponse != null) {
+				new ReportReceivedMessage(null, null){GetReportResponse = getReportResponse}.Send();
+			}
+			if (CidneOptions.EnableGetReportPolling) {
+				new GetReportRestMessage(null, null).SendAfterWaiting(CidneOptions.GetReportPollDelayMS);
+			}
 		}
 
 		private void ValidateUserRestMessageHandler(ValidateUserRestMessage msg) {
-			var retVal = GetRestResponse<ValidateUserResponse>(UserConfiguration.ValidateUserUrl, "ValidateUser");
+			var retVal = GetRestResponse<ValidateUserResponse>(CidneOptions.ValidateUserUrl, "ValidateUser");
 		}
 
 		private T GetRestResponse<T>(string url, string rootElement) where T : new() {

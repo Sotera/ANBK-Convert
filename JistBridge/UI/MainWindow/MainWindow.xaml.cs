@@ -12,7 +12,10 @@ namespace JistBridge.UI.MainWindow {
 
 		[Import]
 		public IMainWindowViewModel MainWindowViewModel {
-			set { DataContext = value; }
+			set {
+				value.SetLayoutDocumentPane(LayoutDocumentPane);
+				DataContext = value;
+			}
 		}
 	}
 }

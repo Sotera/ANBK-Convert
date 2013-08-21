@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.Composition;
 using JistBridge.Interfaces;
+using JistBridge.Messages;
 using JistBridge.Properties;
+
+// ReSharper disable once CSharpWarnings::CS0665
 
 namespace JistBridge.Utilities.Configuration {
 	[Export(typeof (ICidneOptionsViewModel))]
@@ -42,7 +45,7 @@ namespace JistBridge.Utilities.Configuration {
 		[Category("GetReport Service Polling")]
 		[DisplayName("Polling Delay (ms)")]
 		[Description("Time between calls to GetReport ReST service, in milliseconds.")]
-		public uint GetReportPollDelayMS {
+		public int GetReportPollDelayMS {
 			get { return Settings.Default.GetReportPollDelayMS; }
 			set {
 				Settings.Default.GetReportPollDelayMS = value;
@@ -56,7 +59,9 @@ namespace JistBridge.Utilities.Configuration {
 		public bool EnableGetReportPolling {
 			get { return Settings.Default.EnableGetReportPolling; }
 			set {
-				Settings.Default.EnableGetReportPolling = value;
+				if (Settings.Default.EnableGetReportPolling = value) {
+					new GetReportRestMessage(null, null).Send();
+				}
 				Settings.Default.Save();
 			}
 		}

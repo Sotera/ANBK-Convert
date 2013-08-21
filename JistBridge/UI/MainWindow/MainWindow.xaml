@@ -6,6 +6,7 @@
 				xmlns:reportView="clr-namespace:JistBridge.UI.ReportView"
 				xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 				xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+				xmlns:reportList="clr-namespace:JistBridge.UI.ReportList"
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
@@ -29,7 +30,7 @@
 			</MenuItem>
 			<MenuItem Header="_Tools">
 				<MenuItem Header="_Options"
-									Command="{Binding ShowPropertyEditorCommand}" />
+									Command="{Binding ShowOptionsDialogCommand}" />
 			</MenuItem>
 			<MenuItem Header="_Help">
 				<StackPanel Orientation="Horizontal"
@@ -88,7 +89,7 @@
 																		 CanHide="False"
 																		 CanClose="False"
 																		 AutoHideWidth="240">
-								<TextBox Text="Here be the reports" />
+								<reportList:ReportList />
 							</xcad:LayoutAnchorable>
 						</xcad:LayoutAnchorablePane>
 						<xcad:LayoutAnchorablePane DockWidth="200">
@@ -98,17 +99,19 @@
 																		 CanClose="False"
 																		 AutoHideWidth="240">
 								<xctk:PropertyGrid NameColumnWidth="110"
-																	 SelectedObject="{Binding ElementName=_layoutRoot, Path=LastFocusedDocument.Content}" />
+																	 SelectedObject="{Binding PropertyEditorTarget}" />
 							</xcad:LayoutAnchorable>
 						</xcad:LayoutAnchorablePane>
 					</xcad:LayoutAnchorablePaneGroup>
 					<xcad:LayoutDocumentPaneGroup>
-						<xcad:LayoutDocumentPane>
+						<xcad:LayoutDocumentPane x:Name="LayoutDocumentPane" />
+						<!--
+						<xcad:LayoutDocumentPane Children="{Binding LayoutDocuments}">
 							<xcad:LayoutDocument ContentId="Doc1"
 																	 Title="Doc 1">
-								<reportView:ReportView />
 							</xcad:LayoutDocument>
 						</xcad:LayoutDocumentPane>
+-->
 					</xcad:LayoutDocumentPaneGroup>
 				</xcad:LayoutPanel>
 			</xcad:LayoutRoot>

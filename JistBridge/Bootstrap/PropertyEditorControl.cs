@@ -11,7 +11,7 @@ namespace JistBridge.Bootstrap {
 		internal ToolsOptions ToolsOptions { get; set; }
 
 		internal PropertyEditorControl() {
-			ShowPropertyEditorMessage.Register(this, msg => new ShowModalDialogMessage(msg.Sender, msg.Target) {
+			ShowOptionsDialogMessage.Register(this, msg => new ShowModalDialogMessage(msg.Sender, msg.Target) {
 				Type = ShowModalDialogMessage.DialogType.Custom,
 				ContainedControl = ToolsOptions,
 				DialogMode = DialogMode.Ok

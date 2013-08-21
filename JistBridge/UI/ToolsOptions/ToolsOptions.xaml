@@ -9,9 +9,9 @@
 						 d:DesignWidth="300">
 	<Grid>
 		<TabControl>
-			<TabItem Header="ANBK">
+			<!--<TabItem Header="ANBK">
 				<xctk:PropertyGrid SelectedObject="{Binding AnbkOptionsViewModel}" />
-			</TabItem>
+			</TabItem>-->
 			<TabItem Header="CIDNE">
 				<xctk:PropertyGrid SelectedObject="{Binding CidneOptionsViewModel}" />
 			</TabItem>
