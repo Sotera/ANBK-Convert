@@ -46,10 +46,45 @@ namespace JistBridge.UI
 	    public static void ApplyFormatToRange(Range<int> offset, System.Windows.Controls.RichTextBox richTextBox, SolidColorBrush background)
 	    {
 	        var contentStart = richTextBox.Document.ContentStart;
+	        var start = GetPointerFromCharOffset(offset.Minimum, contentStart, richTextBox.Document);
+            var end = GetPointerFromCharOffset(offset.Maximum, contentStart, richTextBox.Document);
 
-            var range = new TextRange(contentStart.GetPositionAtOffset(offset.Minimum,LogicalDirection.Forward),
-                                            contentStart.GetPositionAtOffset(offset.Maximum, LogicalDirection.Forward));
+            var range = new TextRange(start,end);
 	        range.ApplyPropertyValue(TextElement.BackgroundProperty, background);
 	    }
+
+        private static TextPointer GetPointerFromCharOffset(int charOffset, TextPointer startPointer, FlowDocument document)
+        {
+            TextPointer navigator = startPointer;
+            if (charOffset == 0)
+            {
+                return navigator;
+            }
+
+            TextPointer nextPointer = navigator;
+            int counter = 0;
+            while (nextPointer != null && counter < charOffset)
+            {
+                if (nextPointer.CompareTo(document.ContentEnd) == 0)
+                {
+                    // If we reach to the end of document, return the EOF pointer.
+                    return nextPointer;
+                }
+                if (nextPointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                {
+                    nextPointer = nextPointer.GetPositionAtOffset(1, LogicalDirection.Forward);
+                    counter++;
+                }
+                else
+                {
+                    // If the current pointer is not pointing at a character, we should move to next insertion point
+                    // without incrementing the character counter.
+                    nextPointer = nextPointer.GetPositionAtOffset(1, LogicalDirection.Forward);
+                    //nextPointer = nextPointer.GetNextInsertionPosition(LogicalDirection.Forward);
+                }
+            }
+
+            return nextPointer;
+        }
 	}
 }
