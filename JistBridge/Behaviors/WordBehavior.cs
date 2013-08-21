@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
@@ -45,17 +46,15 @@ namespace JistBridge.Behaviors
 
             if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
             {
-                SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
+                UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
                 return;
             }
             var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
             if (_currentTextRange == range)
                 return;
 
-            SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
-
-            if (range != null)
-                SetFont(range, Brushes.DarkRed, FontWeights.UltraBlack);
+            UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
+            UIHelper.HighlightRange(range);
 
             _currentTextRange = range;
 
@@ -72,35 +71,47 @@ namespace JistBridge.Behaviors
                 CancelFragment();
                 return;
             }
-            range.ApplyPropertyValue(TextElement.BackgroundProperty, Brushes.CornflowerBlue);
+            var startString = new TextRange(_richTextBox.Document.ContentStart, range.Start).Text;
+            startString = startString.Replace(Environment.NewLine, "");
+            var startToStart = startString.Length;
 
+            var endString = new TextRange(_richTextBox.Document.ContentStart, range.End).Text;
+            endString = endString.Replace(Environment.NewLine, "");
+            var startToEnd = endString.Length;
+            
             var offsets = new Range<int>
             {
-                Minimum = _richTextBox.Document.ContentStart.GetOffsetToPosition(range.Start),
-                Maximum = _richTextBox.Document.ContentStart.GetOffsetToPosition(range.End)
+                Minimum = startToStart,
+                Maximum = startToEnd
             };
+            var sourceOffset = GetSourceOffset(range);
+            var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, range.Text,sourceOffset);
+            
+            UIHelper.DrawFragment(fragment,_richTextBox);
 
-            var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, range.Text);
             var viewModel = AssociatedObject.DataContext as IReportViewModel;
-
             if (viewModel == null)
                 return;
 
             new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Selected).Send();
         }
 
+        private static int GetSourceOffset(TextRange range)
+        {
+            if (range == null || range.Start == null || range.Start.Parent == null)
+                return -1;
+            
+            var frameworkElement = range.Start.Parent as FrameworkElement;
+            if (frameworkElement == null)
+                return -1;
+
+            return (int)frameworkElement.Tag;
+        }
+
         private static TextRange GetWordRange(Point point, RichTextBox richTextBox)
         {
             var position = richTextBox.GetPositionFromPoint(point, false);
             return position == null ? null : WordBreaker.GetWordRange(position);
-        }
-
-        private static void SetFont(TextRange range, Brush brush, FontWeight weight)
-        {
-            if (range == null)
-                return;
-            range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
-            range.ApplyPropertyValue(TextElement.FontWeightProperty, weight);
         }
 
         private static bool UpdateCursor(Point mousePosition, RichTextBox richTextBox, Canvas canvas)

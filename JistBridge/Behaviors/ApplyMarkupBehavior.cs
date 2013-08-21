@@ -29,16 +29,19 @@ namespace JistBridge.Behaviors
                 case ChainStatus.LeftFragmentCanceled:
                     {
                         RemoveFragment(chain.Left);
+                        chain.Left = null;
                         break;
                     }
                 case ChainStatus.CenterFragmentCanceled:
                     {
                         RemoveFragment(chain.Left);
+                        chain.Left = null;
                         break;
                     }
                 case ChainStatus.RightFragmentCanceled:
                     {
                         RemoveFragment(chain.Center);
+                        chain.Center = null;
                         break;
                     }
             }
@@ -77,6 +80,8 @@ namespace JistBridge.Behaviors
                 return;
 
             var markup = viewModel.ReportMarkup;
+            if (markup == null)
+                return;
 
             if (markup.AreFragmentBoundsInMarkup(fragment))
                 return;
