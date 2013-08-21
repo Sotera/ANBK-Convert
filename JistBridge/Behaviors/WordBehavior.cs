@@ -40,24 +40,21 @@ namespace JistBridge.Behaviors
 
         private void AssociatedObject_MouseMove(object sender, RoutedEventArgs e)
         {
-            return;
             var mouseEventArgs = e as MouseEventArgs;
             if (_richTextBox == null || mouseEventArgs == null)
                 return;
 
             if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
             {
-                SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
+                UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
                 return;
             }
             var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
             if (_currentTextRange == range)
                 return;
 
-            SetFont(_currentTextRange, Brushes.Black, FontWeights.Normal);
-
-            if (range != null)
-                SetFont(range, Brushes.DarkRed, FontWeights.UltraBlack);
+            UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
+            UIHelper.HighlightRange(range);
 
             _currentTextRange = range;
 
@@ -115,14 +112,6 @@ namespace JistBridge.Behaviors
         {
             var position = richTextBox.GetPositionFromPoint(point, false);
             return position == null ? null : WordBreaker.GetWordRange(position);
-        }
-
-        private static void SetFont(TextRange range, Brush brush, FontWeight weight)
-        {
-            if (range == null)
-                return;
-            range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
-            range.ApplyPropertyValue(TextElement.FontWeightProperty, weight);
         }
 
         private static bool UpdateCursor(Point mousePosition, RichTextBox richTextBox, Canvas canvas)
