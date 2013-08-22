@@ -1,35 +1,25 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
+using JistBridge.Properties;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace JistBridge.UI.MainWindow {
 	[Export(typeof (IMainWindowViewModel))]
 	public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel {
-		private LayoutDocumentPane _layoutDocumentPane;
+		private LayoutDocumentPane LayoutDocumentPane { get; set; }
 		private object _propertyEditorTarget;
-		public static IAppConfiguration StaticAppConfiguration { get; private set; }
-		public static IUserConfiguration StaticUserConfiguration { get; private set; }
 
 		public MainWindowViewModel() {
-			SetPropertyEditorTargetMessage.Register(this, msg => { PropertyEditorTarget = msg.PropertiesObject; });
+			SetPropertyEditorTargetMessage.Register(this, msg => {
+				PropertyEditorTarget = msg.PropertiesObject;
+
+			});
 			AddRemoveReportViewMessage.Register(this, AddRemoveReportView);
-		}
-
-
-		[Import(typeof (IAppConfiguration))]
-		public IAppConfiguration AppConfiguration {
-			get { return StaticAppConfiguration; }
-			set { StaticAppConfiguration = value; }
-		}
-
-		[Import(typeof (IUserConfiguration))]
-		public IUserConfiguration UserConfiguration {
-			get { return StaticUserConfiguration; }
-			set { StaticUserConfiguration = value; }
 		}
 
 		public string StatusMessage {
@@ -44,20 +34,8 @@ namespace JistBridge.UI.MainWindow {
 			}
 		}
 
-		public RelayCommand GetReportRestTest {
-			get { return new RelayCommand(() => new GetReportRestMessage(null, null).Send()); }
-		}
-
-		public RelayCommand ValidateUserRestTest {
-			get { return new RelayCommand(() => new ValidateUserRestMessage(null, null).Send()); }
-		}
-
 		public RelayCommand ShowOptionsDialogCommand {
-			get {
-				return new RelayCommand(() => new ShowOptionsDialogMessage(null, null) {
-					PropertiesObject = UserConfiguration
-				}.Send());
-			}
+			get { return new RelayCommand(() => new ShowOptionsDialogMessage(null, null).Send()); }
 		}
 
 		public RelayCommand ShowAboutBoxCommand {
@@ -69,45 +47,40 @@ namespace JistBridge.UI.MainWindow {
 		}
 
 		public string Title {
-			get { return AppConfiguration.ApplicationName; }
+			get { return Settings.Default.ApplicationName; }
 		}
 
 		public void SetLayoutDocumentPane(LayoutDocumentPane layoutDocumentPane) {
-			_layoutDocumentPane = layoutDocumentPane;
-			_layoutDocumentPane.Children.CollectionChanged += Children_CollectionChanged;
-		}
-
-		void Children_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
-			if (e.Action == NotifyCollectionChangedAction.Remove) {
-				var oldItem = e.OldItems[0] as LayoutDocument;
-				if (oldItem == null) {
+			LayoutDocumentPane = layoutDocumentPane;
+			LayoutDocumentPane.Children.CollectionChanged += (s, ea) => {
+				//The only reason we care about this event is that when the user closes
+				//a tab by clicking on its 'x' the checkbox in the 'Reports' panel needs
+				//to be cleared.
+				if (ea.Action != NotifyCollectionChangedAction.Remove) {
 					return;
 				}
-				var reportView = oldItem.Content as ReportView.ReportView;
-				if (reportView == null) {
-					return;
-				}
+				var oldItem = (LayoutDocument) ea.OldItems[0];
+				var reportView = (ReportView.ReportView) oldItem.Content;
 				reportView.ReportViewModel.GetReportResponse.ReportVisible = false;
-			}
+			};
 		}
 
 		private void AddRemoveReportView(AddRemoveReportViewMessage msg) {
-			if (msg.Operation == Operation.Add) {
-				var layoutDocument = new LayoutDocument {
-					Title = msg.TabText,
-					Content = msg.ReportView
-				};
-				_layoutDocumentPane.Children.Add(layoutDocument);
-			}
-			else if (msg.Operation == Operation.Remove) {
-				foreach (var child in _layoutDocumentPane.Children) {
+			switch (msg.Operation) {
+				case Operation.Add:
+					LayoutDocumentPane.Children.Add(
+						new LayoutDocument {
+							Title = msg.TabText,
+							Content = msg.ReportView
+						});
+					break;
+				case Operation.Remove:
 					// ReSharper disable once PossibleUnintendedReferenceComparison
-					if (child.Content == msg.ReportView) {
-						child.Content = null;
-						_layoutDocumentPane.Children.Remove(child);
-						return;
+					var children = LayoutDocumentPane.Children.Where(c => c.Content == msg.ReportView).ToArray();
+					if (children.Length == 1) {
+						LayoutDocumentPane.Children.Remove(children[0]);
 					}
-				}
+					break;
 			}
 		}
 	}

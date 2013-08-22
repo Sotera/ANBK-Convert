@@ -8,7 +8,13 @@ using JistBridge.Properties;
 
 namespace JistBridge.Utilities.Configuration {
 	[Export(typeof (ICidneOptionsViewModel))]
+	[DisplayName("CIDNE Configuration")]
 	internal class CidneOptionsViewModel : ICidneOptionsViewModel {
+		//Avoid 'no "Name"' exception out of XCeed PropertyGrid control
+		public string Name {
+			get { return ""; }
+		}
+
 		[Category("ReST Services URLs")]
 		[DisplayName("Validate User")]
 		[Description("URL for the ValidateUser ReST call.")]

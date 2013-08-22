@@ -3,12 +3,12 @@ var netHelpers = require('../utilExports/netHelpers')
 
 exports.doVerb = function (req, res) {
     netHelpers.getPostBuffer(req, function (postBuffer) {
-/*        res.end('{}');
-        return;
-        if ((getRandomInt(1, 4) % 3) != 2) {
-            res.end('{}');
-            return;
-        }*/
+        /*        res.end('{}');
+         return;
+         if ((getRandomInt(1, 4) % 3) != 2) {
+         res.end('{}');
+         return;
+         }*/
         var userCreds = querystring.parse(postBuffer.utf8Data);
         var response = {
             resultCode: 1,
@@ -36,8 +36,10 @@ exports.doVerb = function (req, res) {
             initOffset += getRandomInt(200, 400);
         }
 
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(response));
+        setTimeout(function () {
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(response));
+        }, 500);
     });
 };
 

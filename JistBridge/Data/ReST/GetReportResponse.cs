@@ -44,9 +44,18 @@ namespace JistBridge.Data.ReST {
 
 		private ReportView ReportView { get; set; }
 
+		public int TextsCount {
+			get {
+				return report.texts.Count;
+			}
+		} 
+
 		public bool ReportVisible {
 			get { return _reportVisible; }
 			set {
+				if (value == _reportVisible) {
+					return;
+				}
 				if (_reportVisible = value) {
 					if (ReportView == null) {
 						ReportView = new ReportView {ReportViewModel = {GetReportResponse = this}};

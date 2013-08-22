@@ -3,7 +3,6 @@
 				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				xmlns:valueConverters="clr-namespace:JistBridge.UI.ValueConverters"
-				xmlns:reportView="clr-namespace:JistBridge.UI.ReportView"
 				xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 				xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
 				xmlns:reportList="clr-namespace:JistBridge.UI.ReportList"
@@ -23,8 +22,6 @@
 		</Grid.RowDefinitions>
 		<Menu Grid.Row="0">
 			<MenuItem Header="_File">
-				<MenuItem Header="Get Report ReST Test"
-									Command="{Binding GetReportRestTest}" />
 				<MenuItem Header="E_xit"
 									Command="{Binding ExitCommand}" />
 			</MenuItem>
@@ -33,8 +30,7 @@
 									Command="{Binding ShowOptionsDialogCommand}" />
 			</MenuItem>
 			<MenuItem Header="_Help">
-				<StackPanel Orientation="Horizontal"
-										Margin="0,0,0,0">
+				<StackPanel Orientation="Horizontal">
 					<TextBlock Text="Theme:"
 										 Margin="0,0,10,0"
 										 VerticalAlignment="Center" />
@@ -79,7 +75,7 @@
 					</StackPanel>
 				</DataTemplate>
 			</xcad:DockingManager.DocumentHeaderTemplate>
-			<xcad:LayoutRoot x:Name="_layoutRoot">
+			<xcad:LayoutRoot>
 				<xcad:LayoutPanel Orientation="Horizontal">
 					<xcad:LayoutAnchorablePaneGroup Orientation="Vertical"
 																					DockWidth="200">
@@ -105,17 +101,9 @@
 					</xcad:LayoutAnchorablePaneGroup>
 					<xcad:LayoutDocumentPaneGroup>
 						<xcad:LayoutDocumentPane x:Name="LayoutDocumentPane" />
-						<!--
-						<xcad:LayoutDocumentPane Children="{Binding LayoutDocuments}">
-							<xcad:LayoutDocument ContentId="Doc1"
-																	 Title="Doc 1">
-							</xcad:LayoutDocument>
-						</xcad:LayoutDocumentPane>
--->
 					</xcad:LayoutDocumentPaneGroup>
 				</xcad:LayoutPanel>
 			</xcad:LayoutRoot>
-
 		</xcad:DockingManager>
 		<StatusBar Grid.Row="2"
 							 VerticalAlignment="Bottom"

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
@@ -33,10 +34,18 @@ namespace JistBridge.Messages {
 
 		private void InternalSend(int delayInMilleseconds = 0) {
 			if (delayInMilleseconds > 0) {
+				var worker = new BackgroundWorker();
+				worker.DoWork += (o, ea) => {
+					Thread.Sleep(delayInMilleseconds);
+					InternalSendOnUIThread();
+				};
+				worker.RunWorkerAsync();
+/*
 				new Thread(() => {
 					Thread.Sleep(delayInMilleseconds);
 					InternalSendOnUIThread();
 				}) {IsBackground = true}.Start();
+*/
 			}
 			else {
 				InternalSendOnUIThread();

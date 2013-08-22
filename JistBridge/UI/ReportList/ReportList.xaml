@@ -17,7 +17,8 @@
 		<ListBox.ItemTemplate>
 			<DataTemplate>
 				<StackPanel Orientation="Horizontal">
-					<CheckBox IsChecked="{Binding ReportVisible, Mode=TwoWay}"/>
+					<CheckBox IsChecked="{Binding ReportVisible, Mode=TwoWay}"
+										Margin="0,7,0,0"/>
 					<Label Content="{Binding ShortName}"/>
 				</StackPanel>
 			</DataTemplate>
