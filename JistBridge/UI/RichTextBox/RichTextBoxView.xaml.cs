@@ -10,7 +10,7 @@ namespace JistBridge.UI.RichTextBox
     {
         private void RtbLoaded(object obj, DependencyPropertyChangedEventArgs args)
         {
-            new RichTextBoxLoadedMessage(this, null).Send();
+            new RichTextBoxLoadedMessage(this, null).Send(this);
             IsVisibleChanged -= RtbLoaded;
         }
 

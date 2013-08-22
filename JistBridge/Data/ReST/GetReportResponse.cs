@@ -45,10 +45,8 @@ namespace JistBridge.Data.ReST {
 		private ReportView ReportView { get; set; }
 
 		public int TextsCount {
-			get {
-				return report.texts.Count;
-			}
-		} 
+			get { return report.texts.Count; }
+		}
 
 		public bool ReportVisible {
 			get { return _reportVisible; }
@@ -57,18 +55,11 @@ namespace JistBridge.Data.ReST {
 					return;
 				}
 				if (_reportVisible = value) {
-<<<<<<< HEAD
 					if (ReportView == null) {
 						ReportView = new ReportView();
 						ReportView.ReportViewModel.GetReportResponse = this;
-=======
-					if (ReportView == null)
-					{
-					    ReportView = new ReportView();
-					    ReportView.ReportViewModel.GetReportResponse = this;
->>>>>>> 50e8701dd6a8d7f1ba5bbbbab796c221838632f1
 					}
-				    new AddRemoveReportViewMessage(null, null) {
+					new AddRemoveReportViewMessage(null, null) {
 						Operation = Operation.Add,
 						ReportView = ReportView,
 						TabText = ReportView.ReportViewModel.GetReportResponse.ShortName

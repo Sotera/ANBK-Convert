@@ -13,6 +13,10 @@ namespace JistBridge.Messages {
 		public BaseMessage(object sender, object target)
 			: base(sender, target, "", msg => { }) {}
 
+		public static void Register(object recipient, object token, Action<T> action) {
+			Messenger.Default.Register(recipient, token, action);
+		}
+
 		public static void Register(object recipient, Action<T> action) {
 			Messenger.Default.Register(recipient, action);
 		}
@@ -25,19 +29,19 @@ namespace JistBridge.Messages {
 			InternalSend(milleseconds);
 		}
 
-		public void Send() {
+		public void Send(object token = null) {
+			InternalSend(0, token);
+		}
+
+		private void InternalSend(int delayInMilleseconds = 0, object token = null) {
 			if (ViewModelBase.IsInDesignModeStatic) {
 				return;
 			}
-			InternalSend();
-		}
-
-		private void InternalSend(int delayInMilleseconds = 0) {
 			if (delayInMilleseconds > 0) {
 				var worker = new BackgroundWorker();
 				worker.DoWork += (o, ea) => {
 					Thread.Sleep(delayInMilleseconds);
-					InternalSendOnUIThread();
+					InternalSendOnUIThread(token);
 				};
 				worker.RunWorkerAsync();
 /*
@@ -48,16 +52,28 @@ namespace JistBridge.Messages {
 */
 			}
 			else {
-				InternalSendOnUIThread();
+				InternalSendOnUIThread(token);
 			}
 		}
 
-		private void InternalSendOnUIThread() {
+		private void InternalSendOnUIThread(object token = null) {
 			if (!DispatcherHelper.UIDispatcher.CheckAccess()) {
-				DispatcherHelper.UIDispatcher.Invoke(() => Messenger.Default.Send(this as T));
+				DispatcherHelper.UIDispatcher.Invoke(() => {
+					if (token != null) {
+						Messenger.Default.Send(this as T, token);
+					}
+					else {
+						Messenger.Default.Send(this as T);
+					}
+				});
 			}
 			else {
-				Messenger.Default.Send(this as T);
+				if (token != null) {
+					Messenger.Default.Send(this as T, token);
+				}
+				else {
+					Messenger.Default.Send(this as T);
+				}
 			}
 		}
 	}

@@ -6,98 +6,94 @@ using JistBridge.Messages;
 using JistBridge.UI;
 using JistBridge.UI.RichTextBox;
 
-namespace JistBridge.Behaviors
-{
-    internal class ApplyMarkupBehavior : Behavior<RichTextBoxView>
-    {
-        private Markup _targetMarkup;
-        private RichTextBox _richTextBox;
-        protected override void OnAttached()
-        {
-            RichTextBoxLoadedMessage.Register(this, msg => HandleRichTextBoxLoaded(msg.Sender));
-            ChainStatusMessage.Register(this, msg => HandleChainMessage(msg.Chain, msg.Status, msg.Markup));
-        }
+namespace JistBridge.Behaviors {
+	internal class ApplyMarkupBehavior : Behavior<RichTextBoxView> {
+		private Markup _targetMarkup;
+		private RichTextBox _richTextBox;
 
-        private void HandleChainMessage(Chain chain, ChainStatus status, Markup markup)
-        {
-            if (markup == null || markup != _targetMarkup || chain == null)
-                return;
+		protected override void OnAttached() {
+			RichTextBoxLoadedMessage.Register(this, AssociatedObject, msg => HandleRichTextBoxLoaded(msg.Sender));
+			ChainStatusMessage.Register(this, msg => HandleChainMessage(msg.Chain, msg.Status, msg.Markup));
+		}
 
-            switch (status)
-            {
+		private void HandleChainMessage(Chain chain, ChainStatus status, Markup markup) {
+			if (markup == null || markup != _targetMarkup || chain == null) {
+				return;
+			}
 
-                case ChainStatus.LeftFragmentCanceled:
-                    {
-                        RemoveFragment(chain.Left);
-                        chain.Left = null;
-                        break;
-                    }
-                case ChainStatus.CenterFragmentCanceled:
-                    {
-                        RemoveFragment(chain.Left);
-                        chain.Left = null;
-                        break;
-                    }
-                case ChainStatus.RightFragmentCanceled:
-                    {
-                        RemoveFragment(chain.Center);
-                        chain.Center = null;
-                        break;
-                    }
-            }
-        }
+			switch (status) {
+				case ChainStatus.LeftFragmentCanceled: {
+					RemoveFragment(chain.Left);
+					chain.Left = null;
+					break;
+				}
+				case ChainStatus.CenterFragmentCanceled: {
+					RemoveFragment(chain.Left);
+					chain.Left = null;
+					break;
+				}
+				case ChainStatus.RightFragmentCanceled: {
+					RemoveFragment(chain.Center);
+					chain.Center = null;
+					break;
+				}
+			}
+		}
 
-        private void HandleRichTextBoxLoaded(object sender)
-        {
-            if (_targetMarkup != null || AssociatedObject != sender)
-                return;
+		private void HandleRichTextBoxLoaded(object sender) {
+			if (_targetMarkup != null) {
+				return;
+			}
 
-            var richTextBoxView = sender as RichTextBoxView;
-            if (richTextBoxView == null)
-                return;
+			var richTextBoxView = sender as RichTextBoxView;
+			if (richTextBoxView == null) {
+				return;
+			}
 
-            var richTextBox = richTextBoxView.RichTextBoxInstance;
-            if (richTextBox == null)
-                return;
-            _richTextBox = richTextBox;
+			var richTextBox = richTextBoxView.RichTextBoxInstance;
+			if (richTextBox == null) {
+				return;
+			}
+			_richTextBox = richTextBox;
 
-            var viewModel = richTextBoxView.DataContext as IReportViewModel;
-            if (viewModel == null)
-                return;
+			var viewModel = richTextBoxView.DataContext as IReportViewModel;
+			if (viewModel == null) {
+				return;
+			}
 
-            _richTextBox.Document = viewModel.ReportDocument;
+			_richTextBox.Document = viewModel.ReportDocument;
 
-            _targetMarkup = viewModel.ReportMarkup;
+			_targetMarkup = viewModel.ReportMarkup;
 
-            ApplyMarkup(_targetMarkup);
-        }
+			ApplyMarkup(_targetMarkup);
+		}
 
-        private void RemoveFragment(Fragment fragment)
-        {
-            var viewModel = AssociatedObject.DataContext as IReportViewModel;
+		private void RemoveFragment(Fragment fragment) {
+			var viewModel = AssociatedObject.DataContext as IReportViewModel;
 
-            if (viewModel == null)
-                return;
+			if (viewModel == null) {
+				return;
+			}
 
-            var markup = viewModel.ReportMarkup;
-            if (markup == null)
-                return;
+			var markup = viewModel.ReportMarkup;
+			if (markup == null) {
+				return;
+			}
 
-            if (markup.AreFragmentBoundsInMarkup(fragment))
-                return;
+			if (markup.AreFragmentBoundsInMarkup(fragment)) {
+				return;
+			}
 
-            UIHelper.ClearFragment(fragment, AssociatedObject.RichTextBoxInstance);
-        }
-        private void ApplyMarkup(Markup markup)
-        {
+			UIHelper.ClearFragment(fragment, AssociatedObject.RichTextBoxInstance);
+		}
 
-            //TODO:Apply all of the markup chains to the Rich Text Box
-        }
+		private void ApplyMarkup(Markup markup) {
+			//TODO:Apply all of the markup chains to the Rich Text Box
+		}
 
-        protected override void OnDetaching()
-        {
-            RichTextBoxLoadedMessage.Unregister(this);
-            ChainStatusMessage.Unregister(this);
-        }
-    }
+		protected override void OnDetaching() {
+			RichTextBoxLoadedMessage.Unregister(this);
+			ChainStatusMessage.Unregister(this);
+		}
+	}
 }
