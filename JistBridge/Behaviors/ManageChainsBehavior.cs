@@ -106,7 +106,6 @@ namespace JistBridge.Behaviors
 
         protected override void OnDetaching()
         {
-            RichTextBoxLoadedMessage.Unregister(this);
         }
     }
 }

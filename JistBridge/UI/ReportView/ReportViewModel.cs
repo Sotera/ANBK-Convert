@@ -7,7 +7,6 @@ using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView.States;
 using JistBridge.Utilities.StateMachine;
-using JistBridge.Utilities.StateMachine.States;
 
 namespace JistBridge.UI.ReportView
 {

@@ -49,7 +49,7 @@ namespace JistBridge.Behaviors
 
         private void HandleRichTextBoxLoaded(object sender)
         {
-            if (_targetMarkup != null)
+            if (_targetMarkup != null || AssociatedObject != sender)
                 return;
 
             var richTextBoxView = sender as RichTextBoxView;
