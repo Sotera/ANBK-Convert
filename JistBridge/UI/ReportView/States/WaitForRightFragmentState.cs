@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
-using JistBridge.UI.ReportView.States;
+using JistBridge.Utilities.StateMachine;
 
-namespace JistBridge.Utilities.StateMachine.States
+namespace JistBridge.UI.ReportView.States
 {
 
     public class WaitForRightFragmentState : FragmentStateBase
