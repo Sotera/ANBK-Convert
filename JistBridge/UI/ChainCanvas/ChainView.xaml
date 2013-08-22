@@ -3,19 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local ="clr-namespace:JistBridge.UI.ChainCanvas"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:JistBridge.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="400">
-    <Grid Margin="5">
+    <Grid Margin="5" d:DataContext="{d:DesignInstance Type=local:ChainCanvasViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20"/>
-        <Label Name ="LeftLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">???</Label>
-        <Rectangle Name="Center" Height="2" Fill="#FFBC2E2E" Grid.Column="1"/>
-        <Label Name ="CenterLabel"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" >???</Label>
-        <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20"></Rectangle>
-        <Label Name ="RightLabel"  Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">???</Label>
+        <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20">
+            <i:Interaction.Behaviors>
+                <behaviors:ChainNodeBehavior />
+            </i:Interaction.Behaviors>
+        </Rectangle>
+        <Label x:Name ="LeftLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding LeftFragment.DisplayText}" IsHitTestVisible="False"/>
+        <Rectangle Name="Center" Height="4" Fill="#FFBC2E2E" Grid.Column="1">
+            <i:Interaction.Behaviors>
+                <behaviors:ChainNodeBehavior />
+            </i:Interaction.Behaviors>
+        </Rectangle>
+        <Label x:Name ="CenterLabel"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding CenterFragment.DisplayText}" IsHitTestVisible="False" />
+        <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20">
+            <i:Interaction.Behaviors>
+                <behaviors:ChainNodeBehavior />
+            </i:Interaction.Behaviors>
+        </Rectangle>
+        <Label x:Name ="RightLabel"  Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding RightFragment.DisplayText}" IsHitTestVisible="False"/>
     </Grid>
 </UserControl>

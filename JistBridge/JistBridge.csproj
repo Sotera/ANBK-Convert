@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\ApplyMarkupBehavior.cs" />
+    <Compile Include="Behaviors\ChainNodeBehavior.cs" />
     <Compile Include="Behaviors\ManageChainsBehavior.cs" />
     <Compile Include="Behaviors\WordBehavior.cs" />
     <Compile Include="Bootstrap\AboutBoxControl.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Data\Model\Range.cs" />
     <Compile Include="Data\ReST\GetReportResponse.cs" />
     <Compile Include="Data\ReST\ValidateUserResponse.cs" />
+    <Compile Include="Interfaces\IChainCanvasViewModel.cs" />
     <Compile Include="Interfaces\IReportListViewModel.cs" />
     <Compile Include="Interfaces\IAnbkOptionsViewModel.cs" />
     <Compile Include="Interfaces\ICidneOptionsViewModel.cs" />
@@ -151,9 +153,11 @@
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
     <Compile Include="Messages\FragmentStatusMessage.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UI\AboutBox\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ChainCanvas\ChainCanvasViewModel.cs" />
     <Compile Include="UI\ChainCanvas\ChainView.xaml.cs">
       <DependentUpon>ChainView.xaml</DependentUpon>
     </Compile>
