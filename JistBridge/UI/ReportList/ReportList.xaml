@@ -4,6 +4,7 @@
 						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 						 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 						 xmlns:valueConverters="clr-namespace:JistBridge.UI.ValueConverters"
+						 xmlns:attachedCommandBehavior="clr-namespace:JistBridge.Utilities.AttachedCommandBehavior"
 						 mc:Ignorable="d"
 						 d:DesignHeight="300"
 						 d:DesignWidth="150">
@@ -19,7 +20,9 @@
 				<StackPanel Orientation="Horizontal">
 					<CheckBox IsChecked="{Binding ReportVisible, Mode=TwoWay}"
 										Margin="0,7,0,0"/>
-					<Label Content="{Binding ShortName}"/>
+					<Label Content="{Binding ShortName}"
+								 attachedCommandBehavior:CommandBehavior.Event="MouseDoubleClick"
+								 attachedCommandBehavior:CommandBehavior.Action="{Binding TmpCommand}"/>
 				</StackPanel>
 			</DataTemplate>
 		</ListBox.ItemTemplate>

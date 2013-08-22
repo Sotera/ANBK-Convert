@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView;
 
@@ -46,6 +48,12 @@ namespace JistBridge.Data.ReST {
 
 		public int TextsCount {
 			get { return report.texts.Count; }
+		}
+
+		public Action<object> TmpCommand {
+			get { return new Action<object>((o) => {
+				ReportVisible = true;
+			}); }
 		}
 
 		public bool ReportVisible {

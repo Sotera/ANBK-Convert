@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
