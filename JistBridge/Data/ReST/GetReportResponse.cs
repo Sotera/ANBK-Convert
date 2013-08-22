@@ -58,7 +58,8 @@ namespace JistBridge.Data.ReST {
 				}
 				if (_reportVisible = value) {
 					if (ReportView == null) {
-						ReportView = new ReportView {ReportViewModel = {GetReportResponse = this}};
+						ReportView = new ReportView();
+						ReportView.ReportViewModel.GetReportResponse = this;
 					}
 					new AddRemoveReportViewMessage(null, null) {
 						Operation = Operation.Add,

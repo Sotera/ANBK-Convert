@@ -1,15 +1,12 @@
-﻿using JistBridge.Data.ReST;
+﻿using System.ComponentModel.Composition;
+using JistBridge.Data.ReST;
 
-namespace JistBridge.Data.Model
-{
-	public class Report
-	{
-		private Markup _reportMarkup;
+namespace JistBridge.Data.Model {
+	[Export(typeof(Report))]
+	public class Report {
+		[Import(typeof(Markup))]
+		public Markup ReportMarkup { get; set; }
 
-		public Markup ReportMarkup {
-			get { return _reportMarkup ?? (_reportMarkup = new Markup()); }
-		}
-
-		public GetReportResponse ReportResponse { get; set; } 
+		public GetReportResponse ReportResponse { get; set; }
 	}
 }

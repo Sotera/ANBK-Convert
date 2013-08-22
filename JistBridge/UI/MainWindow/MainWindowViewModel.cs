@@ -17,6 +17,7 @@ namespace JistBridge.UI.MainWindow {
 		public MainWindowViewModel() {
 			SetPropertyEditorTargetMessage.Register(this, msg => {
 				PropertyEditorTarget = msg.PropertiesObject;
+				//LayoutDocumentPane.Children.
 
 			});
 			AddRemoveReportViewMessage.Register(this, AddRemoveReportView);

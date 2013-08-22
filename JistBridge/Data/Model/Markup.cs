@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 
 namespace JistBridge.Data.Model
 {
+	[Export(typeof(Markup))]
     public class Markup
     {
         private Guid _markupId = Guid.Empty;
