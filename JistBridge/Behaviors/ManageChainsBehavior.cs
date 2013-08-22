@@ -36,7 +36,7 @@ namespace JistBridge.Behaviors
                 }
                 case ChainStatus.RightFragmentAdded:
                 {
-                    RightFragmentAdded(chain, markup);
+                    RightFragmentAdded(chain);
                     break;
                 }
                 case ChainStatus.CenterFragmentCanceled:
@@ -69,26 +69,34 @@ namespace JistBridge.Behaviors
                     }
                 case ChainStatus.RightFragmentCanceled:
                     {
-                        _currentChain.CenterLabel.Content = "???";
+                        var chainCanvasViewModel = _currentChain.DataContext as IChainCanvasViewModel;
+                        if (chainCanvasViewModel != null)
+                            chainCanvasViewModel.CenterFragment = null;
                         break;
                     }
             }
         }
 
-        private void RightFragmentAdded(Chain chain, Markup markup)
+        private void RightFragmentAdded(Chain chain)
         {
-            _currentChain.RightLabel.Content = chain.Right.DisplayText;
+            var chainCanvasViewModel = _currentChain.DataContext as IChainCanvasViewModel;
+            if (chainCanvasViewModel != null)
+                chainCanvasViewModel.RightFragment = chain.Right;
         }
 
         private void CenterFragmentAdded(Chain chain)
         {
-            _currentChain.CenterLabel.Content = chain.Center.DisplayText;
+            var chainCanvasViewModel = _currentChain.DataContext as IChainCanvasViewModel;
+            if (chainCanvasViewModel != null)
+                chainCanvasViewModel.CenterFragment = chain.Center;
         }
 
         private void LeftFragmentAdded(Chain chain)
         {
             StartNewChain();
-            _currentChain.LeftLabel.Content = chain.Left.DisplayText;
+            var chainCanvasViewModel = _currentChain.DataContext as IChainCanvasViewModel;
+            if (chainCanvasViewModel != null)
+                chainCanvasViewModel.LeftFragment = chain.Left;
         }
 
         private void StartNewChain()
