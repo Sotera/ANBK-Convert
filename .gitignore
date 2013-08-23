@@ -7,3 +7,5 @@ obj
 packages
 data
 node_modules
+
+/*.DotSettings
