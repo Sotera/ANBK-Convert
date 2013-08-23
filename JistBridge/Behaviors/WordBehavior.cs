@@ -27,6 +27,31 @@ namespace JistBridge.Behaviors
             AssociatedObject.PreviewMouseMove += UpdateFragment;
             AssociatedObject.PreviewMouseDown += BeginFragment;
             AssociatedObject.PreviewMouseUp += FinishFragment;
+
+            FragmentStatusMessage.Register(this,msg=>HandleFragmentStatus(msg.Markup, msg.Fragment, msg.Status));
+        }
+
+        private void HandleFragmentStatus(Markup markup, Fragment fragment, FragmentStatus status)
+        {
+            var viewModel = AssociatedObject.DataContext as IReportViewModel;
+            if (viewModel == null || viewModel.ReportMarkup != markup)
+                return;
+
+            switch (status)
+            {
+                case FragmentStatus.Highlighted:
+                {
+                    UIHelper.ToggleFragmentHilighted(fragment, _richTextBox, true);
+        
+                    break;
+                }
+                case FragmentStatus.UnHighlighted:
+                {
+                    UIHelper.ToggleFragmentHilighted(fragment, _richTextBox, false);
+                    break;
+                }
+            }
+
         }
 
         private void CancelFragment()
@@ -167,6 +192,8 @@ namespace JistBridge.Behaviors
             AssociatedObject.PreviewMouseMove -= UpdateFragment;
             AssociatedObject.PreviewMouseDown -= BeginFragment;
             AssociatedObject.PreviewMouseUp -= FinishFragment;
+
+            FragmentStatusMessage.Unregister(this);
         }
 
         protected class TextRangeWithOrigin

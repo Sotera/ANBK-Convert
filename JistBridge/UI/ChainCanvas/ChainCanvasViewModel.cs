@@ -47,6 +47,8 @@ namespace JistBridge.UI.ChainCanvas
             }
         }
 
+        public Markup ParentMarkup { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

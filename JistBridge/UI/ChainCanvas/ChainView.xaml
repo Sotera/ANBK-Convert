@@ -15,17 +15,17 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20" VerticalAlignment="Center" Margin="0,0,0,10">
+            <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20" VerticalAlignment="Center" Margin="0,0,0,10" Stroke="Black">
                 <i:Interaction.Behaviors>
                     <behaviors:ChainNodeBehavior />
                 </i:Interaction.Behaviors>
             </Rectangle>
-            <Rectangle Name="Center" Height="4" Fill="#FFBC2E2E" Grid.Column="1" Margin="0,0,0,10">
+            <Rectangle Name="Center" Height="4" Fill="#FFBC2E2E" Grid.Column="1" Margin="0,0,0,10" OpacityMask="Black">
                 <i:Interaction.Behaviors>
                     <behaviors:ChainNodeBehavior />
                 </i:Interaction.Behaviors>
             </Rectangle>
-            <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20" Margin="0,0,0,10">
+            <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20" Margin="0,0,0,10" Stroke="Black">
                 <i:Interaction.Behaviors>
                     <behaviors:ChainNodeBehavior />
                 </i:Interaction.Behaviors>

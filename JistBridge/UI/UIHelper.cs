@@ -120,6 +120,17 @@ namespace JistBridge.UI
             return nextPointer;
         }
 
-        
+
+        public static void ToggleFragmentHilighted(Fragment fragment, Control control, bool isHighlighted)
+        {
+            foreach (var offset in fragment.Offsets)
+            {
+                if(isHighlighted)
+                    ApplyFormatToOffsetRange(offset, control as System.Windows.Controls.RichTextBox, Brushes.DarkRed);
+                else
+                    ApplyFormatToOffsetRange(offset, control as System.Windows.Controls.RichTextBox, Brushes.CornflowerBlue);
+                
+            }
+        }
     }
 }

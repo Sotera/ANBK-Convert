@@ -12,5 +12,8 @@ namespace JistBridge.Interfaces
 
         Fragment RightFragment
         { get; set; }
+
+        Markup ParentMarkup
+        { get; set; }
     }
 }
