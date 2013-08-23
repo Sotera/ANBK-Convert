@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView;
 
@@ -50,10 +49,18 @@ namespace JistBridge.Data.ReST {
 			get { return report.texts.Count; }
 		}
 
-		public Action<object> TmpCommand {
-			get { return new Action<object>((o) => {
-				ReportVisible = true;
-			}); }
+		public Action<object> OpenReportCommand {
+			get { return o => { ReportVisible = true; }; }
+		}
+
+		public bool ReportVisibleSetOnly {
+			set {
+				if (_reportVisible == value) {
+					return;
+				}
+				_reportVisible = value;
+				RaisePropertyChanged("ReportVisible");
+			}
 		}
 
 		public bool ReportVisible {
@@ -64,17 +71,16 @@ namespace JistBridge.Data.ReST {
 				}
 				if (_reportVisible = value) {
 					if (ReportView == null) {
-						ReportView = new ReportView();
-						ReportView.ReportViewModel.GetReportResponse = this;
+						ReportView = new ReportView {ReportViewModel = {GetReportResponse = this}};
 					}
-					new AddRemoveReportViewMessage(null, null) {
+					new AddRemoveDocumentViewMessage(null, null) {
 						Operation = Operation.Add,
 						ReportView = ReportView,
 						TabText = ReportView.ReportViewModel.GetReportResponse.ShortName
 					}.Send();
 				}
 				else {
-					new AddRemoveReportViewMessage(null, null) {
+					new AddRemoveDocumentViewMessage(null, null) {
 						Operation = Operation.Remove,
 						ReportView = ReportView
 					}.Send();

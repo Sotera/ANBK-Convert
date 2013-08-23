@@ -14,7 +14,7 @@
 	<Window.Resources>
 		<valueConverters:PrependTextConverter x:Key="PrependTextConverter" />
 	</Window.Resources>
-	<Grid x:Name="LayoutRoot">
+	<Grid x:Name="LayoutRootGrid">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -56,11 +56,14 @@
 					</ComboBox>
 				</StackPanel>
 				<Separator />
+				<MenuItem Header="Show _NLog Window"
+									Command="{Binding ShowNLogWindowCommand}" />
 				<MenuItem Header="{Binding Title,Converter={StaticResource PrependTextConverter},ConverterParameter='_About '}"
 									Command="{Binding ShowAboutBoxCommand}" />
 			</MenuItem>
 		</Menu>
 		<xcad:DockingManager Grid.Row="1"
+												 x:Name="DockingManager"
 												 AllowMixedOrientation="True"
 												 BorderBrush="Black"
 												 BorderThickness="1"
@@ -75,7 +78,7 @@
 					</StackPanel>
 				</DataTemplate>
 			</xcad:DockingManager.DocumentHeaderTemplate>
-			<xcad:LayoutRoot>
+			<xcad:LayoutRoot x:Name="LayoutRoot">
 				<xcad:LayoutPanel Orientation="Horizontal">
 					<xcad:LayoutAnchorablePaneGroup Orientation="Vertical"
 																					DockWidth="200">
@@ -99,12 +102,20 @@
 							</xcad:LayoutAnchorable>
 						</xcad:LayoutAnchorablePane>
 					</xcad:LayoutAnchorablePaneGroup>
-					<xcad:LayoutDocumentPaneGroup>
+					<xcad:LayoutDocumentPaneGroup x:Name="LayoutDocumentPaneGroup">
+<!--
 						<xcad:LayoutDocumentPane x:Name="LayoutDocumentPane" />
+-->
 					</xcad:LayoutDocumentPaneGroup>
 				</xcad:LayoutPanel>
 			</xcad:LayoutRoot>
 		</xcad:DockingManager>
+		<!--Need to create collapsed NLog window here so NLog can get it registered correctly. It will be
+		immediately removed and handed off to the NLogWindowControl so it can be used when needed in a
+		"tear off" document tab -->
+		<RichTextBox x:Name="RtbNLogWindow"
+								 Grid.Row="0"
+								 Visibility="Collapsed" />
 		<StatusBar Grid.Row="2"
 							 VerticalAlignment="Bottom"
 							 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}"

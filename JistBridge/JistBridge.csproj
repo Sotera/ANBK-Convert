@@ -76,6 +76,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -116,6 +117,7 @@
     <Compile Include="Behaviors\WordBehavior.cs" />
     <Compile Include="Bootstrap\AboutBoxControl.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\NLogWindowControl.cs" />
     <Compile Include="Bootstrap\RestClientControl.cs" />
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
     <Compile Include="Bootstrap\ModalDialogControl.cs" />
@@ -139,7 +141,8 @@
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
-    <Compile Include="Messages\AddRemoveReportViewMessage.cs" />
+    <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />
+    <Compile Include="Messages\ShowNLogWindowMessage.cs" />
     <Compile Include="Messages\SetPropertyEditorTargetMessage.cs" />
     <Compile Include="Messages\ReportReceivedMessage.cs" />
     <Compile Include="Messages\GetReportRestMessage.cs" />
@@ -225,6 +228,9 @@
       <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
+    <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxRowColoringRule.cs" />
+    <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxTarget.cs" />
+    <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxWordColoringRule.cs" />
     <Compile Include="Utilities\StateMachine\FSMSystem.cs" />
     <Compile Include="Utilities\StateMachine\FSMState.cs" />
     <Compile Include="UI\ReportView\States\WaitForCenterFragmentState.cs" />
