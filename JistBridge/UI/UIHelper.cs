@@ -32,7 +32,7 @@ namespace JistBridge.UI
         {
             foreach (var offset in fragment.Offsets)
             {
-                ApplyFormatToRange(offset, richTextBox, richTextBox.Background);
+                ApplyFormatToOffsetRange(offset, richTextBox, richTextBox.Background);
             }
         }
 
@@ -40,32 +40,44 @@ namespace JistBridge.UI
         {
             foreach (var offset in fragment.Offsets)
             {
-                ApplyFormatToRange(offset, richTextBox, Brushes.CornflowerBlue);
+                ApplyFormatToOffsetRange(offset, richTextBox, Brushes.CornflowerBlue);
             }
         }
 
-        public static void HighlightRange(TextRange range)
+        public static void HighlightRange(TextRange range, Brush foregroundBrush, Brush backgroundBrush,  FontWeight weight, Control control)
         {
-            SetFont(range, Brushes.Black, FontWeights.Normal);
-
             if (range != null)
-                SetFont(range, Brushes.DarkRed, FontWeights.UltraBlack);
+                SetFont(range, foregroundBrush, backgroundBrush, weight);
         }
 
         public static void ClearHighlight(TextRange range, Control control)
         {
-            SetFont(range, control.Foreground, control.FontWeight);
+            SetFont(range, control.Foreground, null, control.FontWeight);
         }
 
-        private static void SetFont(TextRange range, Brush brush, FontWeight weight)
+        public static void ClearFragmentHighlight(TextRange range, Control control)
+        {
+            SetFont(range, control.Foreground,control.Background, control.FontWeight);
+        }
+
+        private static void SetFont(TextRange range, Brush foreground, Brush background, FontWeight weight)
         {
             if (range == null)
                 return;
-            range.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+            if(foreground != null)
+                range.ApplyPropertyValue(TextElement.ForegroundProperty, foreground);
+            if(background != null)
+                range.ApplyPropertyValue(TextElement.BackgroundProperty, background);
+            
             range.ApplyPropertyValue(TextElement.FontWeightProperty, weight);
         }
 
-        public static void ApplyFormatToRange(Range<int> offset, System.Windows.Controls.RichTextBox richTextBox, Brush background)
+        public static void ApplyFormatToTextRange(TextRange range, System.Windows.Controls.RichTextBox richTextBox, Brush background)
+        {
+            range.ApplyPropertyValue(TextElement.BackgroundProperty, background);
+        }
+
+        public static void ApplyFormatToOffsetRange(Range<int> offset, System.Windows.Controls.RichTextBox richTextBox, Brush background)
         {
             var contentStart = richTextBox.Document.ContentStart;
             var start = GetPointerFromCharOffset(offset.Minimum, contentStart, richTextBox.Document);
@@ -108,6 +120,17 @@ namespace JistBridge.UI
             return nextPointer;
         }
 
-        
+
+        public static void ToggleFragmentHilighted(Fragment fragment, Control control, bool isHighlighted)
+        {
+            foreach (var offset in fragment.Offsets)
+            {
+                if(isHighlighted)
+                    ApplyFormatToOffsetRange(offset, control as System.Windows.Controls.RichTextBox, Brushes.DarkRed);
+                else
+                    ApplyFormatToOffsetRange(offset, control as System.Windows.Controls.RichTextBox, Brushes.CornflowerBlue);
+                
+            }
+        }
     }
 }

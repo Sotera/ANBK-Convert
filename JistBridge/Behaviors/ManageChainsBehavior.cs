@@ -95,13 +95,22 @@ namespace JistBridge.Behaviors
         {
             StartNewChain();
             var chainCanvasViewModel = _currentChain.DataContext as IChainCanvasViewModel;
-            if (chainCanvasViewModel != null)
-                chainCanvasViewModel.LeftFragment = chain.Left;
+            if (chainCanvasViewModel == null)
+                return;
+
+            chainCanvasViewModel.LeftFragment = chain.Left;
+            
+            var reportViewModel = AssociatedObject.DataContext as IReportViewModel;
+            if (reportViewModel == null)
+                return;
+
+            chainCanvasViewModel.ParentMarkup = reportViewModel.ReportMarkup;
         }
 
         private void StartNewChain()
         {
             _currentChain = new ChainView();
+            
             AssociatedObject.Children.Add(_currentChain);
         }
 

@@ -24,8 +24,34 @@ namespace JistBridge.Behaviors
         {
             _richTextBox = AssociatedObject.RichTextBoxInstance;
             _canvas = AssociatedObject.CanvasInstance;
-            AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
-            AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
+            AssociatedObject.PreviewMouseMove += UpdateFragment;
+            AssociatedObject.PreviewMouseDown += BeginFragment;
+            AssociatedObject.PreviewMouseUp += FinishFragment;
+
+            FragmentStatusMessage.Register(this,msg=>HandleFragmentStatus(msg.Markup, msg.Fragment, msg.Status));
+        }
+
+        private void HandleFragmentStatus(Markup markup, Fragment fragment, FragmentStatus status)
+        {
+            var viewModel = AssociatedObject.DataContext as IReportViewModel;
+            if (viewModel == null || viewModel.ReportMarkup != markup)
+                return;
+
+            switch (status)
+            {
+                case FragmentStatus.Highlighted:
+                {
+                    UIHelper.ToggleFragmentHilighted(fragment, _richTextBox, true);
+        
+                    break;
+                }
+                case FragmentStatus.UnHighlighted:
+                {
+                    UIHelper.ToggleFragmentHilighted(fragment, _richTextBox, false);
+                    break;
+                }
+            }
+
         }
 
         private void CancelFragment()
@@ -38,62 +64,95 @@ namespace JistBridge.Behaviors
             new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, null, FragmentStatus.Canceled).Send();
         }
 
-        private void AssociatedObject_MouseMove(object sender, RoutedEventArgs e)
+        private TextRangeWithOrigin _currentFragmentRange;
+        
+        private void BeginFragment(object sender, RoutedEventArgs e)
         {
             var mouseEventArgs = e as MouseEventArgs;
             if (_richTextBox == null || mouseEventArgs == null)
                 return;
-
-            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
-            {
-                UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
-                return;
-            }
-            var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
-            if (_currentTextRange == range)
-                return;
-
-            UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
-            UIHelper.HighlightRange(range);
-
-            _currentTextRange = range;
-
-        }
-
-        private void AssociatedObject_Click(object sender, RoutedEventArgs e)
-        {
-            var mouseEventArgs = e as MouseButtonEventArgs;
-            if (_richTextBox == null || mouseEventArgs == null)
-                return;
             var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
             if (range == null)
+                return;
+            _currentFragmentRange = new TextRangeWithOrigin(range);
+        }
+
+        private void UpdateFragment(object sender, RoutedEventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (_richTextBox == null || mouseEventArgs == null) return;
+
+            var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
+            
+            if (_currentFragmentRange == null)
+            {
+                MouseoverText(range,mouseEventArgs);
+                return;
+            }
+
+            UIHelper.ClearFragmentHighlight(_currentFragmentRange.Union, _richTextBox);
+
+            _currentFragmentRange.Update(range);
+
+            UIHelper.HighlightRange(_currentFragmentRange.Union, Brushes.White, Brushes.Black, _richTextBox.FontWeight, _richTextBox);
+        }
+
+        private void FinishFragment(object sender, RoutedEventArgs e)
+        {
+            var mouseEventArgs = e as MouseEventArgs;
+            if (_richTextBox == null || mouseEventArgs == null)return;
+
+            if (_currentFragmentRange == null)
             {
                 CancelFragment();
                 return;
             }
-            var startString = new TextRange(_richTextBox.Document.ContentStart, range.Start).Text;
+
+            var startString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.Start).Text;
             startString = startString.Replace(Environment.NewLine, "");
             var startToStart = startString.Length;
 
-            var endString = new TextRange(_richTextBox.Document.ContentStart, range.End).Text;
+            var endString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.End).Text;
             endString = endString.Replace(Environment.NewLine, "");
             var startToEnd = endString.Length;
-            
+
             var offsets = new Range<int>
             {
                 Minimum = startToStart,
                 Maximum = startToEnd
             };
-            var sourceOffset = GetSourceOffset(range);
-            var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, range.Text,sourceOffset);
-            
-            UIHelper.DrawFragment(fragment,_richTextBox);
+            var sourceOffset = GetSourceOffset(_currentFragmentRange.Union);
+            var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, _currentFragmentRange.Union.Text, sourceOffset);
+
+            UIHelper.ClearHighlight(_currentFragmentRange.Union, _richTextBox);
+        
+            UIHelper.DrawFragment(fragment, _richTextBox);
 
             var viewModel = AssociatedObject.DataContext as IReportViewModel;
             if (viewModel == null)
                 return;
 
             new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Selected).Send();
+            _currentFragmentRange = null;
+        }
+
+        private void MouseoverText(TextRange range, MouseEventArgs mouseEventArgs)
+        {
+            if (_richTextBox == null || mouseEventArgs == null)return;
+
+            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
+            {
+                UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
+                return;
+            }
+
+            if (range == null || _currentTextRange == range) return;
+
+            UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
+            UIHelper.HighlightRange(range, Brushes.DarkRed, null , _richTextBox.FontWeight, _richTextBox);
+
+            _currentTextRange = range;
+
         }
 
         private static int GetSourceOffset(TextRange range)
@@ -130,8 +189,45 @@ namespace JistBridge.Behaviors
 
         protected override void OnDetaching()
         {
-            AssociatedObject.PreviewMouseUp -= AssociatedObject_Click;
-            AssociatedObject.PreviewMouseMove -= AssociatedObject_MouseMove;
+            AssociatedObject.PreviewMouseMove -= UpdateFragment;
+            AssociatedObject.PreviewMouseDown -= BeginFragment;
+            AssociatedObject.PreviewMouseUp -= FinishFragment;
+
+            FragmentStatusMessage.Unregister(this);
+        }
+
+        protected class TextRangeWithOrigin
+        {
+            public TextRange Origin { get; private set; }
+
+            public TextRange Union { get; private set; }
+
+            public TextRangeWithOrigin(TextRange origin)
+            {
+                Origin = origin;
+                Union = origin;
+            }
+
+            public void Update(TextRange range)
+            {
+                if (range == null)
+                    return;
+                if (Origin.Start.CompareTo(range.Start) == 0 &&
+                    Origin.End.CompareTo(range.End) == 0)
+                {
+                    Union = Origin;
+                    return;
+                }
+                if (range.Start.CompareTo(Origin.End) > 0)
+                {
+                    Union = new TextRange(Origin.Start, range.End);
+                    return;
+                }
+
+                if (range.Start.CompareTo(Origin.Start) < 0)
+                    Union = new TextRange(range.Start, Origin.End);
+
+            }
         }
     }
 }

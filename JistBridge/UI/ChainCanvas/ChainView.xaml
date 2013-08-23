@@ -7,30 +7,41 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:JistBridge.Behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="64" d:DesignWidth="400">
+             d:DesignHeight="64" d:DesignWidth="400" Height="61">
     <Grid Margin="5" d:DataContext="{d:DesignInstance Type=local:ChainCanvasViewModel}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20">
-            <i:Interaction.Behaviors>
-                <behaviors:ChainNodeBehavior />
-            </i:Interaction.Behaviors>
-        </Rectangle>
-        <Label x:Name ="LeftLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding LeftFragment.DisplayText}" IsHitTestVisible="False"/>
-        <Rectangle Name="Center" Height="4" Fill="#FFBC2E2E" Grid.Column="1">
-            <i:Interaction.Behaviors>
-                <behaviors:ChainNodeBehavior />
-            </i:Interaction.Behaviors>
-        </Rectangle>
-        <Label x:Name ="CenterLabel"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding CenterFragment.DisplayText}" IsHitTestVisible="False" />
-        <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20">
-            <i:Interaction.Behaviors>
-                <behaviors:ChainNodeBehavior />
-            </i:Interaction.Behaviors>
-        </Rectangle>
-        <Label x:Name ="RightLabel"  Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Content="{Binding RightFragment.DisplayText}" IsHitTestVisible="False"/>
-    </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Name="Left" Width="64" Height="24" Fill="#FFBC2E2E" RadiusX="20" RadiusY="20" VerticalAlignment="Center" Margin="0,0,0,10" Stroke="Black">
+                <i:Interaction.Behaviors>
+                    <behaviors:ChainNodeBehavior />
+                </i:Interaction.Behaviors>
+            </Rectangle>
+            <Rectangle Name="Center" Height="4" Fill="#FFBC2E2E" Grid.Column="1" Margin="0,0,0,10" OpacityMask="Black">
+                <i:Interaction.Behaviors>
+                    <behaviors:ChainNodeBehavior />
+                </i:Interaction.Behaviors>
+            </Rectangle>
+            <Rectangle Name="Right" Width="64" Height="24" Fill="#FFBC2E2E" Grid.Column="2" RadiusX="20" RadiusY="20" Margin="0,0,0,10" Stroke="Black">
+                <i:Interaction.Behaviors>
+                    <behaviors:ChainNodeBehavior />
+                </i:Interaction.Behaviors>
+            </Rectangle>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name ="LeftLabel" MinWidth="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontWeight="Bold" Content="{Binding LeftFragment.DisplayText, FallbackValue=???, TargetNullValue=???}" IsHitTestVisible="False" Margin="0"/>
+            <Label x:Name ="CenterLabel" MinWidth="64"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontWeight="Bold" Content="{Binding CenterFragment.DisplayText, FallbackValue=???, TargetNullValue=???}" IsHitTestVisible="False" Margin="0,0,0,10" />
+            <Label x:Name ="RightLabel" MinWidth="64" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" FontWeight="Bold" Content="{Binding RightFragment.DisplayText, FallbackValue=???, TargetNullValue=???}" IsHitTestVisible="False" Margin="0"/>
+        </Grid>
+        
+        </Grid>
 </UserControl>
