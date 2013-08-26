@@ -15,14 +15,18 @@ namespace JistBridge.UI.ReportView {
 
 		[Import]
 		public IReportViewModel ReportViewModel {
-			set {
-				DataContext = value;
-			}
+			set { DataContext = value; }
 			get {
-				if (!(DataContext is ReportViewModel)) {
-					return null;
-				}
-				return DataContext as ReportViewModel;
+				var retVal = DataContext as ReportViewModel;
+				return retVal;
+			}
+		}
+
+		public string ShortName {
+			get {
+				return (ReportViewModel != null && ReportViewModel.GetReportResponse != null)
+					? ReportViewModel.GetReportResponse.ShortName
+					: "";
 			}
 		}
 	}

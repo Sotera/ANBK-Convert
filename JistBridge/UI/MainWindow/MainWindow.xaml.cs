@@ -39,7 +39,7 @@ namespace JistBridge.UI.MainWindow {
 		[Import]
 		public IMainWindowViewModel MainWindowViewModel {
 			set {
-				value.SetLayoutDocumentInfo(LayoutRoot, LayoutDocumentPaneGroup);
+				value.SetLayoutDocumentInfo(DockingManager);
 				DataContext = value;
 			}
 		}
