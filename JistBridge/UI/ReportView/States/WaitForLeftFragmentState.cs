@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using JistBridge.Data.Model;
+﻿using JistBridge.Data.Model;
 using JistBridge.Messages;
 using JistBridge.Utilities.StateMachine;
+using NLog;
 
 namespace JistBridge.UI.ReportView.States
 {
@@ -11,6 +11,7 @@ namespace JistBridge.UI.ReportView.States
         {
             Markup = markup;
             stateID = StateID.WaitingForLeftFragment;
+            Log = LogManager.GetCurrentClassLogger();
         }
 
         protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
@@ -22,7 +23,7 @@ namespace JistBridge.UI.ReportView.States
 
             if (markup.CurrentChain != null)
             {
-                Debug.WriteLine("Error: WaitForLeftFragmentState encountered a non Null CurrentChain.");
+                Log.Error("Error: WaitForLeftFragmentState encountered a non Null CurrentChain.");
                 return;
             }
             markup.CurrentChain = new Chain(fragment, null, null);

@@ -87,9 +87,17 @@ namespace JistBridge.Behaviors {
 			UIHelper.ClearFragment(fragment, AssociatedObject.RichTextBoxInstance);
 		}
 
-		private void ApplyMarkup(Markup markup) {
-			//TODO:Apply all of the markup chains to the Rich Text Box
-		}
+		private void ApplyMarkup(Markup markup) 
+        {
+		    foreach (var chain in markup.Chains)
+		    {
+		        UIHelper.DrawFragment(chain.Left,_richTextBox);
+
+                UIHelper.DrawFragment(chain.Center, _richTextBox);
+
+                UIHelper.DrawFragment(chain.Right, _richTextBox);
+		    }
+        }
 
 		protected override void OnDetaching() {
 			RichTextBoxLoadedMessage.Unregister(this);

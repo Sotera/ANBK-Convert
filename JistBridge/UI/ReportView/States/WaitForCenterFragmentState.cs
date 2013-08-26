@@ -1,17 +1,19 @@
-﻿using System.Diagnostics;
-using JistBridge.Data.Model;
+﻿using JistBridge.Data.Model;
 using JistBridge.Messages;
 using JistBridge.Utilities.StateMachine;
+using NLog;
 
 namespace JistBridge.UI.ReportView.States
 {
 
     public class WaitForCenterFragmentState : FragmentStateBase
     {
+        
         public WaitForCenterFragmentState(Markup markup)
         {
             Markup = markup;
             stateID = StateID.WaitingForCenterFragment;
+            Log = LogManager.GetCurrentClassLogger();
         }
 
         protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
@@ -23,7 +25,7 @@ namespace JistBridge.UI.ReportView.States
 
             if (markup.CurrentChain.Center != null)
             {
-                Debug.WriteLine("ERROR: WaitForCenterFragmentState Got a chain with a non null center :(");
+                Log.Error("ERROR: WaitForCenterFragmentState Got a chain with a non null center :(");
                 return;
             }
 
