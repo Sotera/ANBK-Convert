@@ -1,17 +1,19 @@
-﻿using System.Diagnostics;
-using JistBridge.Data.Model;
+﻿using JistBridge.Data.Model;
 using JistBridge.Messages;
 using JistBridge.Utilities.StateMachine;
+using NLog;
 
 namespace JistBridge.UI.ReportView.States
 {
 
     public class WaitForRightFragmentState : FragmentStateBase
     {
+        
         public WaitForRightFragmentState(Markup markup)
         {
             Markup = markup;
             stateID = StateID.WaitingForRightFragment;
+            Log = LogManager.GetCurrentClassLogger();
         }
 
         protected override void HandleFragmentSelected(Markup markup, Fragment fragment, FragmentStatus status)
@@ -23,7 +25,7 @@ namespace JistBridge.UI.ReportView.States
 
             if (markup.CurrentChain.Center == null || markup.CurrentChain.Left == null)
             {
-                Debug.WriteLine("ERROR: WaitForRightFragmentState somehow got a Chain with null parts :(");
+                Log.Error("ERROR: WaitForRightFragmentState somehow got a Chain with null parts :(");
                 return;
             }
 

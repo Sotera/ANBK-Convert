@@ -19,7 +19,7 @@ namespace JistBridge.Data.Model
             private set { _markupId = value; }
         }
 
-        private List<Chain> Chains { get; set; }
+        public List<Chain> Chains { get; set; }
 
         public Chain CurrentChain { get; set; }
 

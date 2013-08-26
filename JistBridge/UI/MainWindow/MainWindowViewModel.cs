@@ -58,15 +58,15 @@ namespace JistBridge.UI.MainWindow {
 		public RelayCommand ShowAboutBoxCommand {
 			get {
 				return new RelayCommand(() => {
-/*
+
 					Log.Trace("How Trace?");
 					Log.Debug("How Debug?");
 					Log.Info("How Info?");
 					Log.Warn("How Warn?");
 					Log.Error("How Error?");
 					Log.Fatal("How Fatal?");
-*/
-					new ShowAboutBoxMessage(null, null).Send();
+
+                    new ShowAboutBoxMessage(null, null).Send();
 				});
 			}
 		}
