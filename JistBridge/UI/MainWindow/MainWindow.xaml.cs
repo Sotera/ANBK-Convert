@@ -11,7 +11,7 @@ namespace JistBridge.UI.MainWindow {
 	public partial class MainWindow {
 		public MainWindow() {
 			InitializeComponent();
-			ShowModalDialogMessage.SetDefaultContentControl(this);
+			ShowDialogMessage.SetWindowContainer(WindowContainer);
 			new QueueMefComposeMessage(null, null, this, null).Send();
 			Loaded += OnLoaded;
 		}
@@ -30,7 +30,7 @@ namespace JistBridge.UI.MainWindow {
 			//SimpleConfigurator.ConfigureForTargetLogging(asyncWrapper, LogLevel.Trace);
 
 			var childElements = ((Panel) Content).Children;
-			var nLogControl = childElements.Cast<Control>().Single(c => c.Name == "RtbNLogWindow");
+			var nLogControl = childElements.Cast<FrameworkElement>().Single(c => c.Name == "RtbNLogWindow");
 			childElements.Remove(nLogControl);
 
 			ShowNLogWindowMessage.SetNLogWindowInfo(asyncWrapper, nLogControl as System.Windows.Controls.RichTextBox);

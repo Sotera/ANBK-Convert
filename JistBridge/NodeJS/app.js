@@ -24,7 +24,7 @@ var app = global.app = express();
 var api = global.api = express();
 
 //Configure 'app' middleware
-app.use(express.static(path.join(__dirname, 'webapp')));
+app.use(express.static(path.join(__dirname, 'JistBridge')));
 
 //Configure 'api' middleware
 api.use(function (req, res, next) {

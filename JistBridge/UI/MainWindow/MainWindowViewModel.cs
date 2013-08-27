@@ -81,8 +81,6 @@ namespace JistBridge.UI.MainWindow {
 
 		void IMainWindowViewModel.SetLayoutDocumentInfo(DockingManager dockingManager) {
 			DockingManager = dockingManager;
-			DockingManager.LayoutChanged += (s, ea) => { var i = 0; };
-
 			//TODO: Patch up this mess
 			LayoutRoot.Updated += (s, ea) => {
 				foreach (var floatingWindow in LayoutRoot.FloatingWindows) {

@@ -79,7 +79,7 @@
 				</DataTemplate>
 			</xcad:DockingManager.DocumentHeaderTemplate>
 			<xcad:LayoutRoot>
-<!--
+				<!--
 			<xcad:LayoutRoot x:Name="LayoutRoot">
 -->
 				<xcad:LayoutPanel Orientation="Horizontal">
@@ -106,7 +106,7 @@
 						</xcad:LayoutAnchorablePane>
 					</xcad:LayoutAnchorablePaneGroup>
 					<xcad:LayoutDocumentPaneGroup x:Name="InitialLayoutDocumentPaneGroup">
-<!--
+						<!--
 						<xcad:LayoutDocumentPane x:Name="LayoutDocumentPane" />
 -->
 					</xcad:LayoutDocumentPaneGroup>
@@ -126,5 +126,9 @@
 			<TextBlock Text="{Binding StatusMessage}"
 								 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}" />
 		</StatusBar>
+		<xctk:WindowContainer x:Name="WindowContainer"
+													ModalBackgroundBrush="#80000000"
+													Grid.Row="0"
+													Grid.RowSpan="3"/>
 	</Grid>
 </Window>

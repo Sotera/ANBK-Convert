@@ -48,7 +48,7 @@ namespace JistBridge.UI.ReportView
         {
             Report = report;
 
-            Log.Info("Loading View for Report: " + report.ReportResponse.ShortName);
+            //Log.Info("Loading View for Report: " + report.ReportResponse.ShortName);
             var waitingForLeftFragmentState = new WaitForLeftFragmentState(ReportMarkup);
             waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
             waitingForLeftFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);

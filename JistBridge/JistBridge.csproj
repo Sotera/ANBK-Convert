@@ -18,20 +18,24 @@
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>C:\src\jistbridge\JistBridge\NodeJS\JistBridge\</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://reeme-pc:8080/JistBridge/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>JistBridge.htm</WebPage>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -53,6 +57,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>DD02279759981D4D3D9FE199C665A64FD0AB6B4A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>JistBridge_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
@@ -120,7 +136,7 @@
     <Compile Include="Bootstrap\NLogWindowControl.cs" />
     <Compile Include="Bootstrap\RestClientControl.cs" />
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
-    <Compile Include="Bootstrap\ModalDialogControl.cs" />
+    <Compile Include="Bootstrap\DialogControl.cs" />
     <Compile Include="Bootstrap\SplashScreenControl.cs" />
     <Compile Include="Data\Model\Chain.cs" />
     <Compile Include="Data\Model\Fragment.cs" />
@@ -151,7 +167,7 @@
     <Compile Include="Messages\ShowOptionsDialogMessage.cs" />
     <Compile Include="Messages\MessageCallbackTestMessage.cs" />
     <Compile Include="Messages\RichTextBoxLoadedMessage.cs" />
-    <Compile Include="Messages\ShowModalDialogMessage.cs" />
+    <Compile Include="Messages\ShowDialogMessage.cs" />
     <Compile Include="Messages\ShowAboutBoxMessage.cs" />
     <Compile Include="Messages\ShutdownApplicationMessage.cs" />
     <Compile Include="Messages\HideSplashScreenMessage.cs" />
@@ -192,6 +208,7 @@
     <Compile Include="Utilities\AttachedCommandBehavior\CommandBehavior.cs" />
     <Compile Include="Utilities\AttachedCommandBehavior\CommandBehaviorBinding.cs" />
     <Compile Include="Utilities\AttachedCommandBehavior\CommandBehaviorCollection.cs" />
+    <None Include="JistBridge_TemporaryKey.pfx" />
     <None Include="Utilities\AttachedCommandBehavior\DemoViewModel.cs" />
     <Compile Include="Utilities\AttachedCommandBehavior\EventHandlerGenerator.cs" />
     <Compile Include="Utilities\AttachedCommandBehavior\ExecutionStrategy.cs" />
@@ -200,33 +217,6 @@
     <Compile Include="Utilities\Configuration\AppConfiguration.cs" />
     <Compile Include="Utilities\Configuration\CidneOptionsViewModel.cs" />
     <Compile Include="Utilities\Configuration\UserConfiguration.cs" />
-    <Compile Include="Utilities\DialogManagement\CustomContentDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogBase.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogBaseControl.xaml.cs">
-      <DependentUpon>DialogBaseControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\DialogManagement\DialogCloseBehavior.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogLayeringHelper.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogManager.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogMode.cs" />
-    <Compile Include="Utilities\DialogManagement\DialogResultState.cs" />
-    <Compile Include="Utilities\DialogManagement\IDialogHost.cs" />
-    <Compile Include="Utilities\DialogManagement\ImagingExtensions.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\ICustomContentDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IDialogConfig.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IDialogManager.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IMessageDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IProgressDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\Interfaces\IWaitDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\MessageDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\WaitAnimation.xaml.cs">
-      <DependentUpon>WaitAnimation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\DialogManagement\WaitProgressDialog.cs" />
-    <Compile Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml.cs">
-      <DependentUpon>WaitProgressDialogControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxRowColoringRule.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxTarget.cs" />
@@ -284,22 +274,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
-    <Page Include="Utilities\DialogManagement\DialogBaseControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Utilities\DialogManagement\DialogContentStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Utilities\DialogManagement\WaitAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Utilities\DialogManagement\WaitProgressDialogControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
