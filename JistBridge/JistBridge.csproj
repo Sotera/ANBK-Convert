@@ -154,7 +154,7 @@
     <Compile Include="Interfaces\IToolsOptionsViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\IBootstrapTask.cs" />
-    <Compile Include="Data\Model\Report.cs" />
+    <Compile Include="Data\Model\ReportData.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />

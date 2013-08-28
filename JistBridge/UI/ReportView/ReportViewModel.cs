@@ -15,7 +15,7 @@ namespace JistBridge.UI.ReportView
     public class ReportViewModel : IReportViewModel
     {
         public IFSMSystem StateMachine { get; private set; }
-        public Report Report { get; private set; }
+        public ReportData ReportData { get; private set; }
 
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -23,44 +23,44 @@ namespace JistBridge.UI.ReportView
         //ApplyMarkupBehavior after the Report View is fully loaded via the event that gets sent.
         public FlowDocument ReportDocument
         {
-            get { return ConvertReportResponseToFlowDocument(Report.ReportResponse); }
+            get { return ConvertReportResponseToFlowDocument(ReportData.ReportResponse); }
         }
 
         public Markup ReportMarkup
         {
-            get { return Report.ReportMarkup; }
+            get { return ReportData.ReportMarkup; }
         }
 
         public GetReportResponse GetReportResponse
         {
             get
             {
-                return Report.ReportResponse;
+                return ReportData.ReportResponse;
             }
             set
             {
                 if (GetReportResponse != null)
                     return;
 
-                Report.ReportResponse = value;
+                ReportData.ReportResponse = value;
                 InitializeReportView();
             }
         }
 
         [ImportingConstructor]
-        public ReportViewModel(IFSMSystem fsmSystem, Report report)
+        public ReportViewModel(IFSMSystem fsmSystem, ReportData reportData)
         {
             StateMachine = fsmSystem;
-            Report = report;
+            ReportData = reportData;
 
         }
 
         private void InitializeReportView()
         {
-            Report.ReportResponse = GetReportResponse;
+            ReportData.ReportResponse = GetReportResponse;
 
             if(GetReportResponse.report.Markup != null)
-                Report.ReportMarkup = GetReportResponse.report.Markup;
+                ReportData.ReportMarkup = GetReportResponse.report.Markup;
 
             var waitingForLeftFragmentState = new WaitForLeftFragmentState(ReportMarkup);
             waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
