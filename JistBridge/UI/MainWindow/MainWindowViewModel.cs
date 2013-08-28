@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.Properties;
@@ -74,6 +75,21 @@ namespace JistBridge.UI.MainWindow {
 		public RelayCommand ExitCommand {
 			get { return new RelayCommand(() => new ShutdownApplicationMessage(null, null).Send()); }
 		}
+
+        public RelayCommand SaveCommand
+        {
+            get { return new RelayCommand(() =>
+            {
+                var content = LayoutRoot.LastFocusedDocument.Content as ReportView.ReportView;
+                if (content == null) return;
+
+                var reportViewModel = content.DataContext as IReportViewModel;
+                if(reportViewModel == null) return;
+
+                reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
+                new SaveReportRestMessage(null, null){ReportData = reportViewModel.GetReportResponse}.Send();
+            }); }
+        }
 
 		public string Title {
 			get { return Settings.Default.ApplicationName; }

@@ -6,7 +6,10 @@ namespace JistBridge.Data.Model {
 	public class Report {
 		[Import(typeof(Markup))]
 		public Markup ReportMarkup { get; set; }
+        public GetReportResponse ReportResponse { get; set; }
+        public Report()
+        {}
 
-		public GetReportResponse ReportResponse { get; set; }
+		
 	}
 }

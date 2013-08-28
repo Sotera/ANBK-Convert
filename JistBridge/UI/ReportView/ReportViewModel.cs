@@ -39,16 +39,29 @@ namespace JistBridge.UI.ReportView
             }
             set
             {
+                if (GetReportResponse != null)
+                    return;
+
                 Report.ReportResponse = value;
+                InitializeReportView();
             }
         }
 
         [ImportingConstructor]
         public ReportViewModel(IFSMSystem fsmSystem, Report report)
         {
+            StateMachine = fsmSystem;
             Report = report;
 
-            //Log.Info("Loading View for Report: " + report.ReportResponse.ShortName);
+        }
+
+        private void InitializeReportView()
+        {
+            Report.ReportResponse = GetReportResponse;
+
+            if(GetReportResponse.report.Markup != null)
+                Report.ReportMarkup = GetReportResponse.report.Markup;
+
             var waitingForLeftFragmentState = new WaitForLeftFragmentState(ReportMarkup);
             waitingForLeftFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForCenterFragment);
             waitingForLeftFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForLeftFragment);
@@ -61,12 +74,13 @@ namespace JistBridge.UI.ReportView
             waitingForRightFragmentState.AddTransition(Transition.RecievedFragment, StateID.WaitingForLeftFragment);
             waitingForRightFragmentState.AddTransition(Transition.Cancel, StateID.WaitingForCenterFragment);
 
-            StateMachine = fsmSystem;
-            StateMachine.Start(new List<FSMState> {
-				waitingForLeftFragmentState,
-				waitingForCenterFragmentState,
-				waitingForRightFragmentState
-			},
+
+            StateMachine.Start(new List<FSMState>
+            {
+                waitingForLeftFragmentState,
+                waitingForCenterFragmentState,
+                waitingForRightFragmentState
+            },
                 waitingForLeftFragmentState);
 
             PerformStateTransitionMessage.Register(this,

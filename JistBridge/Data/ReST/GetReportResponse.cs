@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight;
+using JistBridge.Data.Model;
 using JistBridge.Messages;
 using JistBridge.UI.ReportView;
 
@@ -33,6 +34,7 @@ namespace JistBridge.Data.ReST {
 			public Metadata metadata { get; set; }
 			public List<Text> texts { get; set; }
 			public object diagram { get; set; }
+            public Markup Markup { get; set; }
 		}
 
 		public int resultCode { get; set; }

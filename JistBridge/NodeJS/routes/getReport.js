@@ -1,5 +1,6 @@
 var netHelpers = require('../utilExports/netHelpers')
     , querystring = require('querystring')
+    , fs = require('fs');
 
 exports.doVerb = function (req, res) {
     netHelpers.getPostBuffer(req, function (postBuffer) {
@@ -9,32 +10,21 @@ exports.doVerb = function (req, res) {
          res.end('{}');
          return;
          }*/
+        var report = getRandomFileFromFs();
+        if(report == null || report == undefined)
+            report = createRandomReport();
+
         var userCreds = querystring.parse(postBuffer.utf8Data);
         var response = {
             resultCode: 1,
             description: 'Success',
-            report: {
-                metadata: {
-                    resourceId: require('uid-util').create(),
-                    resourceField: 'reportKey',
-                    offsetField: 'sourceOffset',
-                    textField: 'label',
-                    fields: {
-                        dtg: getRandomDateAsMilDTG(),
-                        //dtg: '2013-05-28T15:25:55',
-                        sourceSystem: 'CIDNE',
-                        analyst: 'admin'
-                    }
-                },
-                texts: [ ],
-                diagram: null
-            }
+            report: report
         };
-        var initOffset = getRandomInt(200, 400);
+        /*var initOffset = getRandomInt(200, 400);
         for (var i = 0, length_i = getRandomInt(3, 9); i < length_i; ++i) {
             response.report.texts.push(getRandomOffsetAndText(initOffset));
             initOffset += getRandomInt(200, 400);
-        }
+        }*/
 
         setTimeout(function () {
             res.setHeader('Content-Type', 'application/json');
@@ -42,6 +32,60 @@ exports.doVerb = function (req, res) {
         }, 500);
     });
 };
+
+function getRandomFileFromFs()
+{
+    var files = fs.readdirSync('/tmp/');
+
+    if(files.length == 0)
+        return null;
+
+    var index = Math.floor((Math.random()*files.length));
+
+    var inputFilename = '/tmp/' + files[index];
+
+    if(inputFilename.indexOf('.json') == -1)
+        return null;
+
+    var fd = fs.readFileSync(inputFilename, 'utf8');
+    var data =  JSON.parse(fd);
+
+    if(data == undefined)
+        return null;
+
+    return data;
+}
+
+function createRandomReport()
+{
+    var report = {
+        metadata: {
+            resourceId: require('uid-util').create(),
+                resourceField: 'reportKey',
+                offsetField: 'sourceOffset',
+                textField: 'label',
+                fields: {
+                dtg: getRandomDateAsMilDTG(),
+                    //dtg: '2013-05-28T15:25:55',
+                    sourceSystem: 'CIDNE',
+                    analyst: 'admin'
+            }
+        },
+        texts: [ ],
+            diagram: null
+    }
+
+    var initOffset = getRandomInt(200, 400);
+    for (var i = 0, length_i = getRandomInt(3, 9); i < length_i; ++i)
+    {
+        report.texts.push(getRandomOffsetAndText(initOffset));
+        initOffset += getRandomInt(200, 400);
+    }
+
+    return report;
+}
+
+
 
 function getRandomOffsetAndText(offset) {
     return {
