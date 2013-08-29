@@ -4,6 +4,9 @@ namespace JistBridge.Data.Model
 {
     public class Range<T> where T : IComparable<T>
     {
+        public Range()
+        {
+        }
         /// <summary>
         /// Minimum value of the range
         /// </summary>

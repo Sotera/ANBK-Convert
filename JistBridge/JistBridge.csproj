@@ -144,6 +144,7 @@
     <Compile Include="Data\Model\Markup.cs" />
     <Compile Include="Data\Model\Range.cs" />
     <Compile Include="Data\ReST\GetReportResponse.cs" />
+    <Compile Include="Data\ReST\SaveReportResponse.cs" />
     <Compile Include="Data\ReST\ValidateUserResponse.cs" />
     <Compile Include="Interfaces\IChainCanvasViewModel.cs" />
     <Compile Include="Interfaces\IReportListViewModel.cs" />
@@ -154,14 +155,16 @@
     <Compile Include="Interfaces\IToolsOptionsViewModel.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\IBootstrapTask.cs" />
-    <Compile Include="Data\Model\Report.cs" />
+    <Compile Include="Data\Model\ReportData.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ANBK\ANBKStartedMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToChartMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
     <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />
+    <Compile Include="Messages\ReportSavedMessage.cs" />
     <Compile Include="Messages\ANBK\StartANBKMessage.cs" />
+    <Compile Include="Messages\SaveReportRestMessage.cs" />
     <Compile Include="Messages\ShowNLogWindowMessage.cs" />
     <Compile Include="Messages\SetPropertyEditorTargetMessage.cs" />
     <Compile Include="Messages\ReportReceivedMessage.cs" />

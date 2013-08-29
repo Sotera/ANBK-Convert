@@ -34,7 +34,7 @@ namespace JistBridge.UI.ReportView.States
                         HandleCancelFragment(markup, fragment, status);
                         break;
                     }
-                case FragmentStatus.Selected:
+                case FragmentStatus.Created:
                     {
                         HandleFragmentSelected(markup, fragment, status);
                         break;

@@ -132,7 +132,7 @@ namespace JistBridge.Behaviors
             if (viewModel == null)
                 return;
 
-            new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Selected).Send();
+            new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Created).Send();
             _currentFragmentRange = null;
         }
 

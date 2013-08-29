@@ -2,7 +2,7 @@
 
 namespace JistBridge.Messages
 {
-    public enum FragmentStatus{Selected,Canceled, Highlighted, UnHighlighted}
+    public enum FragmentStatus{Created, Deleted, Selected, Canceled, Highlighted, UnHighlighted}
     
     class FragmentStatusMessage : BaseMessage<FragmentStatusMessage>
     {

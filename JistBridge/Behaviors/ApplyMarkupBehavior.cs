@@ -92,10 +92,13 @@ namespace JistBridge.Behaviors {
 		    foreach (var chain in markup.Chains)
 		    {
 		        UIHelper.DrawFragment(chain.Left,_richTextBox);
-
+		        new ChainStatusMessage(this, null, markup, chain, ChainStatus.LeftFragmentAdded).Send();
+                
                 UIHelper.DrawFragment(chain.Center, _richTextBox);
-
+		        new ChainStatusMessage(this, null, markup, chain, ChainStatus.CenterFragmentAdded).Send();
+                
                 UIHelper.DrawFragment(chain.Right, _richTextBox);
+		        new ChainStatusMessage(this, null, markup, chain, ChainStatus.RightFragmentAdded).Send();
 		    }
         }
 

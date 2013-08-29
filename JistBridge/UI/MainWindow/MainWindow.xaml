@@ -24,6 +24,8 @@
 			<MenuItem Header="_File">
 				<MenuItem Header="E_xit"
 									Command="{Binding ExitCommand}" />
+                <MenuItem Header="S_ave"
+									Command="{Binding SaveCommand}" />
 			</MenuItem>
 			<MenuItem Header="_Tools">
 				<MenuItem Header="Start _ANBK"

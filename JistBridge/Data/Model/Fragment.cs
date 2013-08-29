@@ -21,6 +21,10 @@ namespace JistBridge.Data.Model
         [Browsable(false)]
         public int SourceOffset { get; set; }
 
+        public Fragment()
+        {
+        }
+
         public Fragment(List<Range<int>> offsets, FragmentType fragmentType, string displayText, int sourceOffset)
         {
             Offsets = offsets;

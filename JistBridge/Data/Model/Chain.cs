@@ -11,6 +11,10 @@
             get { return Right != null && Center != null && Left != null; }
         }
 
+        public Chain()
+        {
+        }
+
         public Chain(Fragment leftFragment, Fragment rightFragment, Fragment centerFragment)
         {
             Left = leftFragment;
