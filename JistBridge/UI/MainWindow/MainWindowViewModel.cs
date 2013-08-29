@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
+using JistBridge.Messages.ANBK;
 using JistBridge.Properties;
 using NLog;
 using Xceed.Wpf.AvalonDock;
@@ -48,6 +49,10 @@ namespace JistBridge.UI.MainWindow {
 			}
 		}
 
+		public RelayCommand StartANBKCommand {
+			get { return new RelayCommand(() => new StartANBKMessage(null, null).Send()); }
+		}
+
 		public RelayCommand ShowOptionsDialogCommand {
 			get { return new RelayCommand(() => new ShowOptionsDialogMessage(null, null).Send()); }
 		}
@@ -59,7 +64,6 @@ namespace JistBridge.UI.MainWindow {
 		public RelayCommand ShowAboutBoxCommand {
 			get {
 				return new RelayCommand(() => {
-
 					Log.Trace("How Trace?");
 					Log.Debug("How Debug?");
 					Log.Info("How Info?");
@@ -67,7 +71,7 @@ namespace JistBridge.UI.MainWindow {
 					Log.Error("How Error?");
 					Log.Fatal("How Fatal?");
 
-                    new ShowAboutBoxMessage(null, null).Send();
+					new ShowAboutBoxMessage(null, null).Send();
 				});
 			}
 		}

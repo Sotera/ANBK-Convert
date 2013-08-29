@@ -133,6 +133,7 @@
     <Compile Include="Behaviors\WordBehavior.cs" />
     <Compile Include="Bootstrap\AboutBoxControl.cs" />
     <Compile Include="Bootstrap\Bootstrapper.cs" />
+    <Compile Include="Bootstrap\ANBKControl.cs" />
     <Compile Include="Bootstrap\NLogWindowControl.cs" />
     <Compile Include="Bootstrap\RestClientControl.cs" />
     <Compile Include="Bootstrap\PropertyEditorControl.cs" />
@@ -157,9 +158,12 @@
     <Compile Include="Data\Model\ReportData.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
+    <Compile Include="Messages\ANBK\ANBKStartedMessage.cs" />
+    <Compile Include="Messages\ANBK\AddIconToChartMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
     <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />
     <Compile Include="Messages\ReportSavedMessage.cs" />
+    <Compile Include="Messages\ANBK\StartANBKMessage.cs" />
     <Compile Include="Messages\SaveReportRestMessage.cs" />
     <Compile Include="Messages\ShowNLogWindowMessage.cs" />
     <Compile Include="Messages\SetPropertyEditorTargetMessage.cs" />
@@ -314,7 +318,35 @@
   <ItemGroup>
     <Resource Include="Resources\SplashScreen.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="i2NotebookApp">
+      <Guid>{29C44E91-28D6-4C95-8DEF-A666763F5B70}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="i2NotebookData">
+      <Guid>{29C44ECB-28D6-4C95-8DEF-A666763F5B70}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
