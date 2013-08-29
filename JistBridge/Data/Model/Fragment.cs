@@ -9,6 +9,7 @@ namespace JistBridge.Data.Model
         Link
     }
 
+
     public class Fragment
     {
         [Browsable(false)]
@@ -62,5 +63,14 @@ namespace JistBridge.Data.Model
         }
 
 
+        public bool ContainsExactRange(Range<int> offsetRange)
+        {
+            foreach (var localOffset in Offsets)
+            {
+                if (localOffset.Equals(offsetRange))
+                    return true;
+            }
+            return false;
+        }
     }
 }

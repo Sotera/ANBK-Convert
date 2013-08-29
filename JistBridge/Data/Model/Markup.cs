@@ -29,13 +29,39 @@ namespace JistBridge.Data.Model
             Chains = new List<Chain>();
         }
 
-        public void MergeFragments(Fragment winner, Fragment loser)
+	    public Fragment GetOrCreateFragment(Range<int> offsetRange, FragmentType fragmentType, string displayText, int sourceOffset)
+	    {
+	        Fragment fragment = null;
+	        if (fragmentType == FragmentType.Link)
+	        {
+	            fragment = new Fragment(new List<Range<int>> {offsetRange}, fragmentType, displayText, sourceOffset);
+	            return fragment;
+	        }
+
+            fragment = GetFragmentWithExactRange(offsetRange,true);
+	        return fragment ?? new Fragment(new List<Range<int>> { offsetRange }, fragmentType, displayText, sourceOffset);
+	    }
+
+	    public void MergeFragments(Fragment winner, Fragment loser)
         {
             winner.Consume(loser);
             ReLinkChains(winner,loser);
         }
 
-        public bool AreFragmentBoundsInMarkup(Fragment fragment)
+	    public Fragment GetFragmentWithExactRange(Range<int> offsetRange, bool nodesOnly)
+	    {
+	        Fragment fragment = null;
+            foreach (var chain in Chains)
+            {
+                fragment = chain.GetFragmentWithExactRange(offsetRange, nodesOnly);
+                if (fragment != null)
+                    return fragment;
+            }
+	        return fragment;
+
+	    }
+
+	    public bool AreFragmentBoundsInMarkup(Fragment fragment)
         {
             foreach (var chain in Chains)
             {
