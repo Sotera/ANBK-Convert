@@ -26,6 +26,9 @@
 									Command="{Binding ExitCommand}" />
 			</MenuItem>
 			<MenuItem Header="_Tools">
+				<MenuItem Header="Start _ANBK"
+									Command="{Binding StartANBKCommand}" />
+				<Separator/>
 				<MenuItem Header="_Options"
 									Command="{Binding ShowOptionsDialogCommand}" />
 			</MenuItem>

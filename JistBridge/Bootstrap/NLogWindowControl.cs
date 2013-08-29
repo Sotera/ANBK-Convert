@@ -14,7 +14,7 @@ namespace JistBridge.Bootstrap {
 				var rtb = ShowNLogWindowMessage.RichTextBox;
 				rtb.Visibility = Visibility.Visible;
 
-				SimpleConfigurator.ConfigureForTargetLogging(asyncWrapper, LogLevel.Trace);
+				SimpleConfigurator.ConfigureForTargetLogging(asyncWrapper, LogLevel.Debug);
 				new AddRemoveDocumentViewMessage(null, null, cbMsg => { }) {
 					Operation = Operation.Add,
 					ReportView = rtb,
