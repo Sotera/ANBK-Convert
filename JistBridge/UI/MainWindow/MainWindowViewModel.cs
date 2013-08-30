@@ -208,7 +208,7 @@ namespace JistBridge.UI.MainWindow {
 			switch (msg.Operation) {
 				case Operation.Add:
 					var doc = new LayoutDocument {
-						//Title = msg.TabText,
+						Title = msg.TabText,
 						Content = msg.ReportView,
 						CanFloat = true
 					};
