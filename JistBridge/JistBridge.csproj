@@ -167,6 +167,7 @@
     <Compile Include="Messages\ANBK\SendChainInfoToANBKMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
     <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />
+    <Compile Include="Messages\ReportModifiedMessage.cs" />
     <Compile Include="Messages\ReportSavedMessage.cs" />
     <Compile Include="Messages\ANBK\StartANBKMessage.cs" />
     <Compile Include="Messages\SaveReportRestMessage.cs" />
@@ -205,6 +206,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MainWindow\MainWindowViewModel.cs" />
+    <Compile Include="UI\MainWindow\PaneStyleSelector.cs" />
     <Compile Include="UI\ReportList\ReportList.xaml.cs">
       <DependentUpon>ReportList.xaml</DependentUpon>
     </Compile>

@@ -16,7 +16,8 @@ exports.doVerb = function (req, res) {
 
         var response = {
             resultCode:1,
-            description:'Success'
+            description:'Success',
+            resourceId:report.metadata.resourceId
         };
         res.setHeader('Content-Type','application/json');
         res.end(JSON.stringify(response));

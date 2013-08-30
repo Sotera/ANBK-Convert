@@ -18,6 +18,18 @@ namespace JistBridge.Data.Model
         public T Maximum { get; set; }
 
         /// <summary>
+        /// Returns true if the this.Minimum is equal to range.Minimum
+        /// and this.Maximum is equal to range.Maximum
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public bool Equals(Range<T> range)
+        {
+            return Minimum.CompareTo(range.Minimum) == 0 && Maximum.CompareTo(range.Maximum) == 0;
+        }
+
+
+        /// <summary>
         /// Presents the Range in readable format
         /// </summary>
         /// <returns>String representation of the Range</returns>

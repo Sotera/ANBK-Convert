@@ -12,6 +12,8 @@ namespace JistBridge.UI.ReportList {
 		private ObservableCollection<GetReportResponse> _reports;
 		private GetReportResponse _selectedReport;
 
+        public string Title{get { return "Reports"; }}
+
 		internal ReportListViewModel() {
 			ReportReceivedMessage.Register(this, msg => Reports.Add(msg.GetReportResponse));
 		}

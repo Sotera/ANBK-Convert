@@ -99,6 +99,10 @@ namespace JistBridge.Behaviors
 
         private void FinishFragment(object sender, RoutedEventArgs e)
         {
+            var viewModel = AssociatedObject.DataContext as IReportViewModel;
+            if (viewModel == null)
+                return;
+
             var mouseEventArgs = e as MouseEventArgs;
             if (_richTextBox == null || mouseEventArgs == null)return;
 
@@ -122,18 +126,22 @@ namespace JistBridge.Behaviors
                 Maximum = startToEnd
             };
             var sourceOffset = GetSourceOffset(_currentFragmentRange.Union);
-            var fragment = new Fragment(new List<Range<int>> { offsets }, FragmentType.Node, _currentFragmentRange.Union.Text, sourceOffset);
+            var fragment = viewModel.ReportMarkup.GetOrCreateFragment(offsets, GetNextFragmentType(viewModel.ReportMarkup), 
+                                                                        _currentFragmentRange.Union.Text, sourceOffset);
 
             UIHelper.ClearHighlight(_currentFragmentRange.Union, _richTextBox);
         
             UIHelper.DrawFragment(fragment, _richTextBox);
 
-            var viewModel = AssociatedObject.DataContext as IReportViewModel;
-            if (viewModel == null)
-                return;
-
             new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Created).Send();
             _currentFragmentRange = null;
+        }
+
+        private FragmentType GetNextFragmentType(Markup reportMarkup)
+        {
+            if(reportMarkup == null || reportMarkup.CurrentChain == null || reportMarkup.CurrentChain.Left == null)
+                return FragmentType.Node;
+            return reportMarkup.CurrentChain.Center == null ? FragmentType.Link : FragmentType.Node;
         }
 
         private void MouseoverText(TextRange range, MouseEventArgs mouseEventArgs)

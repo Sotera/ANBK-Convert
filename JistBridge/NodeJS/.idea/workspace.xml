@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="" />
+    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Data/Model/Fragment.cs" afterPath="$PROJECT_DIR$/../Data/Model/Fragment.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UI/ReportView/ReportViewModel.cs" afterPath="$PROJECT_DIR$/../UI/ReportView/ReportViewModel.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Behaviors/WordBehavior.cs" afterPath="$PROJECT_DIR$/../Behaviors/WordBehavior.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/saveReport.js" afterPath="$PROJECT_DIR$/routes/saveReport.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="NodeJS.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1377619020317" ignored="false" />
@@ -10,7 +16,7 @@
     <file path="/getReport.js" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1377709214738" ignored="false" />
     <file path="/a.dummy" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1376925353937" ignored="false" />
     <file path="/reqResHelpers.js" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1376925466197" ignored="false" />
-    <file path="/saveReport.js" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1377637206567" ignored="false" />
+    <file path="/saveReport.js" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1377890840502" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,19 +95,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="saveReport.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="saveReport.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/saveReport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="80" selection-start="331" selection-end="399" vertical-scroll-proportion="0.0">
+            <state line="8" column="87" selection-start="485" selection-end="485" vertical-scroll-proportion="0.2509225">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getReport.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="getReport.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/getReport.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="43" selection-start="869" selection-end="869" vertical-scroll-proportion="-0.10701107">
+            <state line="21" column="42" selection-start="581" selection-end="698" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,8 +153,8 @@
         <option value="$PROJECT_DIR$/utilExports/reqResHelpers.js" />
         <option value="$PROJECT_DIR$/routes/validateUser.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/routes/saveReport.js" />
         <option value="$PROJECT_DIR$/routes/getReport.js" />
+        <option value="$PROJECT_DIR$/routes/saveReport.js" />
       </list>
     </option>
   </component>
@@ -484,16 +490,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/saveReport.js">
+    <entry file="file://$PROJECT_DIR$/routes/getReport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="80" selection-start="331" selection-end="399" vertical-scroll-proportion="0.0">
+        <state line="21" column="42" selection-start="581" selection-end="698" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/getReport.js">
+    <entry file="file://$PROJECT_DIR$/routes/saveReport.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="43" selection-start="869" selection-end="869" vertical-scroll-proportion="-0.10701107">
+        <state line="8" column="87" selection-start="485" selection-end="485" vertical-scroll-proportion="0.2509225">
           <folding />
         </state>
       </provider>

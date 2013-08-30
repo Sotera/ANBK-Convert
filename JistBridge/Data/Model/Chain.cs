@@ -78,6 +78,16 @@
             return false;
         }
 
-        
+
+        public Fragment GetFragmentWithExactRange(Range<int> offsetRange, bool nodesOnly)
+        {
+            if (Left.ContainsExactRange(offsetRange))
+                return Left;
+
+            if (!nodesOnly && Center.ContainsExactRange(offsetRange))
+                return Center;
+
+            return Right.ContainsExactRange(offsetRange) ? Right : null;
+        }
     }
 }

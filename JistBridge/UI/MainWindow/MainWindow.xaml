@@ -1,11 +1,13 @@
 ﻿<Window x:Name="MainWindowName"
 				x:Class="JistBridge.UI.MainWindow.MainWindow"
+                xmlns:local="clr-namespace:JistBridge"
 				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				xmlns:valueConverters="clr-namespace:JistBridge.UI.ValueConverters"
 				xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 				xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
 				xmlns:reportList="clr-namespace:JistBridge.UI.ReportList"
+				xmlns:mainWindow="clr-namespace:JistBridge.UI.MainWindow"
 				Background="#FF333333"
 				ResizeMode="CanResizeWithGrip"
 				WindowStartupLocation="CenterScreen"
@@ -83,7 +85,16 @@
 					</StackPanel>
 				</DataTemplate>
 			</xcad:DockingManager.DocumentHeaderTemplate>
-			<xcad:LayoutRoot>
+            <xcad:DockingManager.LayoutItemContainerStyleSelector>
+                <mainWindow:PanesStyleSelector>
+                    <mainWindow:PanesStyleSelector.ProjectInstanceStyle>
+                        <Style TargetType="{x:Type xcad:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.DataContext.Title}"/>
+                        </Style>
+                    </mainWindow:PanesStyleSelector.ProjectInstanceStyle>
+                </mainWindow:PanesStyleSelector>
+            </xcad:DockingManager.LayoutItemContainerStyleSelector>
+            <xcad:LayoutRoot>
 				<!--
 			<xcad:LayoutRoot x:Name="LayoutRoot">
 -->
