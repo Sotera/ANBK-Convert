@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows.Controls;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 
@@ -6,7 +7,7 @@ namespace JistBridge.UI.ReportView {
 	/// <summary>
 	/// Interaction logic for ReportView.xaml
 	/// </summary>
-	public partial class ReportView {
+	public partial class ReportView:UserControl {
 		public ReportView() {
 			InitializeComponent();
 

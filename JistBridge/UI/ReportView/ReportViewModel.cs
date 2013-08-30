@@ -5,6 +5,7 @@ using JistBridge.Data.Model;
 using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
+using JistBridge.Messages.ANBK;
 using JistBridge.UI.ReportView.States;
 using JistBridge.Utilities.StateMachine;
 using NLog;
@@ -47,7 +48,9 @@ namespace JistBridge.UI.ReportView
             }
         }
 
-        [ImportingConstructor]
+	    public SendChainInfoToANBKMessage TmpMsg { get; set; }
+
+	    [ImportingConstructor]
         public ReportViewModel(IFSMSystem fsmSystem, ReportData reportData)
         {
             StateMachine = fsmSystem;
