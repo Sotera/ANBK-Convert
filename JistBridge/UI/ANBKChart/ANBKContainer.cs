@@ -74,7 +74,7 @@ namespace JistBridge.UI.ANBKChart {
 				xRight = _view.ViewX + (_view.ViewWidth - 50);
 			}
 			else {
-				var top = int.MaxValue;
+				var top = int.MinValue;
 				var bottom = int.MinValue;
 				var left = int.MaxValue;
 				var right = int.MinValue;
@@ -87,7 +87,7 @@ namespace JistBridge.UI.ANBKChart {
 					var r = l + width;
 					var b = t + height;
 					//Quick and dirty for now using only left,top
-					if (t < top) top = t;
+					if (t > top) top = t;
 					if (l < left) left = l;
 				}
 				xLeft = 50;
