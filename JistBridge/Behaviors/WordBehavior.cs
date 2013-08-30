@@ -133,8 +133,6 @@ namespace JistBridge.Behaviors
         
             UIHelper.DrawFragment(fragment, _richTextBox);
 
-            
-
             new FragmentStatusMessage(_richTextBox, null, viewModel.ReportMarkup, fragment, FragmentStatus.Created).Send();
             _currentFragmentRange = null;
         }
