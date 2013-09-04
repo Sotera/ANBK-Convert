@@ -116,10 +116,14 @@ namespace JistBridge.Behaviors
 
             var startString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.Start).Text;
             startString = startString.Replace(Environment.NewLine, "");
+            startString = startString.Replace("/0", "");
+            startString = startString.Replace("/r/n", "");
             var startToStart = startString.Length;
 
             var endString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.End).Text;
             endString = endString.Replace(Environment.NewLine, "");
+            endString = endString.Replace("/0", "");
+            endString = endString.Replace("/r/n", "");
             var startToEnd = endString.Length;
 
             var offsets = new Range<int>

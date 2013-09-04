@@ -104,7 +104,7 @@ namespace JistBridge.UI
                     // If we reach to the end of document, return the EOF pointer.
                     return nextPointer;
                 }
-                if (nextPointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                if (IsNextCharValid(nextPointer) )
                 {
                     nextPointer = nextPointer.GetPositionAtOffset(1, LogicalDirection.Forward);
                     counter++;
@@ -118,6 +118,18 @@ namespace JistBridge.UI
             }
 
             return nextPointer;
+        }
+
+        private static bool IsNextCharValid(TextPointer nextPointer)
+        {
+            bool isValid = nextPointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text;
+            if (!isValid)
+                return false;
+
+            var runBuffer = new char[1];
+            nextPointer.GetTextInRun(LogicalDirection.Forward, runBuffer, /*startIndex*/0, /*count*/1);
+
+            return runBuffer[0] != '\r' && runBuffer[0] != '\0' && runBuffer[0] != '\n';
         }
 
 
