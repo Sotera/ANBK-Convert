@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
@@ -115,15 +116,11 @@ namespace JistBridge.Behaviors
             }
 
             var startString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.Start).Text;
-            startString = startString.Replace(Environment.NewLine, "");
-            startString = startString.Replace("/0", "");
-            startString = startString.Replace("/r/n", "");
+            UIHelper.ValidCharacters.Replace(startString, string.Empty);
             var startToStart = startString.Length;
 
             var endString = new TextRange(_richTextBox.Document.ContentStart, _currentFragmentRange.Union.End).Text;
-            endString = endString.Replace(Environment.NewLine, "");
-            endString = endString.Replace("/0", "");
-            endString = endString.Replace("/r/n", "");
+            UIHelper.ValidCharacters.Replace(endString, string.Empty);
             var startToEnd = endString.Length;
 
             var offsets = new Range<int>

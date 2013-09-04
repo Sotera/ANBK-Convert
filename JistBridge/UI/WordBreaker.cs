@@ -6,7 +6,6 @@ namespace JistBridge.UI
 {
 	public static class WordBreaker
 	{
-        public static Regex ValidCharacters = new Regex(@"^[A-Za-z0-9_]");
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 		/// <summary>
 		/// Returns a TextRange covering a word containing or following this TextPointer.
@@ -83,8 +82,8 @@ namespace JistBridge.UI
 				position.GetTextInRun(wordBreakDirection, runBuffer, /*startIndex*/0, /*count*/1);
 				position.GetTextInRun(oppositeDirection, oppositeRunBuffer, /*startIndex*/0, /*count*/1);
 			    
-                if ( !ValidCharacters.IsMatch(runBuffer[0].ToString()) && 
-                    ValidCharacters.IsMatch(oppositeRunBuffer[0].ToString()))
+                if ( !UIHelper.ValidCharacters.IsMatch(runBuffer[0].ToString()) && 
+                    UIHelper.ValidCharacters.IsMatch(oppositeRunBuffer[0].ToString()))
 				{
 					isAtWordBoundary = true;
 				}
