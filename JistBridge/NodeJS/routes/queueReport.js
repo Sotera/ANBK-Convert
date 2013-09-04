@@ -5,7 +5,7 @@ var netHelpers = require('../utilExports/netHelpers')
 exports.doVerb = function (req, res) {
     netHelpers.getPostBuffer(req, function (postBuffer) {
         var loginCreds = querystring.parse(postBuffer.utf8Data);
-        fs.readFile('data/GetMetadataSchemas.json', 'utf8', function(err,data){
+        fs.readFile('data/QueueReport.json', 'utf8', function(err,data){
             res.setHeader('Content-Type','application/json');
             res.end(data);
         })
