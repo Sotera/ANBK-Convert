@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using JistBridge.Data.Model;
@@ -53,7 +55,20 @@ namespace JistBridge.Data.ReST {
 				//Make the XML pretty for easy reading
 				foreach (var text in textsAndMetadata.texts) {
 					var xmlDoc = XDocument.Parse(text.text);
-					text.text = xmlDoc.ToString();
+					var prettyXml = xmlDoc.ToString();
+					text.text = prettyXml;
+/*
+					var xmlReader = XmlReader.Create(new StringReader(text.text));
+					var newText = "";
+					while (xmlReader.Read()) {
+						if (xmlReader.NodeType == XmlNodeType.Text) {
+							var textContent = xmlReader.ReadContentAsString();
+							newText += xmlReader.LocalName + ": " + textContent + "\n";
+							//Console.WriteLine(xmlReader.LocalName + ": " + xmlReader.ReadContentAsString());
+						}
+					}
+					text.text = newText;
+*/
 				}
 				report = new CReport {texts = textsAndMetadata.texts, metadata = textsAndMetadata.metadata};
 			}

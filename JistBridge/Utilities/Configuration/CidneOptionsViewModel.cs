@@ -11,6 +11,7 @@ namespace JistBridge.Utilities.Configuration {
 	[DisplayName("CIDNE Configuration")]
 	internal class CidneOptionsViewModel : ICidneOptionsViewModel {
 		//Avoid 'no "Name"' exception out of XCeed PropertyGrid control
+		[BrowsableAttribute(false)]
 		public string Name {
 			get { return ""; }
 		}
@@ -88,6 +89,17 @@ namespace JistBridge.Utilities.Configuration {
 			get { return Settings.Default.EnableGetReportPolling; }
 			set {
 				if (Settings.Default.EnableGetReportPolling = value) new GetReportRestMessage(null, null).Send();
+				Settings.Default.Save();
+			}
+		}
+
+		[Category("Debug")]
+		[DisplayName("Report ResourceId")]
+		[Description("ResourceId of report to Queue when 'Queue Report' button is pressed.")]
+		public string ResourceId {
+			get { return Settings.Default.ResourceId; }
+			set {
+				Settings.Default.ResourceId = value;
 				Settings.Default.Save();
 			}
 		}

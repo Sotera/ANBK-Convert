@@ -26,5 +26,8 @@
     <Setting Name="QueueReportUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ResourceId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">9E7A9010-E7D2-87C8-BA09B614B63D8006</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

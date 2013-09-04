@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
+using JistBridge.Properties;
 using RestSharp;
 
 namespace JistBridge.Bootstrap {
@@ -56,7 +57,7 @@ namespace JistBridge.Bootstrap {
 					restRequest.AddParameter("username", "admin", ParameterType.GetOrPost);
 					var userPoid = UserCredentialsControl.UserCredentials.UserInfo.poid;
 					restRequest.AddParameter("proxy_ticket", userPoid, ParameterType.GetOrPost);
-					restRequest.AddParameter("resourceId", "9E7A9010-E7D2-87C8-BA09B614B63D8006", ParameterType.GetOrPost);
+					restRequest.AddParameter("resourceId", Settings.Default.ResourceId, ParameterType.GetOrPost);
 				});
 		}
 

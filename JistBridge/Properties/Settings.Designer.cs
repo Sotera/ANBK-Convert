@@ -115,5 +115,17 @@ namespace JistBridge.Properties {
                 this["QueueReportUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9E7A9010-E7D2-87C8-BA09B614B63D8006")]
+        public string ResourceId {
+            get {
+                return ((string)(this["ResourceId"]));
+            }
+            set {
+                this["ResourceId"] = value;
+            }
+        }
     }
 }
