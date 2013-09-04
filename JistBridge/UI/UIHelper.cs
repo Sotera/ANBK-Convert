@@ -59,7 +59,7 @@ namespace JistBridge.UI
         {
             SetFont(range, control.Foreground,control.Background, control.FontWeight);
         }
-
+        
         private static void SetFont(TextRange range, Brush foreground, Brush background, FontWeight weight)
         {
             if (range == null)

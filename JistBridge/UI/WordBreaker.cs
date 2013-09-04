@@ -1,9 +1,13 @@
-﻿using System.Windows.Documents;
+﻿using System.Text.RegularExpressions;
+using System.Windows.Documents;
+using NLog;
 
 namespace JistBridge.UI
 {
 	public static class WordBreaker
 	{
+        public static Regex ValidCharacters = new Regex(@"^[A-Za-z0-9_]");
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 		/// <summary>
 		/// Returns a TextRange covering a word containing or following this TextPointer.
 		/// </summary>
@@ -17,22 +21,19 @@ namespace JistBridge.UI
 			TextRange wordRange = null;
 			TextPointer wordStartPosition = null;
 
-			// Go forward first, to find word end position.
+            // Go forward first, to find word end position.
 			var wordEndPosition = GetPositionAtWordBoundary(position, /*wordBreakDirection*/LogicalDirection.Forward);
-
-			if (wordEndPosition != null)
+            if (wordEndPosition != null)
 			{
 				// Then travel backwards, to find word start position.
 				wordStartPosition = GetPositionAtWordBoundary(wordEndPosition, /*wordBreakDirection*/
 						LogicalDirection.Backward);
 			}
-
-			if (wordStartPosition != null)
+            if (wordStartPosition != null)
 			{
 				wordRange = new TextRange(wordStartPosition, wordEndPosition);
 			}
-
-			return wordRange;
+            return wordRange;
 		}
 
 		/// <summary>
@@ -46,15 +47,15 @@ namespace JistBridge.UI
 		{
 			if (!position.IsAtInsertionPosition)
 			{
-				position = position.GetInsertionPosition(wordBreakDirection);
+                position = GetNextPosition(position, wordBreakDirection);
 			}
 
 			var navigator = position;
 			while (navigator != null && !IsPositionNextToWordBreak(navigator, wordBreakDirection))
 			{
-				navigator = navigator.GetNextInsertionPosition(wordBreakDirection);
-			}
-
+                navigator = GetNextPosition(navigator, wordBreakDirection);
+            }
+            
 			return navigator;
 		}
 
@@ -67,7 +68,7 @@ namespace JistBridge.UI
 			// Skip over any formatting.
 			if (position.GetPointerContext(wordBreakDirection) != TextPointerContext.Text)
 			{
-				position = position.GetInsertionPosition(wordBreakDirection);
+				position = GetNextPosition(position,wordBreakDirection);
 			}
 
 			if (position.GetPointerContext(wordBreakDirection) == TextPointerContext.Text)
@@ -81,8 +82,9 @@ namespace JistBridge.UI
 
 				position.GetTextInRun(wordBreakDirection, runBuffer, /*startIndex*/0, /*count*/1);
 				position.GetTextInRun(oppositeDirection, oppositeRunBuffer, /*startIndex*/0, /*count*/1);
-
-				if (runBuffer[0] == ' ' && oppositeRunBuffer[0] != ' ')
+			    
+                if ( !ValidCharacters.IsMatch(runBuffer[0].ToString()) && 
+                    ValidCharacters.IsMatch(oppositeRunBuffer[0].ToString()))
 				{
 					isAtWordBoundary = true;
 				}
@@ -96,5 +98,25 @@ namespace JistBridge.UI
 
 			return isAtWordBoundary;
 		}
+
+	    private static TextPointer GetNextPosition(TextPointer currentPos, LogicalDirection direction)
+	    {
+	        var nextPointer = currentPos;
+	        
+	        if (nextPointer == null)
+	            return null;
+	        var offset = direction == LogicalDirection.Forward ? 1 : -1;
+
+	        
+	        if (nextPointer.CompareTo(nextPointer.DocumentStart) == 0 || nextPointer.CompareTo(nextPointer.DocumentEnd)==0)
+	        {
+	            // If we reach to the end of document, return the EOF pointer.
+	            return nextPointer;
+	        }
+            nextPointer = nextPointer.GetPointerContext(direction) == TextPointerContext.Text ? 
+                nextPointer.GetPositionAtOffset(offset, direction) : nextPointer.GetPositionAtOffset(offset, direction);
+	       
+	        return nextPointer;
+	    }
 	}
 }
