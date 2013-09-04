@@ -11,7 +11,7 @@ namespace JistBridge.UI.MainWindow {
 	public partial class MainWindow {
 		public MainWindow() {
 			InitializeComponent();
-			ShowDialogMessage.SetWindowContainer(WindowContainer);
+			//ShowDialogMessage.SetWindowContainer(WindowContainer);
 			new QueueMefComposeMessage(null, null, this, null).Send();
 			Loaded += OnLoaded;
 		}

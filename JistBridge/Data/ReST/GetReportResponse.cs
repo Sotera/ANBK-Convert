@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using JistBridge.Data.Model;
 using JistBridge.Messages;
@@ -49,6 +50,11 @@ namespace JistBridge.Data.ReST {
 		public string Report {
 			set {
 				var textsAndMetadata = JsonConvert.DeserializeObject<ReportTextsAndMetadata>(value);
+				//Make the XML pretty for easy reading
+				foreach (var text in textsAndMetadata.texts) {
+					var xmlDoc = XDocument.Parse(text.text);
+					text.text = xmlDoc.ToString();
+				}
 				report = new CReport {texts = textsAndMetadata.texts, metadata = textsAndMetadata.metadata};
 			}
 		}
