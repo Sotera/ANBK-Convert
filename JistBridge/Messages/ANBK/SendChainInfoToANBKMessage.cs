@@ -1,4 +1,6 @@
 ﻿using System;
+using Interop.i2NotebookData;
+using JistBridge.Data.Model;
 
 namespace JistBridge.Messages.ANBK {
 	public class SendChainInfoToANBKMessage : BaseMessage<SendChainInfoToANBKMessage> {
@@ -9,11 +11,8 @@ namespace JistBridge.Messages.ANBK {
 			ModifyRightNodeText
 		};
 		public ActionType Action { get; set; }
-		public string Text { get; set; }
-		public int LeftNodeId;
-		public int LinkId;
-		public int RightNodeId;
-		public SendChainInfoToANBKMessage(object sender, object target, Action<SendChainInfoToANBKMessage> cb)
+		public Chain Chain { get; set; }
+	    public SendChainInfoToANBKMessage(object sender, object target, Action<SendChainInfoToANBKMessage> cb)
 			: base(sender, target, cb) {}
 	}
 }

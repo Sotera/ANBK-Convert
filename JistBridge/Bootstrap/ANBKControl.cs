@@ -26,7 +26,7 @@ namespace JistBridge.Bootstrap {
 				Log.Trace(msg.Status);
 				if (msg.Status == FragmentStatus.SendToANBK)
 					new AddIconToChartMessage(this, this) {
-						Label = msg.Fragment.DisplayText
+						Label = msg.chain.DisplayText
 					}.Send();
 			});
 */

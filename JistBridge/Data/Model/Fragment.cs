@@ -12,14 +12,10 @@ namespace JistBridge.Data.Model
 
     public class Fragment
     {
-        [Browsable(false)]
         public List<Range<int>> Offsets { get; set; }
-        [Browsable(false)]
         public FragmentType FragmentType { get; set; }
-        [Browsable(false)]
-        public string AnalystNotebookId { get; set; }
+        public string AnalystNotebookIdentity { get; set; }
         public string DisplayText { get; set; }
-        [Browsable(false)]
         public int SourceOffset { get; set; }
 
         /// <summary>
