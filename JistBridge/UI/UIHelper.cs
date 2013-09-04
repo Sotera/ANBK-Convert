@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -8,6 +10,9 @@ namespace JistBridge.UI
 {
     public static class UIHelper
     {
+        public static Regex ValidCharacters = new Regex(@"[A-Za-z0-9_]");
+       
+
         /// <summary>
         /// Finds a parent of a given item on the visual tree.
         /// </summary>
@@ -104,7 +109,7 @@ namespace JistBridge.UI
                     // If we reach to the end of document, return the EOF pointer.
                     return nextPointer;
                 }
-                if (nextPointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text)
+                if (IsNextCharValid(nextPointer) )
                 {
                     nextPointer = nextPointer.GetPositionAtOffset(1, LogicalDirection.Forward);
                     counter++;
@@ -120,6 +125,17 @@ namespace JistBridge.UI
             return nextPointer;
         }
 
+        private static bool IsNextCharValid(TextPointer nextPointer)
+        {
+            bool isValid = nextPointer.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text;
+            if (!isValid)
+                return false;
+
+            var runBuffer = new char[1];
+            nextPointer.GetTextInRun(LogicalDirection.Forward, runBuffer, /*startIndex*/0, /*count*/1);
+
+            return ValidCharacters.IsMatch(runBuffer.ToString());
+        }
 
         public static void ToggleFragmentHilighted(Fragment fragment, Control control, bool isHighlighted)
         {
