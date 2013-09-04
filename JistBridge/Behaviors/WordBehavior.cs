@@ -24,7 +24,7 @@ namespace JistBridge.Behaviors
         {
             _richTextBox = AssociatedObject.RichTextBoxInstance;
             _canvas = AssociatedObject.CanvasInstance;
-            AssociatedObject.PreviewMouseMove += UpdateFragment;
+            AssociatedObject.MouseMove += UpdateFragment;
             AssociatedObject.PreviewMouseDown += BeginFragment;
             AssociatedObject.PreviewMouseUp += FinishFragment;
 
@@ -82,8 +82,10 @@ namespace JistBridge.Behaviors
             var mouseEventArgs = e as MouseEventArgs;
             if (_richTextBox == null || mouseEventArgs == null) return;
 
-            var range = GetWordRange(mouseEventArgs.GetPosition(_richTextBox), _richTextBox);
-            
+            var point1 = mouseEventArgs.GetPosition(_canvas);
+            var range = GetWordRange(point1, _richTextBox);
+            if (range == null)
+                return;
             if (_currentFragmentRange == null)
             {
                 MouseoverText(range,mouseEventArgs);
@@ -146,9 +148,10 @@ namespace JistBridge.Behaviors
 
         private void MouseoverText(TextRange range, MouseEventArgs mouseEventArgs)
         {
+            
             if (_richTextBox == null || mouseEventArgs == null)return;
 
-            if (!UpdateCursor(mouseEventArgs.GetPosition(_richTextBox), _richTextBox, _canvas))
+            if (!UpdateCursor(mouseEventArgs.GetPosition(_canvas), _richTextBox, _canvas))
             {
                 UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
                 return;
