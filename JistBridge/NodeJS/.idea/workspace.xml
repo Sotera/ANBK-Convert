@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Data/Model/Fragment.cs" afterPath="$PROJECT_DIR$/../Data/Model/Fragment.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UI/ReportView/ReportViewModel.cs" afterPath="$PROJECT_DIR$/../UI/ReportView/ReportViewModel.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Behaviors/WordBehavior.cs" afterPath="$PROJECT_DIR$/../Behaviors/WordBehavior.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/saveReport.js" afterPath="$PROJECT_DIR$/routes/saveReport.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="" />
     <ignored path="NodeJS.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1377619020317" ignored="false" />

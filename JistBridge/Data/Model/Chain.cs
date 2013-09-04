@@ -6,6 +6,7 @@
         public Fragment Center { get; set; }
         public Fragment Right { get; set; }
 
+      
         public bool IsComplete 
         {
             get { return Right != null && Center != null && Left != null; }

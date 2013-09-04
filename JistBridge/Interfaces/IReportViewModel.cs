@@ -8,7 +8,5 @@ namespace JistBridge.Interfaces {
 		FlowDocument ReportDocument { get; }
 		Markup ReportMarkup { get; }
 		GetReportResponse GetReportResponse { get; set; }
-		//We'll put something a little more specific here later
-		SendChainInfoToANBKMessage TmpMsg { get; set; }
 	}
 }
