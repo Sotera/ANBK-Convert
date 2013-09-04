@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Windows.Controls;
+using GalaSoft.MvvmLight.Threading;
 using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
@@ -34,7 +36,17 @@ namespace JistBridge.Bootstrap {
 			GetRestResponse<GetReportResponse>(CidneOptions.GetReportUrl, "GetReport",
 				res => {
 					if (res.Data != null)
-						new ReportReceivedMessage(null, null) {GetReportResponse = res.Data}.Send();
+						if (res.Data.resultCode != 1) {
+							DispatcherHelper.UIDispatcher.Invoke(() => new ShowDialogMessage(null, null) {
+								Title = "GetReport Failed",
+								IsModal = true,
+								ContainedControl = new Label {Content = res.Data.description, Height = 40},
+							}.Send());
+							return;
+						}
+					new ReportReceivedMessage(null, null) {
+						GetReportResponse = res.Data
+					}.Send();
 					if (CidneOptions.EnableGetReportPolling)
 						new GetReportRestMessage(null, null).SendAfterWaiting(CidneOptions.GetReportPollDelayMS);
 				},
@@ -47,12 +59,11 @@ namespace JistBridge.Bootstrap {
 
 		private void QueueReportRestMessageHandler(QueueReportRestMessage msg) {
 			GetRestResponse<QueueReportResponse>(CidneOptions.QueueReportUrl, "QueueReport",
-				res => {
-					if (res.Data != null) {
-						var rrr = res.Data;
-						rrr = res.Data;
-					}
-				},
+				res => DispatcherHelper.UIDispatcher.Invoke(() => new ShowDialogMessage(msg.Sender, msg.Target) {
+					Title = "Queue Report Response",
+					IsModal = true,
+					ContainedControl = new Label {Content = res.Data.description},
+				}.Send()),
 				restRequest => {
 					restRequest.AddParameter("username", "admin", ParameterType.GetOrPost);
 					var userPoid = UserCredentialsControl.UserCredentials.UserInfo.poid;
@@ -78,12 +89,7 @@ namespace JistBridge.Bootstrap {
 
 		private void GetMetadataSchemasRestMessageHandler(GetMetadataSchemasRestMessage msg) {
 			GetRestResponse<GetMetadataSchemasResponse>(CidneOptions.GetMetadataSchemasUrl, "GetMetadataSchemas",
-				res => {
-					if (res.Data != null) {
-						var rrr = res.Data;
-						rrr = res.Data;
-					}
-				},
+				res => { if (res.Data != null) {} },
 				restRequest => {
 					restRequest.AddParameter("username", "admin", ParameterType.GetOrPost);
 					var userPoid = UserCredentialsControl.UserCredentials.UserInfo.poid;
