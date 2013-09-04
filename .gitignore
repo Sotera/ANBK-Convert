@@ -5,7 +5,6 @@ obj
 
 /*.user
 packages
-data
 node_modules
 
 /*.DotSettings
