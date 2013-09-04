@@ -2,98 +2,162 @@
 using System.Windows.Forms;
 using Interop.i2NotebookConnector;
 using Interop.i2NotebookData;
+using JistBridge.Data.Model;
+using NLog;
 
-namespace JistBridge.UI.ANBKChart {
-	public partial class ANBKContainer : UserControl {
-		private LNConnector _connector;
-		private readonly LNChart _chart;
-		private readonly LNGraphicViewport2 _view;
+namespace JistBridge.UI.ANBKChart
+{
+    public partial class ANBKContainer : UserControl
+    {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private LNConnector _connector;
+        private readonly LNChart _chart;
+        private readonly LNGraphicViewport2 _view;
+        
+        public ANBKContainer()
+        {
+            InitializeComponent();
+            _connector = (LNConnector)axi2LinkConnector1.GetConnectorInterface();
+            _chart = (LNChart)axi2LinkData1.GetChartInterface();
+            _view = (LNGraphicViewport2)axi2LinkView1.GetViewInterface();
 
-		public ANBKContainer() {
-			InitializeComponent();
-			_connector = (LNConnector) axi2LinkConnector1.GetConnectorInterface();
-			_chart = (LNChart) axi2LinkData1.GetChartInterface();
-			_view = (LNGraphicViewport2) axi2LinkView1.GetViewInterface();
+            _connector.AddChart(_chart);
+            _connector.AddView(_view);
+            _connector.Connect(_chart, _view);
 
-			_connector.AddChart(_chart);
-			_connector.AddView(_view);
-			_connector.Connect(_chart, _view);
+            _chart.Initialise();
 
-			_chart.Initialise();
+            _chart.LoadChart(_connector.Options.StandardTemplateFile);
+            _chart.ReleaseFile();
 
-			_chart.LoadChart(_connector.Options.StandardTemplateFile);
-			_chart.ReleaseFile();
+            _chart.BackColour = 0xf0fff0;
 
-			_chart.BackColour = 0xf0fff0;
+            _connector.CurrentChart = _chart;
 
-			_connector.CurrentChart = _chart;
+            _view.ScrollTo(0, 0);
+            _view.Scaling = 1;
+        }
 
-			_view.ScrollTo(0, 0);
-			_view.Scaling = 1;
-		}
+        public void ModifyChartItemLabel(string id, string text)
+        {
+            var chartItem = GetEnd(id);
+            if (chartItem == null)
+            {
+                Log.Error("Tried to find entity in chart and could not find it : " + id); 
+                return;
+            }
+            chartItem.Label = text;
+        }
 
-		public void ModifyChartItemLabel(int id, string text) {
-			var chartItem = _chart.FindChartItemById(id);
-			chartItem.Label = text;
-		}
+        public void ModifyChartLinkLabel(string endIdentity, string linkGuidId, string displayText)
+        {
+            var chartItem = GetEnd(endIdentity);
+            if (chartItem == null)
+            {
+                Log.Error("Tried to find entity in chart and could not find it : " + endIdentity);
+                return;
+            }
 
-		public void AddUninitializedChain(out int leftNodeId, out int linkId, out int rightNodeId) {
-			const string unknownText = "???";
-			var type = _chart.EntityTypes.Find("Query");
-			var style = _chart.CreateIconStyle();
-			style.Type = type;
+            foreach (var link in chartItem.Links.Cast<LNLink>().Where(link => link.GuidId == linkGuidId))
+            {
+                link.Label = displayText;
+                return;
+            }
 
-			int xLeft;
-			int xRight;
-			int y;
-			GetLocationsForNewChain(out xLeft, out xRight, out y);
-			var leftEnd = (LNEnd) _chart.CreateIcon(style, xLeft, y, unknownText, _chart.GenerateUniqueIdentity());
-			var rightEnd = (LNEnd) _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity());
+            Log.Error("Tried to find Link on end build could not find it : " + linkGuidId);
+        }
 
-			var linkStyle = _chart.CreateLinkStyle();
-			linkStyle.LineWidth = 4;
-			var link = _chart.CreateLink(linkStyle, leftEnd, rightEnd, unknownText);
-			leftNodeId = leftEnd.Id;
-			rightNodeId = rightEnd.Id;
-			linkId = link.Id;
-		}
+        public void AddInitializedChain(Chain chain)
+        {
+            const string unknownText = "???";
+            var type = _chart.EntityTypes.Find("Query");
+            var style = _chart.CreateIconStyle();
+            style.Type = type;
 
-		private void GetLocationsForNewChain(out int xLeft, out int xRight, out int y) {
-			xLeft = 50;
-			xRight = 350;
-			y = 50;
+            int xLeft;
+            int xRight;
+            int y;
+            GetLocationsForNewChain(out xLeft, out xRight, out y);
 
-			//Go through all entities and make a bounding box
-			var list = _chart.Ends[ChartItemSelectionMask.ChartItemsAll, 0]
-				.Cast<object>()
-				.Cast<LNEnd>()
-				.ToArray();
+            var leftEnd = string.IsNullOrEmpty(chain.Left.AnalystNotebookIdentity) ? 
+                _chart.CreateIcon(style, xLeft, y, unknownText, _chart.GenerateUniqueIdentity()) : 
+                GetEnd(chain.Left.AnalystNotebookIdentity);
+            chain.Left.AnalystNotebookIdentity = GetEndIdentity(leftEnd);
+            leftEnd.Label = chain.Left.DisplayText;
 
-			if (list.Length == 0) {
-				xLeft = 50;
-				xRight = _view.ViewX + (_view.ViewWidth - 50);
-			}
-			else {
-				var top = int.MinValue;
-				var bottom = int.MinValue;
-				var left = int.MaxValue;
-				var right = int.MinValue;
-				foreach (var item in list) {
-					var l = 0;
-					var t = 0;
-					var width = 0;
-					var height = 0;
-					item.GetExtent(ref l, ref t, ref width, ref height);
-					var r = l + width;
-					var b = t + height;
-					//TODO: Quick and dirty for now using only left,top
-					if (t > top) top = t;
-					if (l < left) left = l;
-				}
-				xLeft = 50;
-				xRight = _view.ViewX + (_view.ViewWidth - 50);
-				y = top + 100;
-			}
-		}
-	}
+            var rightEnd = string.IsNullOrEmpty(chain.Right.AnalystNotebookIdentity) ?
+                _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity()) :
+                GetEnd(chain.Right.AnalystNotebookIdentity);
+            chain.Right.AnalystNotebookIdentity = GetEndIdentity(rightEnd);
+            rightEnd.Label = chain.Right.DisplayText;
+
+            var linkStyle = _chart.CreateLinkStyle();
+            linkStyle.LineWidth = 4;
+            var link = _chart.CreateLink(linkStyle, leftEnd, rightEnd, unknownText);
+            chain.Center.AnalystNotebookIdentity = link.GuidId;
+            link.Label = chain.Center.DisplayText;
+            
+        }
+
+        private static string GetEndIdentity(LNEnd end)
+        {
+            var entity = (end as LNEntity);
+            if (entity != null)
+                return  entity.Identity;
+            else
+            {
+                Log.Error("Left end node could not be converted to an LNEntity.");
+            }
+            return null;
+        }
+
+        private LNEnd GetEnd(string endId)
+        {
+            return string.IsNullOrEmpty(endId) ? null : _chart.FindEntityByIdentity(endId);
+        }
+
+        private void GetLocationsForNewChain(out int xLeft, out int xRight, out int y)
+        {
+            xLeft = 50;
+            xRight = 350;
+            y = 50;
+
+            //Go through all entities and make a bounding box
+            var list = _chart.Ends[ChartItemSelectionMask.ChartItemsAll, 0]
+                .Cast<object>()
+                .Cast<LNEnd>()
+                .ToArray();
+
+            if (list.Length == 0)
+            {
+                xLeft = 50;
+                xRight = _view.ViewX + (_view.ViewWidth - 50);
+            }
+            else
+            {
+                var top = int.MinValue;
+                var bottom = int.MinValue;
+                var left = int.MaxValue;
+                var right = int.MinValue;
+                foreach (var item in list)
+                {
+                    var l = 0;
+                    var t = 0;
+                    var width = 0;
+                    var height = 0;
+                    item.GetExtent(ref l, ref t, ref width, ref height);
+                    var r = l + width;
+                    var b = t + height;
+                    //Quick and dirty for now using only left,top
+                    if (t > top) top = t;
+                    if (l < left) left = l;
+                }
+                xLeft = 50;
+                xRight = _view.ViewX + (_view.ViewWidth - 50);
+                y = top + 100;
+            }
+        }
+
+       
+    }
 }
