@@ -22,6 +22,22 @@ namespace JistBridge.UI.ReportList {
 			get { return _reports ?? (_reports = new ObservableCollection<GetReportResponse>()); }
 		}
 
+		public RelayCommand LoginCommand {
+			get { return new RelayCommand(() => new ValidateUserRestMessage(null, null).Send()); }
+		}
+
+		public RelayCommand GetMetadataSchemasCommand {
+			get { return new RelayCommand(() => new GetMetadataSchemasRestMessage(null, null).Send()); }
+		}
+
+		public RelayCommand QueueReportCommand {
+			get { return new RelayCommand(() => new QueueReportRestMessage(null, null).Send()); }
+		}
+
+		public RelayCommand GetReportCommand {
+			get { return new RelayCommand(() => new GetReportRestMessage(null, null).Send()); }
+		}
+
 		public GetReportResponse SelectedReport {
 			get { return _selectedReport; }
 			set {

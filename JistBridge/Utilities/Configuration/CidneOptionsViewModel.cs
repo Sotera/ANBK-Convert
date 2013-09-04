@@ -38,12 +38,34 @@ namespace JistBridge.Utilities.Configuration {
 		}
 
 		[Category("ReST Services URLs")]
+		[DisplayName("Queue Report")]
+		[Description("URL for the QueueReport ReST call.")]
+		public string QueueReportUrl {
+			get { return Settings.Default.QueueReportUrl; }
+			set {
+				Settings.Default.QueueReportUrl = value;
+				Settings.Default.Save();
+			}
+		}
+
+		[Category("ReST Services URLs")]
 		[DisplayName("Save Report")]
 		[Description("URL for the SaveReport ReST call.")]
 		public string SaveReportUrl {
 			get { return Settings.Default.SaveReportUrl; }
 			set {
 				Settings.Default.SaveReportUrl = value;
+				Settings.Default.Save();
+			}
+		}
+
+		[Category("ReST Services URLs")]
+		[DisplayName("Get Metadata Schema")]
+		[Description("URL for the GetMetadataSchema ReST call.")]
+		public string GetMetadataSchemasUrl {
+			get { return Settings.Default.GetMetadataSchemasUrl; }
+			set {
+				Settings.Default.GetMetadataSchemasUrl = value;
 				Settings.Default.Save();
 			}
 		}
@@ -65,9 +87,7 @@ namespace JistBridge.Utilities.Configuration {
 		public bool EnableGetReportPolling {
 			get { return Settings.Default.EnableGetReportPolling; }
 			set {
-				if (Settings.Default.EnableGetReportPolling = value) {
-					new GetReportRestMessage(null, null).Send();
-				}
+				if (Settings.Default.EnableGetReportPolling = value) new GetReportRestMessage(null, null).Send();
 				Settings.Default.Save();
 			}
 		}

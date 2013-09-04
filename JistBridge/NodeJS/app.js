@@ -1,8 +1,10 @@
 var express = require('express')
     , path = require('path')
     , validateUser = require('./routes/validateUser')
+    , queueReport = require('./routes/queueReport')
     , getReport = require('./routes/getReport')
     , saveReport = require('./routes/saveReport')
+    , getMetadataSchemas = require('./routes/getMetadataSchemas')
     , util = require('util')
     , inspect = require('eyes').inspector({maxLength: false})
     , reqResHelpers = require('./utilExports/reqResHelpers')
@@ -37,7 +39,9 @@ app.all('/*', api);
 
 api.post('/UserHTTP/ValidateUser', validateUser.doVerb);
 api.post('/EntityHTTP/GetReport', getReport.doVerb);
+api.post('/EntityHTTP/QueueReport', queueReport.doVerb);
 api.post('/EntityHTTP/SaveReport', saveReport.doVerb);
+api.post('/EntityHTTP/GetMetadataSchemas', getMetadataSchemas.doVerb);
 
 //Startup proxy server
 app.listen(8080, function () {

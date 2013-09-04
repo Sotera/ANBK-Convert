@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using JistBridge.Data.Model;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.Messages.ANBK;
@@ -23,6 +22,8 @@ namespace JistBridge.UI.MainWindow {
 		private static readonly List<LayoutDocumentPaneGroup> PaneGroupList = new List<LayoutDocumentPaneGroup>();
 		private static DockingManager DockingManager { get; set; }
 
+		private string _title = "";
+
 		private static LayoutRoot LayoutRoot {
 			get { return DockingManager.Layout; }
 		}
@@ -30,9 +31,10 @@ namespace JistBridge.UI.MainWindow {
 		private object _propertyEditorTarget;
 
 		public MainWindowViewModel() {
+			SetMainWindowTitleMessage.Register(this, msg => { Title = msg.Title; });
+
 			SetPropertyEditorTargetMessage.Register(this, msg => {
 				PropertyEditorTarget = msg.PropertiesObject;
-				//MainLayoutDocumentPane.Children.
 			});
 			AddRemoveDocumentViewMessage.Register(this, AddRemoveDocumentView);
 		}
@@ -80,23 +82,27 @@ namespace JistBridge.UI.MainWindow {
 			get { return new RelayCommand(() => new ShutdownApplicationMessage(null, null).Send()); }
 		}
 
-        public RelayCommand SaveCommand
-        {
-            get { return new RelayCommand(() =>
-            {
-                var content = LayoutRoot.LastFocusedDocument.Content as ReportView.ReportView;
-                if (content == null) return;
+		public RelayCommand SaveCommand {
+			get {
+				return new RelayCommand(() => {
+					var content = LayoutRoot.LastFocusedDocument.Content as ReportView.ReportView;
+					if (content == null) return;
 
-                var reportViewModel = content.DataContext as IReportViewModel;
-                if(reportViewModel == null) return;
+					var reportViewModel = content.DataContext as IReportViewModel;
+					if (reportViewModel == null) return;
 
-                reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
-                new SaveReportRestMessage(null, null){ReportData = reportViewModel.GetReportResponse}.Send();
-            }); }
-        }
+					reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
+					new SaveReportRestMessage(null, null) {ReportData = reportViewModel.GetReportResponse}.Send();
+				});
+			}
+		}
 
 		public string Title {
-			get { return Settings.Default.ApplicationName; }
+			set {
+				_title = value;
+				RaisePropertyChanged("Title");
+			}
+			get { return Settings.Default.ApplicationName + " " + _title; }
 		}
 
 		void IMainWindowViewModel.SetLayoutDocumentInfo(DockingManager dockingManager) {
