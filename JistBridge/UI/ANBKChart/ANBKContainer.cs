@@ -86,7 +86,7 @@ namespace JistBridge.UI.ANBKChart {
 					item.GetExtent(ref l, ref t, ref width, ref height);
 					var r = l + width;
 					var b = t + height;
-					//Quick and dirty for now using only left,top
+					//TODO: Quick and dirty for now using only left,top
 					if (t > top) top = t;
 					if (l < left) left = l;
 				}

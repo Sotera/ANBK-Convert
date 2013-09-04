@@ -91,5 +91,29 @@ namespace JistBridge.Properties {
                 this["EnableGetReportPolling"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GetMetadataSchemasUrl {
+            get {
+                return ((string)(this["GetMetadataSchemasUrl"]));
+            }
+            set {
+                this["GetMetadataSchemasUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string QueueReportUrl {
+            get {
+                return ((string)(this["QueueReportUrl"]));
+            }
+            set {
+                this["QueueReportUrl"] = value;
+            }
+        }
     }
 }

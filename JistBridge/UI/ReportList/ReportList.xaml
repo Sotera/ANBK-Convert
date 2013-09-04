@@ -11,20 +11,38 @@
 	<UserControl.Resources>
 		<valueConverters:ReportToTextConverter x:Key="ReportToTextConverter" />
 	</UserControl.Resources>
-	<ListBox ItemsSource="{Binding Reports}"
-					 SelectionMode="Single"
-					 SelectedItem="{Binding SelectedReport}"
-					 IsSynchronizedWithCurrentItem="True">
-		<ListBox.ItemTemplate>
-			<DataTemplate>
-				<StackPanel Orientation="Horizontal">
-					<CheckBox IsChecked="{Binding ReportVisible, Mode=TwoWay}"
-										Margin="0,7,0,0"/>
-					<Label Content="{Binding ShortName}"
-								 attachedCommandBehavior:CommandBehavior.Event="MouseDoubleClick"
-								 attachedCommandBehavior:CommandBehavior.Action="{Binding OpenReportCommand}"/>
-				</StackPanel>
-			</DataTemplate>
-		</ListBox.ItemTemplate>
-	</ListBox>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0"
+								Orientation="Horizontal">
+			<Button Content="Login"
+							Command="{Binding LoginCommand}"/>
+			<Button Content="Get Schemas"
+							Command="{Binding GetMetadataSchemasCommand}"/>
+			<Button Content="Queue Report"
+							Command="{Binding QueueReportCommand}"/>
+			<Button Content="Get Report"
+							Command="{Binding GetReportCommand}"/>
+		</StackPanel>
+		<ListBox Grid.Row="1"
+						 ItemsSource="{Binding Reports}"
+						 SelectionMode="Single"
+						 SelectedItem="{Binding SelectedReport}"
+						 IsSynchronizedWithCurrentItem="True">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<CheckBox IsChecked="{Binding ReportVisible, Mode=TwoWay}"
+											Margin="0,7,0,0" />
+						<Label Content="{Binding ShortName}"
+									 attachedCommandBehavior:CommandBehavior.Event="MouseDoubleClick"
+									 attachedCommandBehavior:CommandBehavior.Action="{Binding OpenReportCommand}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
 </UserControl>
