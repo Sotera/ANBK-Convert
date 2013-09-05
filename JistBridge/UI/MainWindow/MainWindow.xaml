@@ -42,7 +42,7 @@
 										 Margin="0,0,10,0"
 										 VerticalAlignment="Center" />
 					<ComboBox x:Name="ThemeCombo"
-										SelectedIndex="0"
+										SelectedIndex="1"
 										Width="200">
 						<ComboBoxItem Content="Generic" />
 						<ComboBoxItem Content="Aero">

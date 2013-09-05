@@ -86,7 +86,7 @@ namespace JistBridge.Data.ReST {
                 ShortName = "Report " + _reportCounter;
                 return _shortName;
             }
-	        private set { _shortName = value; }
+	        set { _shortName = value; }
 	    }
 
 	    private ReportView ReportView { get; set; }
