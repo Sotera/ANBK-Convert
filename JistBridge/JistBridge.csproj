@@ -206,7 +206,9 @@
     <Compile Include="UI\ANBKChart\ANBKChart.xaml.cs">
       <DependentUpon>ANBKChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ANBKChart\ANBKContainer.cs" />
+    <Compile Include="UI\ANBKChart\ANBKContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\ANBKChart\ANBKContainer.Designer.cs">
       <DependentUpon>ANBKContainer.cs</DependentUpon>
     </Compile>
