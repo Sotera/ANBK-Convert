@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Interop.i2NotebookData;
 using JistBridge.Interfaces;
-using JistBridge.Messages;
 using JistBridge.Messages.ANBK;
 using NLog;
 using LNApplication2 = Interop.i2NotebookApp.LNApplication2;
@@ -56,22 +55,11 @@ namespace JistBridge.Bootstrap {
 		}
 
 		private void ANBKStarted(ANBKStartedMessage anbkStartedMessage) {
-			if (!CheckANBKApplication()) return;
-			ANBKApplication.Charts.Add(ANBKApplication.Options.StandardTemplateFile);
-			ANBKChart = ANBKApplication.Charts.CurrentChart;
-		}
-
-		private void AsyncStartANBK(StartANBKMessage msg) {
-			//It may be that ANBK is already running ...
-			//ANBKApplication = (LNApplication2)Marshal.GetActiveObject("LinkNotebook.Application.7");
-
+			ANBKApplication.Visible = true;
+			//if (!CheckANBKApplication()) return;
 			var worker = new BackgroundWorker();
 			worker.DoWork += (o, ea) => {
-				Log.Info("Starting ANBK application.");
-				var anbkType = Type.GetTypeFromProgID("LinkNotebook.Application.7");
-				ANBKApplication = (LNApplication2) Activator.CreateInstance(anbkType);
-				var visible = ANBKApplication.Visible = true;
-				new ANBKStartedMessage(this, this).Send();
+				var visible = ANBKApplication.Visible;
 				//Need to 'ping' the ANBK app so we know when it closes
 				while (visible) {
 					Thread.Sleep(1000); //Once per second probably good enough
@@ -88,7 +76,27 @@ namespace JistBridge.Bootstrap {
 				ANBKApplication = null;
 				ANBKChart = null;
 			};
-			worker.RunWorkerAsync();
+			ANBKApplication.Charts.Add(ANBKApplication.Options.StandardTemplateFile);
+			ANBKChart = ANBKApplication.Charts.CurrentChart;
+		}
+
+		private void AsyncStartANBK(StartANBKMessage msg) {
+			//It may be that ANBK is already running ...
+			try {
+				ANBKApplication = (LNApplication2) Marshal.GetActiveObject("LinkNotebook.Application.7");
+				Log.Info("ANBK application already running.");
+				new ANBKStartedMessage(this, this).Send();
+			}
+			catch (Exception e) {
+				var worker = new BackgroundWorker();
+				worker.DoWork += (o, ea) => {
+					Log.Info("Starting ANBK application.");
+					var anbkType = Type.GetTypeFromProgID("LinkNotebook.Application.7");
+					ANBKApplication = (LNApplication2) Activator.CreateInstance(anbkType);
+					new ANBKStartedMessage(this, this).Send();
+				};
+				worker.RunWorkerAsync();
+			}
 		}
 	}
 }
