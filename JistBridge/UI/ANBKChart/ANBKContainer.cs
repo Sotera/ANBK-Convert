@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using Interop.i2NotebookConnector;
 using Interop.i2NotebookData;
 using JistBridge.Data.Model;
+using JistBridge.Data.ReST;
 using NLog;
 
 namespace JistBridge.UI.ANBKChart
@@ -13,6 +17,8 @@ namespace JistBridge.UI.ANBKChart
         private LNConnector _connector;
         private readonly LNChart _chart;
         private readonly LNGraphicViewport2 _view;
+        string strGUID = "{12345678-1234-1234-1234-123456789012}";
+
         
         public ANBKContainer()
         {
@@ -67,8 +73,44 @@ namespace JistBridge.UI.ANBKChart
             Log.Error("Tried to find Link on end build could not find it : " + linkGuidId);
         }
 
+        private void PushFieldsOntoEntity(LNEntity entity, Dictionary<string, string> fields, GetReportResponse.CReport.CMetadata metadata)
+        {
+            if (entity.PropertyBags.PropertyBag[strGUID] as LNPropertyBag != null)
+                return;
+            LNPropertyBag bag = entity.PropertyBags.Add(strGUID);
+            AddPropertiesToBag(bag, fields, metadata);
+        }
 
-        public void AddInitializedChain(Chain chain)
+        private void AddPropertiesToBag(LNPropertyBag bag, Dictionary<string, string> fields,
+            GetReportResponse.CReport.CMetadata metadata)
+        {
+            foreach (var key in fields.Keys)
+            {
+                bag.WriteProperty(key, fields[key]);
+            }
+
+            bag.WriteProperty(GetPropertyName(() => metadata.offsetField), metadata.offsetField);
+            bag.WriteProperty(GetPropertyName(() => metadata.resourceField), metadata.resourceField);
+            bag.WriteProperty(GetPropertyName(() => metadata.resourceId), metadata.resourceId);
+            bag.WriteProperty(GetPropertyName(() => metadata.textField), metadata.textField);
+        }
+
+        private void PushFieldsOntoChartItem(LNChartItem item, Dictionary<string, string> fields, 
+            GetReportResponse.CReport.CMetadata metadata)
+        {
+            if (item.PropertyBags.PropertyBag[strGUID] as LNPropertyBag != null)
+                return;
+
+            LNPropertyBag bag = item.PropertyBags.Add(strGUID);
+            AddPropertiesToBag(bag,fields,metadata);
+        }
+        public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
+        {
+            var memberExpression = propertyExpression.Body as MemberExpression;
+            return memberExpression != null ? memberExpression.Member.Name : null;
+        }
+
+        public void AddInitializedChain(Chain chain, Dictionary<string,string> fields, GetReportResponse.CReport.CMetadata metadata )
         {
             const string unknownText = "???";
             var type = _chart.EntityTypes.Find("Query");
@@ -85,18 +127,21 @@ namespace JistBridge.UI.ANBKChart
                 GetEnd(chain.Left.AnalystNotebookIdentity);
             chain.Left.AnalystNotebookIdentity = GetEndIdentity(leftEnd);
             leftEnd.Label = chain.Left.DisplayText;
+            PushFieldsOntoEntity(leftEnd as LNEntity,fields,metadata);
 
             var rightEnd = string.IsNullOrEmpty(chain.Right.AnalystNotebookIdentity) ?
                 _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity()) :
                 GetEnd(chain.Right.AnalystNotebookIdentity);
             chain.Right.AnalystNotebookIdentity = GetEndIdentity(rightEnd);
             rightEnd.Label = chain.Right.DisplayText;
+            PushFieldsOntoEntity(rightEnd as LNEntity, fields,metadata);
 
             var linkStyle = _chart.CreateLinkStyle();
             linkStyle.LineWidth = 4;
             var link = _chart.CreateLink(linkStyle, leftEnd, rightEnd, unknownText);
             chain.Center.AnalystNotebookIdentity = link.GuidId;
             link.Label = chain.Center.DisplayText;
+            PushFieldsOntoChartItem(link,fields,metadata);
             
         }
 

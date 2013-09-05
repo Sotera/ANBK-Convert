@@ -90,6 +90,8 @@ namespace JistBridge.Behaviors
             new SendChainInfoToANBKMessage(this, null, null)
             {
                 Action = SendChainInfoToANBKMessage.ActionType.CreateNewChain,
+                Fields = reportViewModel.GetReportResponse.report.fields,
+                MetaData = reportViewModel.GetReportResponse.report.metadata,
                 Chain = chain
             }.Send(reportViewModel);
 

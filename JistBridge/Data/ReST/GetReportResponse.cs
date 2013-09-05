@@ -17,17 +17,11 @@ namespace JistBridge.Data.ReST {
 
 		public class CReport {
 			public class CMetadata {
-				public class CFields {
-					public string dtg { get; set; }
-					public string sourceSystem { get; set; }
-					public string analyst { get; set; }
-				}
-
 				public string resourceId { get; set; }
 				public string resourceField { get; set; }
 				public string offsetField { get; set; }
 				public string textField { get; set; }
-				public CFields fields { get; set; }
+				
 			}
 
 			public class CText {
@@ -39,6 +33,7 @@ namespace JistBridge.Data.ReST {
 			public List<CText> texts { get; set; }
 			public object diagram { get; set; }
 			public Markup Markup { get; set; }
+            public Dictionary<string,string>fields { get; set; } 
 		}
 
 		public int resultCode { get; set; }
@@ -47,6 +42,7 @@ namespace JistBridge.Data.ReST {
 		public class ReportTextsAndMetadata {
 			public List<CReport.CText> texts { get; set; }
 			public CReport.CMetadata metadata { get; set; }
+            public Dictionary<string, string> fields { get; set; }
 		}
 
 		public string Report {
@@ -70,7 +66,7 @@ namespace JistBridge.Data.ReST {
 					text.text = newText;
 */
 				}
-				report = new CReport {texts = textsAndMetadata.texts, metadata = textsAndMetadata.metadata};
+				report = new CReport {texts = textsAndMetadata.texts, metadata = textsAndMetadata.metadata, fields = textsAndMetadata.fields};
 			}
 		}
 
@@ -81,7 +77,8 @@ namespace JistBridge.Data.ReST {
 		public string ShortName {
 			get {
 				try {
-					if (report.metadata.fields != null && report.metadata.fields.dtg != null) return report.metadata.fields.dtg;
+                    //TODO:Pull out a good name for the report
+					//if (report.metadata.fields != null && report.metadata.fields.dtg != null) return report.metadata.fields.dtg;
 					return "Report " + ++_reportCounter;
 				}
 				catch (Exception e) {

@@ -24,7 +24,7 @@ namespace JistBridge.UI.ANBKChart
                 {
                     case (SendChainInfoToANBKMessage.ActionType.CreateNewChain):
                         {
-                            _anbkContainer.AddInitializedChain(msg.Chain);
+                            _anbkContainer.AddInitializedChain(msg.Chain, msg.Fields,msg.MetaData);
                             msg.Execute(msg);
                             break;
                         }
