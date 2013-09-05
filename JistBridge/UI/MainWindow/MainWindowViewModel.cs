@@ -91,6 +91,9 @@ namespace JistBridge.UI.MainWindow {
 					var reportViewModel = content.DataContext as IReportViewModel;
 					if (reportViewModel == null) return;
 
+				    if (!reportViewModel.Modified)
+				        return;
+
 					reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
 
                     new SaveANBKChartMessage(this, null, cbMsg => 

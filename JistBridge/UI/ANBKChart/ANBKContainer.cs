@@ -37,8 +37,6 @@ namespace JistBridge.UI.ANBKChart
             _chart.LoadChart(_connector.Options.StandardTemplateFile);
             _chart.ReleaseFile();
 
-            _chart.BackColour = 0xf0fff0;
-
             _connector.CurrentChart = _chart;
 
             _view.ScrollTo(0, 0);
@@ -133,6 +131,9 @@ namespace JistBridge.UI.ANBKChart
         private void AddPropertiesToCard(LNCard card, Dictionary<string, string> fields,
             GetReportResponse.CReport.CMetadata metadata)
         {
+            if (card == null)
+                return;
+
             var sb = new StringBuilder();
 
             foreach (var key in fields.Keys)
@@ -246,7 +247,7 @@ namespace JistBridge.UI.ANBKChart
         {
             var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                             "\\JISTBridge";
-            var filename = "\\ANBK.anb";
+            const string filename = "\\ANBK.anb";
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
             _chart.SaveChart(directory + filename);

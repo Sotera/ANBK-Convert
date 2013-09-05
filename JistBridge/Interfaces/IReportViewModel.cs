@@ -8,5 +8,6 @@ namespace JistBridge.Interfaces {
 		FlowDocument ReportDocument { get; }
 		Markup ReportMarkup { get; }
 		GetReportResponse GetReportResponse { get; set; }
+        bool Modified { get; set; }
 	}
 }

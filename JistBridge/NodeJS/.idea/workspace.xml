@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JistBridge.csproj" afterPath="$PROJECT_DIR$/../JistBridge.csproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UI/ANBKChart/ANBKChart.xaml.cs" afterPath="$PROJECT_DIR$/../UI/ANBKChart/ANBKChart.xaml.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UI/ANBKChart/ANBKContainer.cs" afterPath="$PROJECT_DIR$/../UI/ANBKChart/ANBKContainer.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UI/MainWindow/MainWindowViewModel.cs" afterPath="$PROJECT_DIR$/../UI/MainWindow/MainWindowViewModel.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Bootstrap/RestClientControl.cs" afterPath="$PROJECT_DIR$/../Bootstrap/RestClientControl.cs" />
-    </list>
+    <list default="true" id="608a7f67-291a-4fd2-9d47-5a5669d55259" name="Default" comment="" />
     <ignored path="NodeJS.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="608a7f67-291a-4fd2-9d47-5a5669d55259" time="1378325537314" ignored="false" />
