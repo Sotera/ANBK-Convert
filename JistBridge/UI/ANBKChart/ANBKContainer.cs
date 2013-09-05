@@ -67,6 +67,7 @@ namespace JistBridge.UI.ANBKChart
             Log.Error("Tried to find Link on end build could not find it : " + linkGuidId);
         }
 
+
         public void AddInitializedChain(Chain chain)
         {
             const string unknownText = "???";

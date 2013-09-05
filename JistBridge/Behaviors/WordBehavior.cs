@@ -158,7 +158,8 @@ namespace JistBridge.Behaviors
                 return;
             }
 
-            if (range == null || _currentTextRange == range) return;
+            if (range == null) 
+                return;
 
             UIHelper.ClearHighlight(_currentTextRange, _richTextBox);
             UIHelper.HighlightRange(range, Brushes.DarkRed, null , _richTextBox.FontWeight, _richTextBox);
