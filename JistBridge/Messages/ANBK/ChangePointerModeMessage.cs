@@ -1,4 +1,4 @@
-﻿namespace JistBridge.Messages {
+﻿namespace JistBridge.Messages.ANBK {
 	public enum PointerType {
 		Pointer,
 		Drag
