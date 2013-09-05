@@ -17,9 +17,49 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="1*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Button Content="Hello"/>
-		</StackPanel>
+		<ToolBar Grid.Row="0">
+			<Menu>
+				<MenuItem Header="Mode">
+					<MenuItem Header="Pointer"
+										Command="{Binding ChangePointerModePointerCommand}" />
+					<MenuItem Header="Drag"
+										Command="{Binding ChangePointerModeDragCommand}" />
+				</MenuItem>
+			</Menu>
+			<Menu>
+				<MenuItem Header="Fit Chart">
+					<MenuItem Header="Actual Size"
+										Command="{Binding FitActualSizeCommand}" />
+					<MenuItem Header="Window Height"
+										Command="{Binding FitHeightCommand}" />
+					<MenuItem Header="Selection In Window"
+										Command="{Binding FitSelectionInWindowCommand}" />
+					<MenuItem Header="Window"
+										Command="{Binding FitWindowCommand}" />
+				</MenuItem>
+			</Menu>
+			<Menu>
+				<MenuItem Header="Layout">
+					<MenuItem Header="Circular"
+										Command="{Binding CircularLayoutCommand}" />
+					<MenuItem Header="Peacock"
+										Command="{Binding PeacockLayoutCommand}" />
+					<MenuItem Header="Group"
+										Command="{Binding GroupLayoutCommand}" />
+				</MenuItem>
+			</Menu>
+<!--
+			<Button x:Name="_circularLayoutButton"
+							Command="{Binding CircularLayoutCommand}"
+							ToolTip="Login">
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/JistBridge;component/Resources/login.png" />
+					<TextBlock Text="Circular Layout"
+										 Margin="4,0,0,0" />
+				</StackPanel>
+			</Button>
+-->
+		</ToolBar>
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />

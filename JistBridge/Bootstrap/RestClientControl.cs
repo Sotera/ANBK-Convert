@@ -111,7 +111,17 @@ namespace JistBridge.Bootstrap {
 					RequestFormat = DataFormat.Json
 				};
 				if (cbRestRequest != null) cbRestRequest(restRequest);
-				restClient.ExecuteAsync<T>(restRequest, (res, handle) => cb((RestResponse<T>) res));
+				restClient.ExecuteAsync<T>(restRequest, (res, handle) => {
+					if (res.ResponseStatus != ResponseStatus.Completed) {
+							DispatcherHelper.UIDispatcher.Invoke(() => new ShowDialogMessage(null, null) {
+								Title = "GetReport Failed",
+								IsModal = true,
+								ContainedControl = new Label {Content = res.ErrorMessage, Height = 40},
+							}.Send());
+						return;
+					}
+					cb((RestResponse<T>) res);
+				});
 			}
 			catch (Exception e) {
 				Console.WriteLine(e);

@@ -8,7 +8,6 @@ using Interop.i2NotebookData;
 using JistBridge.Data.Model;
 using JistBridge.Data.ReST;
 using NLog;
-
 namespace JistBridge.UI.ANBKChart
 {
     public partial class ANBKContainer : UserControl
@@ -42,30 +41,67 @@ namespace JistBridge.UI.ANBKChart
 
             _view.ScrollTo(0, 0);
             _view.Scaling = 1;
+
+			//Need to hook up layouts to the chart (though this should happen automagically through
+			//this component container)
+			axi2LinkCircleLayout1.Chart = _chart;
+			axi2LinkPeacockLayout1.Chart = _chart;
+			axi2LinkGroupLayout1.Chart = _chart;
         }
 
-        public void ModifyChartItemLabel(string id, string text)
-        {
+		public void ChangePointerMode_Pointer() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SetEditMode);
+		}
+
+		public void ChangePointerMode_Drag() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SetDragMode);
+		}
+
+		public void FitActualSize() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SmoothActualSize);
+		}
+
+		public void FitHeight() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SmoothFitHeightInWindow);
+		}
+
+		public void FitWindow() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SmoothFitChartInWindow);
+		}
+
+		public void FitSeletionInWindow() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SmoothFitSelectionInWindow);
+		}
+
+		public void DoCircleLayout() {
+			((Ii2SyncCommand) axi2LinkCircleLayout1.GetOcx()).DoCommand();
+		}
+
+		public void DoPeacockLayout() {
+			((Ii2SyncCommand) axi2LinkPeacockLayout1.GetOcx()).DoCommand();
+		}
+
+		public void DoGroupLayout() {
+			((Ii2SyncCommand) axi2LinkGroupLayout1.GetOcx()).DoCommand();
+		}
+
+		public void ModifyChartItemLabel(string id, string text) {
             var chartItem = GetEnd(id);
-            if (chartItem == null)
-            {
+			if (chartItem == null) {
                 Log.Error("Tried to find entity in chart and could not find it : " + id); 
                 return;
             }
             chartItem.Label = text;
         }
 
-        public void ModifyChartLinkLabel(string endIdentity, string linkGuidId, string displayText)
-        {
+		public void ModifyChartLinkLabel(string endIdentity, string linkGuidId, string displayText) {
             var chartItem = GetEnd(endIdentity);
-            if (chartItem == null)
-            {
+			if (chartItem == null) {
                 Log.Error("Tried to find entity in chart and could not find it : " + endIdentity);
                 return;
             }
 
-            foreach (var link in chartItem.Links.Cast<LNLink>().Where(link => link.GuidId == linkGuidId))
-            {
+			foreach (var link in chartItem.Links.Cast<LNLink>().Where(link => link.GuidId == linkGuidId)) {
                 link.Label = displayText;
                 return;
             }
@@ -122,16 +158,16 @@ namespace JistBridge.UI.ANBKChart
             int y;
             GetLocationsForNewChain(out xLeft, out xRight, out y);
 
-            var leftEnd = string.IsNullOrEmpty(chain.Left.AnalystNotebookIdentity) ? 
-                _chart.CreateIcon(style, xLeft, y, unknownText, _chart.GenerateUniqueIdentity()) : 
-                GetEnd(chain.Left.AnalystNotebookIdentity);
+			var leftEnd = string.IsNullOrEmpty(chain.Left.AnalystNotebookIdentity)
+				? _chart.CreateIcon(style, xLeft, y, unknownText, _chart.GenerateUniqueIdentity())
+				: GetEnd(chain.Left.AnalystNotebookIdentity);
             chain.Left.AnalystNotebookIdentity = GetEndIdentity(leftEnd);
             leftEnd.Label = chain.Left.DisplayText;
             PushFieldsOntoEntity(leftEnd as LNEntity,fields,metadata);
 
-            var rightEnd = string.IsNullOrEmpty(chain.Right.AnalystNotebookIdentity) ?
-                _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity()) :
-                GetEnd(chain.Right.AnalystNotebookIdentity);
+			var rightEnd = string.IsNullOrEmpty(chain.Right.AnalystNotebookIdentity)
+				? _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity())
+				: GetEnd(chain.Right.AnalystNotebookIdentity);
             chain.Right.AnalystNotebookIdentity = GetEndIdentity(rightEnd);
             rightEnd.Label = chain.Right.DisplayText;
             PushFieldsOntoEntity(rightEnd as LNEntity, fields,metadata);
@@ -145,25 +181,19 @@ namespace JistBridge.UI.ANBKChart
             
         }
 
-        private static string GetEndIdentity(LNEnd end)
-        {
+		private static string GetEndIdentity(LNEnd end) {
             var entity = (end as LNEntity);
             if (entity != null)
                 return  entity.Identity;
-            else
-            {
                 Log.Error("Left end node could not be converted to an LNEntity.");
-            }
             return null;
         }
 
-        private LNEnd GetEnd(string endId)
-        {
+		private LNEnd GetEnd(string endId) {
             return string.IsNullOrEmpty(endId) ? null : _chart.FindEntityByIdentity(endId);
         }
 
-        private void GetLocationsForNewChain(out int xLeft, out int xRight, out int y)
-        {
+		private void GetLocationsForNewChain(out int xLeft, out int xRight, out int y) {
             xLeft = 50;
             xRight = 350;
             y = 50;
@@ -174,19 +204,16 @@ namespace JistBridge.UI.ANBKChart
                 .Cast<LNEnd>()
                 .ToArray();
 
-            if (list.Length == 0)
-            {
+			if (list.Length == 0) {
                 xLeft = 50;
                 xRight = _view.ViewX + (_view.ViewWidth - 50);
             }
-            else
-            {
+			else {
                 var top = int.MinValue;
                 var bottom = int.MinValue;
                 var left = int.MaxValue;
                 var right = int.MinValue;
-                foreach (var item in list)
-                {
+				foreach (var item in list) {
                     var l = 0;
                     var t = 0;
                     var width = 0;
@@ -203,7 +230,5 @@ namespace JistBridge.UI.ANBKChart
                 y = top + 100;
             }
         }
-
-       
     }
 }
