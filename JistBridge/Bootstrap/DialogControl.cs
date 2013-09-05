@@ -31,7 +31,11 @@ namespace JistBridge.Bootstrap {
 			childWindow.Content = msg.ContainedControl;
 			childWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 			childWindow.Title = msg.Title;
+			childWindow.WindowStyle = WindowStyle.ToolWindow;
 			childWindow.SizeToContent = SizeToContent.WidthAndHeight;
+			childWindow.ResizeMode = ResizeMode.NoResize;
+			childWindow.ShowInTaskbar = false;
+			childWindow.Topmost = true;
 			childWindow.ShowDialog();
 		}
 	}

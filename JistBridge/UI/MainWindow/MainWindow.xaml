@@ -1,6 +1,6 @@
 ﻿<Window x:Name="MainWindowName"
 				x:Class="JistBridge.UI.MainWindow.MainWindow"
-                xmlns:local="clr-namespace:JistBridge"
+				xmlns:local="clr-namespace:JistBridge"
 				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				xmlns:valueConverters="clr-namespace:JistBridge.UI.ValueConverters"
@@ -26,13 +26,13 @@
 			<MenuItem Header="_File">
 				<MenuItem Header="E_xit"
 									Command="{Binding ExitCommand}" />
-                <MenuItem Header="S_ave"
+				<MenuItem Header="S_ave"
 									Command="{Binding SaveCommand}" />
 			</MenuItem>
 			<MenuItem Header="_Tools">
 				<MenuItem Header="Start _ANBK"
 									Command="{Binding StartANBKCommand}" />
-				<Separator/>
+				<Separator />
 				<MenuItem Header="_Options"
 									Command="{Binding ShowOptionsDialogCommand}" />
 			</MenuItem>
@@ -85,16 +85,17 @@
 					</StackPanel>
 				</DataTemplate>
 			</xcad:DockingManager.DocumentHeaderTemplate>
-            <xcad:DockingManager.LayoutItemContainerStyleSelector>
-                <mainWindow:PanesStyleSelector>
-                    <mainWindow:PanesStyleSelector.ProjectInstanceStyle>
-                        <Style TargetType="{x:Type xcad:LayoutItem}">
-                            <Setter Property="Title" Value="{Binding Model.DataContext.Title}"/>
-                        </Style>
-                    </mainWindow:PanesStyleSelector.ProjectInstanceStyle>
-                </mainWindow:PanesStyleSelector>
-            </xcad:DockingManager.LayoutItemContainerStyleSelector>
-            <xcad:LayoutRoot>
+			<xcad:DockingManager.LayoutItemContainerStyleSelector>
+				<mainWindow:PanesStyleSelector>
+					<mainWindow:PanesStyleSelector.ProjectInstanceStyle>
+						<Style TargetType="{x:Type xcad:LayoutItem}">
+							<Setter Property="Title"
+											Value="{Binding Model.DataContext.Title}" />
+						</Style>
+					</mainWindow:PanesStyleSelector.ProjectInstanceStyle>
+				</mainWindow:PanesStyleSelector>
+			</xcad:DockingManager.LayoutItemContainerStyleSelector>
+			<xcad:LayoutRoot>
 				<!--
 			<xcad:LayoutRoot x:Name="LayoutRoot">
 -->
@@ -135,7 +136,7 @@
 		<RichTextBox x:Name="RtbNLogWindow"
 								 Grid.Row="0"
 								 Visibility="Collapsed" />
-<!--
+		<!--
 		<StatusBar Grid.Row="2"
 							 VerticalAlignment="Bottom"
 							 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}"
@@ -144,7 +145,7 @@
 								 Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=Foreground}" />
 		</StatusBar>
 -->
-<!--
+		<!--
 		<xctk:WindowContainer x:Name="WindowContainer"
 													ModalBackgroundBrush="#80000000"
 													Grid.Row="0"

@@ -4,9 +4,12 @@ using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
+using NLog;
 
 namespace JistBridge.Messages {
 	public class BaseMessage<T> : NotificationMessageAction<T> where T : class {
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
 		public BaseMessage(object sender, object target, Action<T> callback)
 			: base(sender, target, "", callback ?? (msg => { })) {}
 
@@ -57,23 +60,30 @@ namespace JistBridge.Messages {
 		}
 
 		private void InternalSendOnUIThread(object token = null) {
-			if (!DispatcherHelper.UIDispatcher.CheckAccess()) {
-				DispatcherHelper.UIDispatcher.Invoke(() => {
+			try {
+				if (!DispatcherHelper.UIDispatcher.CheckAccess()) {
+					DispatcherHelper.UIDispatcher.Invoke(() => {
+						if (token != null) {
+							Messenger.Default.Send(this as T, token);
+						}
+						else {
+							Messenger.Default.Send(this as T);
+						}
+					});
+				}
+				else {
 					if (token != null) {
 						Messenger.Default.Send(this as T, token);
 					}
 					else {
 						Messenger.Default.Send(this as T);
 					}
-				});
+				}
 			}
-			else {
-				if (token != null) {
-					Messenger.Default.Send(this as T, token);
-				}
-				else {
-					Messenger.Default.Send(this as T);
-				}
+			catch (Exception ex) {
+				//It looks like MVVMLight eats exceptions thrown by a message handler so this
+				//code should never get called.
+				Log.Error("Exception caught by message dispatcher: " + ex.Message);
 			}
 		}
 	}
