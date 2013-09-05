@@ -170,9 +170,12 @@
     <Compile Include="Messages\ANBK\ANBKStartedMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToChartMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToLocalChartMessage.cs" />
+    <Compile Include="Messages\ANBK\FitChartMessage.cs" />
     <Compile Include="Messages\ANBK\SendChainInfoToANBKMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
     <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />
+    <Compile Include="Messages\ChangeLayoutMessage.cs" />
+    <Compile Include="Messages\FitChartMessage.cs" />
     <Compile Include="Messages\SetMainWindowTitleMessage.cs" />
     <Compile Include="Messages\UserCredentialsMessage.cs" />
     <Compile Include="Messages\QueueReportRestMessage.cs" />
@@ -352,6 +355,14 @@
     <Resource Include="Resources\SplashScreen.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="Axi2GraphLayouts">
+      <Guid>{29C44EC9-28D6-4C95-8DEF-A666763F5B70}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
     <COMReference Include="Axi2NotebookConnector">
       <Guid>{29C44EC7-28D6-4C95-8DEF-A666763F5B70}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -375,6 +386,15 @@
       <Lcid>0</Lcid>
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="i2GraphLayouts">
+      <Guid>{29C44EC9-28D6-4C95-8DEF-A666763F5B70}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="i2NotebookApp">
       <Guid>{29C44E91-28D6-4C95-8DEF-A666763F5B70}</Guid>

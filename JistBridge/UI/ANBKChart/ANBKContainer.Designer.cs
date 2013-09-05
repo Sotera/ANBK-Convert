@@ -32,9 +32,15 @@
 			this.axi2LinkView1 = new AxInterop.i2NotebookView.Axi2LinkView();
 			this.axi2LinkData1 = new AxInterop.i2NotebookData.Axi2LinkData();
 			this.axi2LinkConnector1 = new AxInterop.i2NotebookConnector.Axi2LinkConnector();
+			this.axi2LinkCircleLayout1 = new AxInterop.i2GraphLayouts.Axi2LinkCircleLayout();
+			this.axi2LinkGroupLayout1 = new AxInterop.i2GraphLayouts.Axi2LinkGroupLayout();
+			this.axi2LinkPeacockLayout1 = new AxInterop.i2GraphLayouts.Axi2LinkPeacockLayout();
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkView1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkData1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkConnector1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkCircleLayout1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkGroupLayout1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkPeacockLayout1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// axi2LinkView1
@@ -65,10 +71,40 @@
 			this.axi2LinkConnector1.Size = new System.Drawing.Size(33, 31);
 			this.axi2LinkConnector1.TabIndex = 2;
 			// 
+			// axi2LinkCircleLayout1
+			// 
+			this.axi2LinkCircleLayout1.Enabled = true;
+			this.axi2LinkCircleLayout1.Location = new System.Drawing.Point(381, 346);
+			this.axi2LinkCircleLayout1.Name = "axi2LinkCircleLayout1";
+			this.axi2LinkCircleLayout1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axi2LinkCircleLayout1.OcxState")));
+			this.axi2LinkCircleLayout1.Size = new System.Drawing.Size(33, 31);
+			this.axi2LinkCircleLayout1.TabIndex = 3;
+			// 
+			// axi2LinkGroupLayout1
+			// 
+			this.axi2LinkGroupLayout1.Enabled = true;
+			this.axi2LinkGroupLayout1.Location = new System.Drawing.Point(491, 346);
+			this.axi2LinkGroupLayout1.Name = "axi2LinkGroupLayout1";
+			this.axi2LinkGroupLayout1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axi2LinkGroupLayout1.OcxState")));
+			this.axi2LinkGroupLayout1.Size = new System.Drawing.Size(33, 31);
+			this.axi2LinkGroupLayout1.TabIndex = 4;
+			// 
+			// axi2LinkPeacockLayout1
+			// 
+			this.axi2LinkPeacockLayout1.Enabled = true;
+			this.axi2LinkPeacockLayout1.Location = new System.Drawing.Point(336, 353);
+			this.axi2LinkPeacockLayout1.Name = "axi2LinkPeacockLayout1";
+			this.axi2LinkPeacockLayout1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axi2LinkPeacockLayout1.OcxState")));
+			this.axi2LinkPeacockLayout1.Size = new System.Drawing.Size(33, 31);
+			this.axi2LinkPeacockLayout1.TabIndex = 5;
+			// 
 			// ANBKContainer
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.axi2LinkPeacockLayout1);
+			this.Controls.Add(this.axi2LinkGroupLayout1);
+			this.Controls.Add(this.axi2LinkCircleLayout1);
 			this.Controls.Add(this.axi2LinkConnector1);
 			this.Controls.Add(this.axi2LinkData1);
 			this.Controls.Add(this.axi2LinkView1);
@@ -77,6 +113,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkView1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkData1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.axi2LinkConnector1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkCircleLayout1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkGroupLayout1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.axi2LinkPeacockLayout1)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -86,5 +125,8 @@
 		private AxInterop.i2NotebookView.Axi2LinkView axi2LinkView1;
 		private AxInterop.i2NotebookData.Axi2LinkData axi2LinkData1;
 		private AxInterop.i2NotebookConnector.Axi2LinkConnector axi2LinkConnector1;
+		private AxInterop.i2GraphLayouts.Axi2LinkCircleLayout axi2LinkCircleLayout1;
+		private AxInterop.i2GraphLayouts.Axi2LinkGroupLayout axi2LinkGroupLayout1;
+		private AxInterop.i2GraphLayouts.Axi2LinkPeacockLayout axi2LinkPeacockLayout1;
 	}
 }
