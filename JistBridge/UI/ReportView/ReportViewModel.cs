@@ -17,6 +17,7 @@ using NLog;
 namespace JistBridge.UI.ReportView {
 	[Export(typeof (IReportViewModel))]
 	public class ReportViewModel : IReportViewModel, INotifyPropertyChanged {
+		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 		public IFSMSystem StateMachine { get; private set; }
 		public ReportData ReportData { get; private set; }
 
@@ -48,7 +49,9 @@ namespace JistBridge.UI.ReportView {
 			}
 		}
 
-		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+		public RelayCommand StartANBKCommand {
+			get { return new RelayCommand(() => new StartANBKMessage(null, null).Send()); }
+		}
 
 		public RelayCommand ChangePointerModeDragCommand {
 			get { return new RelayCommand(() =>

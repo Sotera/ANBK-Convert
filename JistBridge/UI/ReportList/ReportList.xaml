@@ -21,24 +21,33 @@
 							Command="{Binding LoginCommand}"
 							ToolTip="Login">
 				<StackPanel Orientation="Horizontal">
-					<Image Source="/JistBridge;component/Resources/login.png"/>
-					<TextBlock Text="Login" Margin="4,0,0,0"/>
+					<Image Width="16"
+								 Height="16"
+								 Source="/JistBridge;component/Resources/login.ico" />
+					<TextBlock Text="Login"
+										 Margin="4,0,0,0" />
 				</StackPanel>
 			</Button>
 			<Button x:Name="_getReportButton"
 							Command="{Binding GetReportCommand}"
 							ToolTip="Get Report">
 				<StackPanel Orientation="Horizontal">
-					<Image Source="/JistBridge;component/Resources/downloadReport.png"/>
-					<TextBlock Text="Get Report" Margin="4,0,0,0"/>
+					<Image Width="16"
+								 Height="16"
+								 Source="/JistBridge;component/Resources/downloadReport.ico" />
+					<TextBlock Text="Get Report"
+										 Margin="4,0,0,0" />
 				</StackPanel>
 			</Button>
 			<Button x:Name="_queueReportButton"
 							Command="{Binding QueueReportCommand}"
 							ToolTip="Queue Report">
 				<StackPanel Orientation="Horizontal">
-					<Image Source="/JistBridge;component/Resources/queueReport.ico"/>
-					<TextBlock Text="Queue Report" Margin="4,0,0,0"/>
+					<Image Width="16"
+								 Height="16"
+								 Source="/JistBridge;component/Resources/queueReport.ico" />
+					<TextBlock Text="Queue Report"
+										 Margin="4,0,0,0" />
 				</StackPanel>
 			</Button>
 		</ToolBar>

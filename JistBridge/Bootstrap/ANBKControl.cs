@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Interop.i2NotebookData;
 using JistBridge.Interfaces;
@@ -61,6 +62,9 @@ namespace JistBridge.Bootstrap {
 		}
 
 		private void AsyncStartANBK(StartANBKMessage msg) {
+			//It may be that ANBK is already running ...
+			//ANBKApplication = (LNApplication2)Marshal.GetActiveObject("LinkNotebook.Application.7");
+
 			var worker = new BackgroundWorker();
 			worker.DoWork += (o, ea) => {
 				Log.Info("Starting ANBK application.");

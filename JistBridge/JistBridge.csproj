@@ -90,6 +90,7 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Luna" />
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -206,7 +207,9 @@
     <Compile Include="UI\ANBKChart\ANBKChart.xaml.cs">
       <DependentUpon>ANBKChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ANBKChart\ANBKContainer.cs" />
+    <Compile Include="UI\ANBKChart\ANBKContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\ANBKChart\ANBKContainer.Designer.cs">
       <DependentUpon>ANBKContainer.cs</DependentUpon>
     </Compile>
@@ -252,10 +255,12 @@
     <Compile Include="Utilities\Configuration\AppConfiguration.cs" />
     <Compile Include="Utilities\Configuration\CidneOptionsViewModel.cs" />
     <Compile Include="Utilities\Configuration\UserConfiguration.cs" />
+    <Compile Include="Utilities\DropDownButton\DropDownButton.cs" />
     <Compile Include="Utilities\MefHelpers\ExecutingAssemblyMefHelper.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxRowColoringRule.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxTarget.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxWordColoringRule.cs" />
+    <Compile Include="Utilities\SplitButton\SplitButton.cs" />
     <Compile Include="Utilities\StateMachine\FSMSystem.cs" />
     <Compile Include="Utilities\StateMachine\FSMState.cs" />
     <Compile Include="UI\ReportView\States\WaitForCenterFragmentState.cs" />
@@ -313,6 +318,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
+    <Page Include="Utilities\DropDownButton\DropDownButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Utilities\SplitButton\SplitButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -469,6 +482,40 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Query.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Hand.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cursor.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dragger.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\layout.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\layout2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\group.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\circle.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ANBK.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\leftArrow.ico" />
+    <Resource Include="Resources\rightArrow.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\login.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\downloadReport.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

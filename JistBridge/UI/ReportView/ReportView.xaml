@@ -4,12 +4,22 @@
 						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 						 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 						 xmlns:richTextBox="clr-namespace:JistBridge.UI.RichTextBox"
+						 xmlns:ctrlDropDownButton="clr-namespace:JistBridge.Utilities.DropDownButton"
+						 xmlns:ctrlSplitButton="clr-namespace:JistBridge.Utilities.SplitButton"
 						 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 						 xmlns:behaviors="clr-namespace:JistBridge.Behaviors"
 						 xmlns:anbkChart="clr-namespace:JistBridge.UI.ANBKChart"
 						 mc:Ignorable="d"
 						 d:DesignHeight="300"
-						 d:DesignWidth="300">
+						 d:DesignWidth="400">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="../../Utilities/DropDownButton/DropDownButtonStyle.xaml" />
+				<ResourceDictionary Source="../../Utilities/SplitButton/SplitButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -18,47 +28,106 @@
 			<RowDefinition Height="1*" />
 		</Grid.RowDefinitions>
 		<ToolBar Grid.Row="0">
-			<Menu>
-				<MenuItem Header="Mode">
-					<MenuItem Header="Pointer"
-										Command="{Binding ChangePointerModePointerCommand}" />
-					<MenuItem Header="Drag"
-										Command="{Binding ChangePointerModeDragCommand}" />
-				</MenuItem>
-			</Menu>
-			<Menu>
-				<MenuItem Header="Fit Chart">
-					<MenuItem Header="Actual Size"
-										Command="{Binding FitActualSizeCommand}" />
-					<MenuItem Header="Window Height"
-										Command="{Binding FitHeightCommand}" />
-					<MenuItem Header="Selection In Window"
-										Command="{Binding FitSelectionInWindowCommand}" />
-					<MenuItem Header="Window"
-										Command="{Binding FitWindowCommand}" />
-				</MenuItem>
-			</Menu>
-			<Menu>
-				<MenuItem Header="Layout">
-					<MenuItem Header="Circular"
-										Command="{Binding CircularLayoutCommand}" />
-					<MenuItem Header="Peacock"
-										Command="{Binding PeacockLayoutCommand}" />
-					<MenuItem Header="Group"
-										Command="{Binding GroupLayoutCommand}" />
-				</MenuItem>
-			</Menu>
-<!--
-			<Button x:Name="_circularLayoutButton"
-							Command="{Binding CircularLayoutCommand}"
-							ToolTip="Login">
-				<StackPanel Orientation="Horizontal">
-					<Image Source="/JistBridge;component/Resources/login.png" />
-					<TextBlock Text="Circular Layout"
-										 Margin="4,0,0,0" />
-				</StackPanel>
-			</Button>
+			<ctrlDropDownButton:DropDownButton Style="{StaticResource ToolBarDropDownButtonStyle}"
+																				 Text="Mode"
+																				 Image="/JistBridge;component/Resources/cursor.ico">
+				<ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Edit"
+											Command="{Binding ChangePointerModePointerCommand}">
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/cursor.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="Drag"
+											Command="{Binding ChangePointerModeDragCommand}">
+							<MenuItem.Icon>
+								<Image Source="/JistBridge;component/Resources/dragger.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+					</ContextMenu>
+				</ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+			</ctrlDropDownButton:DropDownButton>
+			<Separator />
+			<ctrlDropDownButton:DropDownButton Style="{StaticResource ToolBarDropDownButtonStyle}"
+																				 Text="View"
+																				 Image="/JistBridge;component/Resources/layout.ico">
+				<ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Actual Size"
+											Command="{Binding FitActualSizeCommand}">
+							<!--
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/cursor.ico" />
+							</MenuItem.Icon>
 -->
+						</MenuItem>
+						<MenuItem Header="Window Height"
+											Command="{Binding FitHeightCommand}" />
+						<MenuItem Header="Selection In Window"
+											Command="{Binding FitSelectionInWindowCommand}" />
+						<MenuItem Header="Window"
+											Command="{Binding FitWindowCommand}" />
+					</ContextMenu>
+				</ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+			</ctrlDropDownButton:DropDownButton>
+			<Separator />
+			<ctrlDropDownButton:DropDownButton Style="{StaticResource ToolBarDropDownButtonStyle}"
+																				 Text="Layout"
+																				 Image="/JistBridge;component/Resources/layout2.ico">
+				<ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Circular"
+											Command="{Binding CircularLayoutCommand}">
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/circle.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="Peacock"
+											Command="{Binding PeacockLayoutCommand}" />
+						<MenuItem Header="Group"
+											Command="{Binding GroupLayoutCommand}">
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/group.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+					</ContextMenu>
+				</ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+			</ctrlDropDownButton:DropDownButton>
+			<Separator />
+			<ctrlSplitButton:SplitButton Style="{StaticResource ToolBarSplitButtonStyle}"
+																	 Text="Analyst's Notebook"
+																	 Image="/JistBridge;component/Resources/ANBK.ico"
+																	 MainButtonCommand="{Binding StartANBKCommand}">
+				<ctrlSplitButton:SplitButton.DropDownContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Export to ANBK"
+											Command="{Binding ExportToANBKCommand}">
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/rightArrow.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="Import from ANBK"
+											Command="{Binding ImportFromANBKCommand}">
+							<MenuItem.Icon>
+								<Image Width="16"
+											 Height="16"
+											 Source="/JistBridge;component/Resources/leftArrow.ico" />
+							</MenuItem.Icon>
+						</MenuItem>
+					</ContextMenu>
+				</ctrlSplitButton:SplitButton.DropDownContextMenu>
+			</ctrlSplitButton:SplitButton>
 		</ToolBar>
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
