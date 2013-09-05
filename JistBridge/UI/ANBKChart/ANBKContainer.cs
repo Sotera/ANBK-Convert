@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -239,6 +240,17 @@ namespace JistBridge.UI.ANBKChart
                 xRight = _view.ViewX + (_view.ViewWidth - 50);
                 y = top + 100;
             }
+        }
+
+        public void SaveChart()
+        {
+            var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                            "\\JISTBridge";
+            var filename = "\\ANBK.anb";
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            _chart.SaveChart(directory + filename);
+            _chart.ReleaseFile();
         }
     }
 }
