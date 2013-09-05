@@ -57,6 +57,11 @@ namespace JistBridge.UI.ANBKChart {
 							break;
 					}
 				});
+            SaveANBKChartMessage.Register(this, DataContext, msg =>
+            {
+                _anbkContainer.SaveChart();
+                msg.Execute(msg);
+            });
 			SendChainInfoToANBKMessage.Register(this, DataContext, msg => {
 				switch (msg.Action) {
 					case (SendChainInfoToANBKMessage.ActionType.CreateNewChain): {

@@ -72,22 +72,24 @@ namespace JistBridge.Data.ReST {
 
 		public CReport report;
 
-		private int _reportCounter;
+	    private static int _reportCounter;
 
-		public string ShortName {
-			get {
-				try {
-                    //TODO:Pull out a good name for the report
-					//if (report.metadata.fields != null && report.metadata.fields.dtg != null) return report.metadata.fields.dtg;
-					return "Report " + ++_reportCounter;
-				}
-				catch (Exception e) {
-					return "Report " + ++_reportCounter;
-				}
-			}
-		}
+        private string _shortName;
+        public string ShortName
+	    {
+            get
+            {
+                if (!string.IsNullOrEmpty(_shortName)) 
+                    return _shortName;
+                
+                _reportCounter ++;
+                ShortName = "Report " + _reportCounter;
+                return _shortName;
+            }
+	        private set { _shortName = value; }
+	    }
 
-		private ReportView ReportView { get; set; }
+	    private ReportView ReportView { get; set; }
 
 		public int TextsCount {
 			get { return report.texts.Count; }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Windows.Forms;
 using Interop.i2NotebookConnector;
 using Interop.i2NotebookData;
@@ -16,7 +18,7 @@ namespace JistBridge.UI.ANBKChart
         private LNConnector _connector;
         private readonly LNChart _chart;
         private readonly LNGraphicViewport2 _view;
-        string strGUID = "{12345678-1234-1234-1234-123456789012}";
+        private const string SourceReference = "JIST";
 
         
         public ANBKContainer()
@@ -34,8 +36,6 @@ namespace JistBridge.UI.ANBKChart
 
             _chart.LoadChart(_connector.Options.StandardTemplateFile);
             _chart.ReleaseFile();
-
-            _chart.BackColour = 0xf0fff0;
 
             _connector.CurrentChart = _chart;
 
@@ -111,35 +111,47 @@ namespace JistBridge.UI.ANBKChart
 
         private void PushFieldsOntoEntity(LNEntity entity, Dictionary<string, string> fields, GetReportResponse.CReport.CMetadata metadata)
         {
-            if (entity.PropertyBags.PropertyBag[strGUID] as LNPropertyBag != null)
-                return;
-            LNPropertyBag bag = entity.PropertyBags.Add(strGUID);
-            AddPropertiesToBag(bag, fields, metadata);
+            for (var i = 0; i < entity.CardCount; i++)
+            {
+                if (entity.Card[i].SourceReference == SourceReference)
+                    return;
+            }
+            LNCard card = entity.CreateCardAtPosition(-1);
+            
+            AddPropertiesToCard(card, fields, metadata);
         }
 
-        private void AddPropertiesToBag(LNPropertyBag bag, Dictionary<string, string> fields,
+        private void PushFieldsOntoLink(LNLink link, Dictionary<string, string> fields,
             GetReportResponse.CReport.CMetadata metadata)
         {
+            LNCard card = link.CreateCardAtPosition(-1);
+            AddPropertiesToCard(card, fields, metadata);
+        }
+
+        private void AddPropertiesToCard(LNCard card, Dictionary<string, string> fields,
+            GetReportResponse.CReport.CMetadata metadata)
+        {
+            if (card == null)
+                return;
+
+            var sb = new StringBuilder();
+
             foreach (var key in fields.Keys)
             {
-                bag.WriteProperty(key, fields[key]);
+                sb.AppendLine(key + " : " + fields[key]);
             }
 
-            bag.WriteProperty(GetPropertyName(() => metadata.offsetField), metadata.offsetField);
-            bag.WriteProperty(GetPropertyName(() => metadata.resourceField), metadata.resourceField);
-            bag.WriteProperty(GetPropertyName(() => metadata.resourceId), metadata.resourceId);
-            bag.WriteProperty(GetPropertyName(() => metadata.textField), metadata.textField);
+            sb.AppendLine(GetPropertyName(() => metadata.offsetField) + " : "  + metadata.offsetField);
+            sb.AppendLine(GetPropertyName(() => metadata.resourceField) + " : " + metadata.resourceField);
+            sb.AppendLine(GetPropertyName(() => metadata.resourceId) + " : " + metadata.resourceId);
+            sb.AppendLine(GetPropertyName(() => metadata.textField) + " : " + metadata.textField);
+
+            card.Summary = "JIST Information";
+            card.SourceReference = SourceReference;
+            card.Text = sb.ToString();
         }
 
-        private void PushFieldsOntoChartItem(LNChartItem item, Dictionary<string, string> fields, 
-            GetReportResponse.CReport.CMetadata metadata)
-        {
-            if (item.PropertyBags.PropertyBag[strGUID] as LNPropertyBag != null)
-                return;
-
-            LNPropertyBag bag = item.PropertyBags.Add(strGUID);
-            AddPropertiesToBag(bag,fields,metadata);
-        }
+        
         public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             var memberExpression = propertyExpression.Body as MemberExpression;
@@ -177,7 +189,7 @@ namespace JistBridge.UI.ANBKChart
             var link = _chart.CreateLink(linkStyle, leftEnd, rightEnd, unknownText);
             chain.Center.AnalystNotebookIdentity = link.GuidId;
             link.Label = chain.Center.DisplayText;
-            PushFieldsOntoChartItem(link,fields,metadata);
+            PushFieldsOntoLink(link,fields,metadata);
             
         }
 
@@ -229,6 +241,17 @@ namespace JistBridge.UI.ANBKChart
                 xRight = _view.ViewX + (_view.ViewWidth - 50);
                 y = top + 100;
             }
+        }
+
+        public void SaveChart()
+        {
+            var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                            "\\JISTBridge";
+            const string filename = "\\ANBK.anb";
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            _chart.SaveChart(directory + filename);
+            _chart.ReleaseFile();
         }
     }
 }

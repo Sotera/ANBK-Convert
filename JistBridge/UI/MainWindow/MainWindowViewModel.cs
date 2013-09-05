@@ -91,8 +91,15 @@ namespace JistBridge.UI.MainWindow {
 					var reportViewModel = content.DataContext as IReportViewModel;
 					if (reportViewModel == null) return;
 
+				    if (!reportViewModel.Modified)
+				        return;
+
 					reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
-					new SaveReportRestMessage(null, null) {ReportData = reportViewModel.GetReportResponse}.Send();
+
+                    new SaveANBKChartMessage(this, null, cbMsg => 
+                        new SaveReportRestMessage(null, null) 
+                        {ReportData = reportViewModel.GetReportResponse}.Send()
+                        ).Send(reportViewModel);
 				});
 			}
 		}
