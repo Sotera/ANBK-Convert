@@ -50,6 +50,16 @@ namespace JistBridge.UI.ReportView {
 
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
+		public RelayCommand ChangePointerModeDragCommand {
+			get { return new RelayCommand(() =>
+				new ChangePointerModeMessage(this, null){FitType = PointerType.Drag}.Send(this)); }
+		}
+
+		public RelayCommand ChangePointerModePointerCommand {
+			get { return new RelayCommand(() =>
+				new ChangePointerModeMessage(this, null){FitType = PointerType.Pointer}.Send(this)); }
+		}
+
 		public RelayCommand FitActualSizeCommand {
 			get { return new RelayCommand(() =>
 				new FitChartMessage(this, null){FitType = FitType.ActualSize}.Send(this)); }

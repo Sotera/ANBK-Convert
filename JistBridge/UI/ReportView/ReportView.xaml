@@ -19,6 +19,14 @@
 		</Grid.RowDefinitions>
 		<ToolBar Grid.Row="0">
 			<Menu>
+				<MenuItem Header="Mode">
+					<MenuItem Header="Pointer"
+										Command="{Binding ChangePointerModePointerCommand}" />
+					<MenuItem Header="Drag"
+										Command="{Binding ChangePointerModeDragCommand}" />
+				</MenuItem>
+			</Menu>
+			<Menu>
 				<MenuItem Header="Fit Chart">
 					<MenuItem Header="Actual Size"
 										Command="{Binding FitActualSizeCommand}" />
@@ -40,6 +48,7 @@
 										Command="{Binding GroupLayoutCommand}" />
 				</MenuItem>
 			</Menu>
+<!--
 			<Button x:Name="_circularLayoutButton"
 							Command="{Binding CircularLayoutCommand}"
 							ToolTip="Login">
@@ -49,6 +58,7 @@
 										 Margin="4,0,0,0" />
 				</StackPanel>
 			</Button>
+-->
 		</ToolBar>
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>

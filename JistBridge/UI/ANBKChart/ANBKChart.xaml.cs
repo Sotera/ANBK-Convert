@@ -15,6 +15,17 @@ namespace JistBridge.UI.ANBKChart {
 		}
 
 		private void ANBKChart_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
+			ChangePointerModeMessage.Register(this,DataContext,
+				msg => {
+					switch (msg.FitType) {
+						case PointerType.Pointer:
+							_anbkContainer.ChangePointerMode_Pointer();
+							break;
+						case PointerType.Drag:
+							_anbkContainer.ChangePointerMode_Drag();
+							break;
+					}
+				});
 			FitChartMessage.Register(this, DataContext,
 				msg => {
 					switch (msg.FitType) {

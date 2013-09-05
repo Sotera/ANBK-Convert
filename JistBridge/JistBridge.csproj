@@ -171,7 +171,7 @@
     <Compile Include="Messages\ANBK\ANBKStartedMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToChartMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToLocalChartMessage.cs" />
-    <Compile Include="Messages\ANBK\FitChartMessage.cs" />
+    <Compile Include="Messages\ANBK\ChangePointerModeMessage.cs" />
     <Compile Include="Messages\ANBK\SendChainInfoToANBKMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
     <Compile Include="Messages\AddRemoveDocumentViewMessage.cs" />

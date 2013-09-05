@@ -41,7 +41,11 @@ namespace JistBridge.UI.ANBKChart {
 			axi2LinkGroupLayout1.Chart = _chart;
 		}
 
-		public void ChangePointerMode_Grab() {
+		public void ChangePointerMode_Pointer() {
+			_view.Commands.CallCommand((int)ViewCommands.i2SetEditMode);
+		}
+
+		public void ChangePointerMode_Drag() {
 			_view.Commands.CallCommand((int)ViewCommands.i2SetDragMode);
 		}
 
