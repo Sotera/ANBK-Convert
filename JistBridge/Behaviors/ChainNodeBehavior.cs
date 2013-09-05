@@ -8,7 +8,7 @@ using JistBridge.Interfaces;
 using JistBridge.Messages;
 
 namespace JistBridge.Behaviors {
-	public class ChainNodeBehavior : Behavior<Shape> {
+	public class ChainNodeBehavior : Behavior<FrameworkElement> {
 		protected override void OnAttached() {
 			AssociatedObject.PreviewMouseUp += AssociatedObject_Click;
 			AssociatedObject.MouseEnter += AssociatedObject_MouseEnter;
@@ -17,9 +17,9 @@ namespace JistBridge.Behaviors {
 
 		private void AssociatedObject_MouseLeave(object sender, MouseEventArgs e) {
 			var shape = AssociatedObject;
-			shape.Stroke = Brushes.Black;
+			/*shape.Stroke = Brushes.Black;
 			shape.StrokeThickness = 1;
-			shape.Cursor = Cursors.Arrow;
+			*/shape.Cursor = Cursors.Arrow;
 
 			SendFragmentStatusMessage(FragmentStatus.UnHighlighted);
 		}
@@ -38,8 +38,8 @@ namespace JistBridge.Behaviors {
 
 		private void AssociatedObject_MouseEnter(object sender, MouseEventArgs e) {
 			var shape = AssociatedObject;
-			shape.Stroke = Brushes.Red;
-			shape.StrokeThickness = 2;
+			/*shape.Stroke = Brushes.Red;
+			shape.StrokeThickness = 2;*/
 			shape.Cursor = Cursors.Hand;
 
 			SendFragmentStatusMessage(FragmentStatus.Highlighted);

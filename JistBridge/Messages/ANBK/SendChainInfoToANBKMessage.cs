@@ -1,5 +1,4 @@
 ﻿using System;
-using Interop.i2NotebookData;
 using JistBridge.Data.Model;
 
 namespace JistBridge.Messages.ANBK {
@@ -8,7 +7,10 @@ namespace JistBridge.Messages.ANBK {
 			CreateNewChain,
 			ModifyLeftNodeText,
 			ModifyLinkText,
-			ModifyRightNodeText
+			ModifyRightNodeText,
+            ToggleRightNodeSelection,
+            ToggleLeftNodeSelection,
+            ToggleLinkSelection
 		};
 		public ActionType Action { get; set; }
 		public Chain Chain { get; set; }
