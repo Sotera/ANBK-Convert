@@ -96,8 +96,7 @@ namespace JistBridge.UI.MainWindow {
 
 					reportViewModel.GetReportResponse.report.Markup = reportViewModel.ReportMarkup;
 
-                    new SaveANBKChartMessage(this, null, cbMsg => 
-                        new SaveReportRestMessage(null, null) 
+                    new SaveANBKChartMessage(this, null, cbMsg => new SaveReportRestMessage(null, null) 
                         {ReportData = reportViewModel.GetReportResponse}.Send()
                         ).Send(reportViewModel);
 				});

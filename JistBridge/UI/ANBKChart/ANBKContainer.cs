@@ -109,46 +109,22 @@ namespace JistBridge.UI.ANBKChart
             Log.Error("Tried to find Link on end build could not find it : " + linkGuidId);
         }
 
-        private void PushFieldsOntoEntity(LNEntity entity, Dictionary<string, string> fields, GetReportResponse.CReport.CMetadata metadata)
-        {
-            for (var i = 0; i < entity.CardCount; i++)
-            {
-                if (entity.Card[i].SourceReference == SourceReference)
-                    return;
-            }
-            LNCard card = entity.CreateCardAtPosition(-1);
-            
-            AddPropertiesToCard(card, fields, metadata);
-        }
-
-        private void PushFieldsOntoLink(LNLink link, Dictionary<string, string> fields,
+        private void AddAttributesToItem(LNChartItem item, Dictionary<string, string> fields,
             GetReportResponse.CReport.CMetadata metadata)
         {
-            LNCard card = link.CreateCardAtPosition(-1);
-            AddPropertiesToCard(card, fields, metadata);
-        }
-
-        private void AddPropertiesToCard(LNCard card, Dictionary<string, string> fields,
-            GetReportResponse.CReport.CMetadata metadata)
-        {
-            if (card == null)
+            if (item == null)
                 return;
-
-            var sb = new StringBuilder();
-
+            
             foreach (var key in fields.Keys)
             {
-                sb.AppendLine(key + " : " + fields[key]);
+                AddAttribute(item,key,fields[key]);
             }
 
-            sb.AppendLine(GetPropertyName(() => metadata.offsetField) + " : "  + metadata.offsetField);
-            sb.AppendLine(GetPropertyName(() => metadata.resourceField) + " : " + metadata.resourceField);
-            sb.AppendLine(GetPropertyName(() => metadata.resourceId) + " : " + metadata.resourceId);
-            sb.AppendLine(GetPropertyName(() => metadata.textField) + " : " + metadata.textField);
-
-            card.Summary = "JIST Information";
-            card.SourceReference = SourceReference;
-            card.Text = sb.ToString();
+            AddAttribute(item, GetPropertyName(() => metadata.offsetField), metadata.offsetField);
+            AddAttribute(item, GetPropertyName(() => metadata.resourceField), metadata.resourceField);
+            AddAttribute(item, GetPropertyName(() => metadata.resourceId),  metadata.resourceId);
+            AddAttribute(item, GetPropertyName(() => metadata.textField),  metadata.textField);
+            
         }
 
         
@@ -157,6 +133,35 @@ namespace JistBridge.UI.ANBKChart
             var memberExpression = propertyExpression.Body as MemberExpression;
             return memberExpression != null ? memberExpression.Member.Name : null;
         }
+
+        private void AddAttribute(LNChartItem item, string className, string value)
+        {
+            var attribute = GetJistAttributeClass(className);
+            item.AttributeValue[attribute] = value;
+        }
+
+        private LNAttributeClass GetJistAttributeClass(string className)
+        {
+            LNAttributeClass objAttributeClass = null;
+            try
+            {
+                objAttributeClass = _chart.AttributeClasses.Find(className);
+                if (objAttributeClass != null)
+                    return objAttributeClass;
+                objAttributeClass = _chart.CreateAttributeClass(className, AttributeType.AttText, "Blackx", false, false, false);
+                objAttributeClass.Visible = false;
+            }
+            catch (Exception e)
+            {
+                Log.ErrorException("Error adding attribute", e);
+                throw;
+            }
+            
+            return objAttributeClass;
+        }
+
+        
+
 
         public void AddInitializedChain(Chain chain, Dictionary<string,string> fields, GetReportResponse.CReport.CMetadata metadata )
         {
@@ -175,21 +180,21 @@ namespace JistBridge.UI.ANBKChart
 				: GetEnd(chain.Left.AnalystNotebookIdentity);
             chain.Left.AnalystNotebookIdentity = GetEndIdentity(leftEnd);
             leftEnd.Label = chain.Left.DisplayText;
-            PushFieldsOntoEntity(leftEnd as LNEntity,fields,metadata);
+            AddAttributesToItem(leftEnd,fields,metadata);
 
 			var rightEnd = string.IsNullOrEmpty(chain.Right.AnalystNotebookIdentity)
 				? _chart.CreateIcon(style, xRight, y, unknownText, _chart.GenerateUniqueIdentity())
 				: GetEnd(chain.Right.AnalystNotebookIdentity);
             chain.Right.AnalystNotebookIdentity = GetEndIdentity(rightEnd);
             rightEnd.Label = chain.Right.DisplayText;
-            PushFieldsOntoEntity(rightEnd as LNEntity, fields,metadata);
+            AddAttributesToItem(rightEnd, fields, metadata);
 
             var linkStyle = _chart.CreateLinkStyle();
             linkStyle.LineWidth = 4;
             var link = _chart.CreateLink(linkStyle, leftEnd, rightEnd, unknownText);
             chain.Center.AnalystNotebookIdentity = link.GuidId;
             link.Label = chain.Center.DisplayText;
-            PushFieldsOntoLink(link,fields,metadata);
+            AddAttributesToItem(link, fields, metadata);
             
         }
 
@@ -248,10 +253,18 @@ namespace JistBridge.UI.ANBKChart
             var directory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                             "\\JISTBridge";
             const string filename = "\\ANBK.anb";
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
-            _chart.SaveChart(directory + filename);
-            _chart.ReleaseFile();
+            try
+            {
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                _chart.SaveChart(directory + filename);
+                _chart.ReleaseFile();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
+            
         }
     }
 }
