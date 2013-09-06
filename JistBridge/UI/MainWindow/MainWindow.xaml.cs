@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
 using JistBridge.Utilities.NLogWpfRichTextTarget;
+using JistBridge.Utilities.PInvoke;
 using NLog.Targets.Wrappers;
 
 namespace JistBridge.UI.MainWindow {
@@ -14,6 +17,32 @@ namespace JistBridge.UI.MainWindow {
 			//ShowDialogMessage.SetWindowContainer(WindowContainer);
 			new QueueMefComposeMessage(null, null, this, null).Send();
 			Loaded += OnLoaded;
+		}
+
+		protected override void OnSourceInitialized(EventArgs e) {
+			base.OnSourceInitialized(e);
+			var source = (HwndSource) PresentationSource.FromVisual(this);
+			if (source == null) return;
+			source.AddHook(WndProc);
+		}
+
+		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+			handled = false;
+			if (msg == NativeMethods.WM_SHOWME) {
+				ShowMe();
+				handled = true;
+			}
+			return IntPtr.Zero;
+		}
+
+		private void ShowMe() {
+			if (WindowState == WindowState.Minimized) WindowState = WindowState.Normal;
+			// get our current "TopMost" value (ours will always be false though)
+			var topMost = Topmost;
+			// make our form jump to the top of everything
+			Topmost = true;
+			// set it back to whatever it was
+			Topmost = topMost;
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs) {

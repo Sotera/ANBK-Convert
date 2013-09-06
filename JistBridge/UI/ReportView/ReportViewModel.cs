@@ -49,6 +49,12 @@ namespace JistBridge.UI.ReportView {
 			}
 		}
 
+		public RelayCommand ExportToANBKCommand {
+			get {
+				return new RelayCommand(() => new ExportANBKChartMessage(null, null).Send());
+			}
+		}
+
 		public RelayCommand StartANBKCommand {
 			get { return new RelayCommand(() => new StartANBKMessage(null, null).Send()); }
 		}

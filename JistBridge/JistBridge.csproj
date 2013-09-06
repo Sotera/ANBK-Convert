@@ -71,6 +71,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>JistBridge.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.1.27.22784, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -98,6 +101,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.4.1.27.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -170,9 +174,9 @@
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\IRichTextBoxViewModel.cs" />
     <Compile Include="Messages\ANBK\ANBKStartedMessage.cs" />
-    <Compile Include="Messages\ANBK\AddIconToChartMessage.cs" />
     <Compile Include="Messages\ANBK\AddIconToLocalChartMessage.cs" />
     <Compile Include="Messages\ANBK\ChangePointerModeMessage.cs" />
+    <Compile Include="Messages\ANBK\ExportANBKChartMessage.cs" />
     <Compile Include="Messages\ANBK\SaveANBKChartMessage.cs" />
     <Compile Include="Messages\ANBK\SendChainInfoToANBKMessage.cs" />
     <Compile Include="Messages\ChainStatusMessage.cs" />
@@ -261,6 +265,8 @@
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxRowColoringRule.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxTarget.cs" />
     <Compile Include="Utilities\NLogWpfRichTextTarget\WpfRichTextBoxWordColoringRule.cs" />
+    <Compile Include="Utilities\PInvoke\NativeMethods.cs" />
+    <Compile Include="Utilities\PInvoke\SingleInstance.cs" />
     <Compile Include="Utilities\SplitButton\SplitButton.cs" />
     <Compile Include="Utilities\StateMachine\FSMSystem.cs" />
     <Compile Include="Utilities\StateMachine\FSMState.cs" />

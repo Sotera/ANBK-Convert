@@ -11,16 +11,17 @@ using LNApplication2 = Interop.i2NotebookApp.LNApplication2;
 
 namespace JistBridge.Bootstrap {
 	[Export(typeof (IBootstrapTask))]
-	internal class StartANBKControl : IBootstrapTask {
+	internal class ANBKControl : IBootstrapTask {
 		private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 		private static readonly Random Random = new Random();
 		private LNApplication2 ANBKApplication { get; set; }
 		private LNChart ANBKChart { get; set; }
 
-		internal StartANBKControl() {
+		internal ANBKControl() {
 			StartANBKMessage.Register(this, AsyncStartANBK);
 			ANBKStartedMessage.Register(this, ANBKStarted);
-			AddIconToChartMessage.Register(this, AddIconToChart);
+			//ExportANBKChartMessage.Register(this, ExportANBKChart);
+			//AddIconToChartMessage.Register(this, AddIconToChart);
 /*
 			FragmentStatusMessage.Register(this, msg => {
 				Log.Trace(msg.Status);
@@ -32,6 +33,12 @@ namespace JistBridge.Bootstrap {
 */
 		}
 
+/*
+		private void ExportANBKChart(ExportANBKChartMessage msg) {
+			Log.Trace("Entering ExportANBKChart");
+		}
+*/
+
 		private bool CheckANBKApplication() {
 			var retVal = (ANBKApplication != null);
 			if (!retVal)
@@ -39,22 +46,15 @@ namespace JistBridge.Bootstrap {
 			return retVal;
 		}
 
-		private bool CheckANBK() {
-			var retVal = (ANBKChart != null);
-			if (!retVal)
-				Log.Warn("No ANBK chart to interact with!");
-			return CheckANBKApplication() && retVal;
-		}
-
+/*
 		private void AddIconToChart(AddIconToChartMessage msg) {
-			if (!CheckANBK()) return;
-
 			var x = 200 + Random.Next(100, 200);
 			var y = 200 + Random.Next(100, 200);
 			ANBKChart.CreateIcon(ANBKChart.CurrentIconStyle, x, y, msg.Label, ANBKChart.GenerateUniqueIdentity());
 		}
+*/
 
-		private void ANBKStarted(ANBKStartedMessage anbkStartedMessage) {
+		private void ANBKStarted(ANBKStartedMessage msg) {
 			ANBKApplication.Visible = true;
 			//if (!CheckANBKApplication()) return;
 			var worker = new BackgroundWorker();
@@ -80,6 +80,9 @@ namespace JistBridge.Bootstrap {
 			ANBKChart = ANBKApplication.Charts.CurrentChart;
 		}
 
+		//Interacting with out of process COM servers is always a bit of touchy business.
+		//We need to do our level headed best to make what we think is happening is what
+		//actually is happening.
 		private void AsyncStartANBK(StartANBKMessage msg) {
 			//It may be that ANBK is already running ...
 			try {

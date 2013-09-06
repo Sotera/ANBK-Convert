@@ -103,11 +103,10 @@
 				</ctrlDropDownButton:DropDownButton.DropDownContextMenu>
 			</ctrlDropDownButton:DropDownButton>
 			<Separator />
-			<ctrlSplitButton:SplitButton Style="{StaticResource ToolBarSplitButtonStyle}"
+			<ctrlDropDownButton:DropDownButton Style="{StaticResource ToolBarDropDownButtonStyle}"
 																	 Text="Analyst's Notebook"
-																	 Image="/JistBridge;component/Resources/ANBK.ico"
-																	 MainButtonCommand="{Binding StartANBKCommand}">
-				<ctrlSplitButton:SplitButton.DropDownContextMenu>
+																	 Image="/JistBridge;component/Resources/ANBK.ico">
+				<ctrlDropDownButton:DropDownButton.DropDownContextMenu>
 					<ContextMenu>
 						<MenuItem Header="Export to ANBK"
 											Command="{Binding ExportToANBKCommand}">
@@ -126,15 +125,16 @@
 							</MenuItem.Icon>
 						</MenuItem>
 					</ContextMenu>
-				</ctrlSplitButton:SplitButton.DropDownContextMenu>
-			</ctrlSplitButton:SplitButton>
+				</ctrlDropDownButton:DropDownButton.DropDownContextMenu>
+			</ctrlDropDownButton:DropDownButton>
 		</ToolBar>
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<anbkChart:ANBKChart Grid.Row="0" />
+			<anbkChart:ANBKChart Grid.Row="0"
+													 x:Name="MyANBKChart"/>
 			<StackPanel Grid.Row="1"
 									Height="Auto"
 									Name="ChainPanel"
