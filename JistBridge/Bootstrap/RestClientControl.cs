@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Windows.Controls;
@@ -6,8 +7,8 @@ using GalaSoft.MvvmLight.Threading;
 using JistBridge.Data.ReST;
 using JistBridge.Interfaces;
 using JistBridge.Messages;
-using JistBridge.Messages.ANBK;
 using JistBridge.Properties;
+using NLog;
 using RestSharp;
 
 namespace JistBridge.Bootstrap
@@ -15,6 +16,8 @@ namespace JistBridge.Bootstrap
     [Export(typeof(IBootstrapTask))]
     internal class RestClientControl : IBootstrapTask
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        
         private ICidneOptionsViewModel _cidneOptions;
 
         [Import]
@@ -99,33 +102,53 @@ namespace JistBridge.Bootstrap
                 {
                     var filename = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                    "\\JISTBridge\\ANBK.anb";
-                    using (var fs = File.OpenRead(filename))
+                    try
                     {
-                        var filebytes = new byte[fs.Length];
-                        fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
-                        var encodedData = Convert.ToBase64String(filebytes,                 
-                                                                   Base64FormattingOptions.InsertLineBreaks);
-                        msg.ReportData.report.diagram = encodedData;
-                        restRequest.AddBody(msg.ReportData.report);
+                        using (var fs = OpenFileStream(filename))
+                        {
+                            if (fs == null)
+                                return;
+
+                            var filebytes = new byte[fs.Length];
+                            fs.Read(filebytes, 0, Convert.ToInt32(fs.Length));
+                            var diagram = Convert.ToBase64String(filebytes, Base64FormattingOptions.None);
+                            var resourceId = msg.ReportData.report.metadata.resourceId;
+                            //TODO: Get the correct information here for user
+                            var username = "testUser";
+                            var proxy_ticket = "Test Proxy Ticket";
+
+                            var body = "username" + "=" + username + "$";
+                            body = body + "proxy_ticket" + "=" + proxy_ticket + "$";
+                            body = body + "resourceId" + "=" + resourceId + "$";
+                            body = body + "diagram" + "=" + diagram;
+                            restRequest.AddBody(body);
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        Log.ErrorException("Error trying to save report.", e);
+                    }
+                    
                     
                 });
         }
 
-        private void btnDecode_Click(object sender, EventArgs e)
+        private static FileStream OpenFileStream(string filename)
         {
-            /*if (!string.IsNullOrEmpty(txtOutFile.Text))
+            FileStream fs;
+            try
             {
-                byte[] filebytes = Convert.FromBase64String(txtEncoded.Text);
-                FileStream fs = new FileStream(txtOutFile.Text,
-                                               FileMode.CreateNew,
-                                               FileAccess.Write,
-                                               FileShare.None);
-                fs.Write(filebytes, 0, filebytes.Length);
-                fs.Close();
-            }*/
+                return File.OpenRead(filename);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorException("Error opening chart file.", e);
+                
+            }
+            return null;
         }
 
+       
         private void ValidateUserRestMessageHandler(ValidateUserRestMessage msg)
         {
             GetRestResponse<ValidateUserResponse>(CidneOptions.ValidateUserUrl, "ValidateUser",

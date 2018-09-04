@@ -130,12 +130,23 @@ namespace JistBridge.UI.ANBKChart
         
         public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
+            if (propertyExpression == null)
+            {
+                Log.Warn("Could not get property name, Property expression was null");
+                return null;
+            }
             var memberExpression = propertyExpression.Body as MemberExpression;
             return memberExpression != null ? memberExpression.Member.Name : null;
         }
 
         private void AddAttribute(LNChartItem item, string className, string value)
         {
+            if (item == null || string.IsNullOrEmpty(className) || string.IsNullOrEmpty(value))
+            {
+                Log.Warn("Could not add attribute to item, null params");
+                return;
+            }
+
             var attribute = GetJistAttributeClass(className);
             item.AttributeValue[attribute] = value;
         }
@@ -154,17 +165,24 @@ namespace JistBridge.UI.ANBKChart
             catch (Exception e)
             {
                 Log.ErrorException("Error adding attribute", e);
-                throw;
             }
             
             return objAttributeClass;
         }
 
-        
-
-
         public void AddInitializedChain(Chain chain, Dictionary<string,string> fields, GetReportResponse.CReport.CMetadata metadata )
         {
+            if (chain == null || fields == null || fields.Count == 0 || metadata == null)
+            {
+                Log.Warn("Could not add chain, required parameters were null or empty.");
+                return;
+            }
+            if (chain.Left.AnalystNotebookIdentity!=null && 
+                chain.Left.AnalystNotebookIdentity == chain.Right.AnalystNotebookIdentity)
+            {
+                Log.Warn("Tried to create a chain with the same Left and Right nodes.");
+                return;
+            }
             const string unknownText = "???";
             var type = _chart.EntityTypes.Find("Query");
             var style = _chart.CreateIconStyle();
@@ -202,7 +220,7 @@ namespace JistBridge.UI.ANBKChart
             var entity = (end as LNEntity);
             if (entity != null)
                 return  entity.Identity;
-                Log.Error("Left end node could not be converted to an LNEntity.");
+            Log.Warn("Left end node could not be converted to an LNEntity.");
             return null;
         }
 

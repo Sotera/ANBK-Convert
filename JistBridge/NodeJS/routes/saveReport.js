@@ -4,9 +4,12 @@ var netHelpers = require('../utilExports/netHelpers')
 
 exports.doVerb = function (req, res) {
     netHelpers.getPostBuffer(req, function (postBuffer) {
-        var report = eval("(" + postBuffer.utf8Data + ')'); //querystring.parse(postBuffer.utf8Data);
-        var outputFilename = '/tmp/' + report.metadata.resourceId + '.json';
-        fs.writeFile(outputFilename, JSON.stringify(report, null, 4), function(err) {
+        var report = postBuffer.utf8Data.split('$');
+
+        var resourceId = report[2].split('=')[1];
+        var fileName = '/tmp/' + resourceId + '.json';
+
+        fs.writeFile(fileName, postBuffer.utf8Data, function(err) {
             if(err) {
                 console.log(err);
             } else {
@@ -17,7 +20,7 @@ exports.doVerb = function (req, res) {
         var response = {
             resultCode:1,
             description:'Success',
-            resourceId:report.metadata.resourceId
+            resourceId:resourceId
         };
         res.setHeader('Content-Type','application/json');
         res.end(JSON.stringify(response));
